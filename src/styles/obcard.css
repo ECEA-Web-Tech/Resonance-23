@@ -6,7 +6,15 @@
     position: relative;
     transition: all 1s ease-in-out;
 }
+.EventsContainer{
+    height: 300px;
+    width: 300px;
+    padding: 10px;
+    border-radius: 20px;
+    position: relative;
+    transition: all 1s ease-in-out;
 
+}
 img{
     width: 100%;
     height: 100%;
@@ -25,8 +33,28 @@ img{
     bottom: 10px;
     transition: all 2s ease-in-out;
 }
+.EventTitle{
+    background-color: #fff;
+    height: 80px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    display: none;
+    z-index: 10;
+    bottom: 10px;
+    transition: all 2s ease-in-out;
+    
+}
 .Container:hover .Title{
     display: block;
     transform: translateY(-120px);
+    transition: all 2s ease-in-out;
+}
+
+.EventsContainer:hover .EventTitle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-80px);
     transition: all 2s ease-in-out;
 }

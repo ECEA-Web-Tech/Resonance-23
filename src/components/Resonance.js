@@ -1,7 +1,7 @@
 import React from "react";
 import eceaFull from "../assets/images/ecea.png";
 import eceaGold from "../assets/images/eceaGold.png";
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { Fade, Slide, Zoom } from "react-awesome-reveal";
 import useWindowDimensions from "../utils/useWindowDimensions";
 
@@ -39,18 +39,22 @@ function Resonance() {
             <div className="text-black text-left  sm:text-justify text-1xl md:text-2xl font-['Title'] flex-wrap p-0 sm:p-2 ml-1">
               <ul>
                 <li className="mb-3">
+                  <Typography align="justify">
                   - Electronics and Communication Engineer's Association (ECEA)
                   is a student-run organization functioning for the well-being
                   of the students for nearly three decades.It is headed by our
                   most revered HOD Dr. M. Meenakshi, Chairperson, ECEA.
+                  </Typography>
                 </li>
                 <li>
+                  <Typography align="justify">
                   - ECEA strives to fulfil its objective to organize various
                   activities that contribute to the academic and professional
                   development of students, along with leadership qualities,
                   teamwork, and other essential employability skills. It builds
                   a platform for young minds to share their thoughts and aid
                   them in becoming productive engineers.
+                  </Typography>
                 </li>
               </ul>
             </div>

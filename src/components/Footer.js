@@ -7,10 +7,13 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import EmailIcon from "@mui/icons-material/Email";
 
+
 function Footer() {
   return (
     <div  id="footer">
-      <h1>ECEA</h1>
+      <div class="MuiAvatar-root MuiAvatar-circular css-j8jke5-MuiAvatar-root">
+        <img alt="ECEA" src="/static/media/logo.ba6cd480943e4eb50836.png" class="MuiAvatar-img css-1pqm26d-MuiAvatar-img" />
+      </div>
       <Stack
         direction={"row"}
         alignItems={"centre"}
@@ -21,36 +24,41 @@ function Footer() {
           <YouTubeIcon
             className="button"
             sx={{
-              color: "white",
+              color: "black",
             }}
+            fontSize="large"
           />
         </Button>
         <Button href="https://www.linkedin.com/in/ecea-ceg?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
           <LinkedInIcon
             className="button"
             sx={{
-              color: "white",
+              color: "black",
             }}
+            fontSize="large"
           />
         </Button>
         <Button href="https://instagram.com/ecea_ceg?igshid=OGQ5ZDc2ODk2ZA==">
           <InstagramIcon
             className="button"
             sx={{
-              color: "white",
+              color: "black",
             }}
+            fontSize="large"
           />
         </Button>
-        <Button href="mailto:ecea2023.24@gmail.com.com">
+        <Button href="mailto: ecea2023.24@gmail.com">
           <EmailIcon
             className="button"
             sx={{
-              color: "white",
+              color: "black",
             }}
+            fontSize="large"
           />
         </Button>
+
       </Stack>
-      <p>© Copyright ECEA</p>
+      <p id="copy">Copyright © ECEA</p>
     </div>
   );
 }

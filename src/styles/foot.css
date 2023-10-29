@@ -3,14 +3,18 @@
     display: grid;
     place-items: center;
     font-family: "Montserrat";
-    background-color: #414141;
-    color: #ededed;
-    padding: 50px 0;
+    font-weight: bold;
+    background-color: #cbd0d1;
+    color: black;
+    padding: 10px 0;
+   
   }
+#copy{
+  font-weight: normal;
+}
   .buttons {
     padding: 20px 0;
-    background-color: #414141;
-  
+    background-color: inherit;
   }
   .button {
     margin: 0 5px;

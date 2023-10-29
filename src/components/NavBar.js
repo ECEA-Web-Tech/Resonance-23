@@ -144,7 +144,7 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            ECEA'23
+            ECEA'24
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
