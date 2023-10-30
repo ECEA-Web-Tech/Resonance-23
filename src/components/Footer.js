@@ -53,6 +53,33 @@ function Footer() {
           />
         </Button>
       </Stack>
+      <p className="font-['Title'] mb-2">Developed by:</p>
+      <div id="Credits">
+        <a
+          href="https://www.linkedin.com/in/nirmal-kishore-5a6575202/"
+          target="_blank"
+        >
+          <p className="mr-1">| Nirmal Kishore A |</p>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/dhanush-s-aab849206/"
+          target="_blank"
+        >
+          <p className="mr-1">| Dhanush S |</p>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/harshanand-s-v-2809921bb/"
+          target="_blank"
+        >
+          <p className="mr-1">| Harshanand S V |</p>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/deepak-vasan-ab2ab9203/"
+          target="_blank"
+        >
+          <p className="mr-1">| Deepak Vasan R |</p>
+        </a>
+      </div>
       <p id="copy" className="font-['Title']">
         Copyright © ECEA
       </p>
