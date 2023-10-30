@@ -2,11 +2,10 @@ import React from "react";
 import { Grid } from "@mui/material";
 import EventCard from "./EventCard";
 
-
-function EventPage({props}) {
+function EventPage({ props }) {
   return (
     <div className="">
-      <div className="min-w-full p-4">
+      <div className="min-w-full min-h-screen p-4">
         <Grid
           container
           columnSpacing={10}
@@ -32,6 +31,5 @@ function EventPage({props}) {
     </div>
   );
 }
-
 
 export default EventPage;
