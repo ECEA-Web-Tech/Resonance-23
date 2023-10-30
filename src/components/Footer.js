@@ -2,18 +2,14 @@ import React from "react";
 import "../styles/foot.css";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import  YouTubeIcon from "@mui/icons-material/YouTube";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import EmailIcon from "@mui/icons-material/Email";
 
-
 function Footer() {
   return (
-    <div  id="footer">
-      <div class="MuiAvatar-root MuiAvatar-circular css-j8jke5-MuiAvatar-root">
-        <img alt="ECEA" src="/static/media/logo.ba6cd480943e4eb50836.png" class="MuiAvatar-img css-1pqm26d-MuiAvatar-img" />
-      </div>
+    <div id="footer">
       <Stack
         direction={"row"}
         alignItems={"centre"}
@@ -56,9 +52,10 @@ function Footer() {
             fontSize="large"
           />
         </Button>
-
       </Stack>
-      <p id="copy">Copyright © ECEA</p>
+      <p id="copy" className="font-['Title']">
+        Copyright © ECEA
+      </p>
     </div>
   );
 }
