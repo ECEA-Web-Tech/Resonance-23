@@ -3,7 +3,7 @@ import siddarth from "../assets/images/officeBearers/siddarth.jpg";
 import yaazhini from "../assets/images/officeBearers/yaazhini.jpg";
 import ajay from "../assets/images/officeBearers/ajay.jpg";
 import priya from "../assets/images/officeBearers/priya.jpg";
-import sai from "../assets/images/officeBearers/sai.jpg";
+import sai from "../assets/images/officeBearers/sai.jpeg";
 import tamil from "../assets/images/officeBearers/tamilselvan.JPG";
 import mayuri from "../assets/images/officeBearers/mayuri.jpg";
 
