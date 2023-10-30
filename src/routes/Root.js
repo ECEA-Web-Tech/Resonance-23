@@ -6,7 +6,7 @@ import OfficeBearers from "../components/OfficeBearers";
 import ObDetails from "../utils/ObDetails";
 import OsDetails from "../utils/OsDetails";
 import JsDetails from "../utils/JsDetails";
-
+import Footer from "../components/Footer.js";
 function Root() {
   return (
     <>
@@ -22,6 +22,7 @@ function Root() {
 
       {/* Joint Secretaries */}
       <OfficeBearers ObDetails={JsDetails} title="Joint Secretaries" />
+      <Footer/>
     </>
   );
 }

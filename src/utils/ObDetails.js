@@ -14,7 +14,7 @@ const ObDetails = [
     photo: dharshin,
   },
   {
-    name: "Siddarth K",
+    name: "Siddharth K",
     designation: "Vice-President",
     photo: siddarth,
   },

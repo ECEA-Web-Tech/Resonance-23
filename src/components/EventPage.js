@@ -1,23 +1,37 @@
 import React from "react";
-import Card from "react-animated-3d-card";
-import dummy from "../assets/images/posters/mayhem.jpg";
+import { Grid } from "@mui/material";
+import EventCard from "./EventCard";
 
-function EventPage() {
+
+function EventPage({props}) {
   return (
-    <div className="min-w-screen m-4 p-10">
-      <Card
-        style={{ width: "300px", backgroundColor: "#101010" }}
-        shineStrength={0.1}
-        onClick={() => {
-          window.location.href = "https://www.google.com";
-        }}
-      >
-        <a href="https://www.google.com" target="blank">
-          <img src={dummy} style={{ zIndex: -1 }} />
-        </a>
-      </Card>
+    <div className="">
+      <div className="min-w-full p-4">
+        <Grid
+          container
+          columnSpacing={10}
+          rowSpacing={2}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          {props.map((detail) => {
+            return (
+              <>
+                <Grid width={350} height={350} item>
+                  <EventCard
+                    eventname={detail.eventname}
+                    image={detail.image}
+                    link={detail.link}
+                  />
+                </Grid>
+              </>
+            );
+          })}
+        </Grid>
+      </div>
     </div>
   );
 }
+
 
 export default EventPage;
