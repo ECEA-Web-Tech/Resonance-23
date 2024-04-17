@@ -1,7 +1,7 @@
 import React from "react";
 import Background from "../assets/videos/background.mp4";
 import { Slide, Fade } from "react-awesome-reveal";
-import logo from "../assets/images/resonanceLogo.png";
+import logo from "../assets/images/visionLogo.png";
 
 function MastHead() {
   return (
@@ -16,15 +16,15 @@ function MastHead() {
         <source src={Background} />
       </video>
       <div className="p-12 font-bold z-10 text-white flex flex-col items-center">
-        <img src={logo} style={{ height: 300, width: 300 }} />
+        <img src={logo} style={{ height: 400, width: 400 }} />
         <Fade>
           <h2 className=" font-['Title'] tracking-wide text-center">
             ECEA presents
           </h2>
         </Fade>
-        <h1 className="mb-6 text-4xl sm:text-6xl md:text-8xl tracking-wide font-['Title']">
+        <h1 className="mb-6 text-4xl sm:text-6xl md:text-8xl tracking-wide font-['MainTitle']">
           <Fade triggerOnce={true} cascade duration={200}>
-            Resonance '24
+            Vision '24
           </Fade>
         </h1>
       </div>

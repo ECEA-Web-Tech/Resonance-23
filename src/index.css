@@ -6,6 +6,12 @@
   font-family: 'Title';
   src: url("./assets/fonts/Mulish-Medium.ttf") format('truetype');
 }
+
+@font-face {
+  font-family: 'MainTitle';
+  src: url("./assets/fonts/RaceSport.ttf") format('truetype');
+}
+
 *{
   margin: 0;
   padding: 0;

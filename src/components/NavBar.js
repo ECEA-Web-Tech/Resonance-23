@@ -16,12 +16,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 function NavBar() {
   // Pages and Links
-  const pages = ["Home", "Tech Events", "Non Tech Events", "Workshop"];
+  const pages = [
+    "Home",
+    "Tech Events",
+    "Non Tech Events",
+    "Workshop",
+    "Sponsors",
+  ];
   const links = {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
     Workshop: "/workshop",
+    Sponsors: "/sponsors",
   };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

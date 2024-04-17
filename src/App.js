@@ -5,6 +5,7 @@ import "./App.css";
 import TechEvents from "./routes/TechEvents";
 import NonTechEvents from "./routes/NonTechEvents";
 import Workshop from "./routes/Workshop";
+import Sponsors from "./routes/Sponsors";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: "/workshop",
     element: <Workshop />,
+    errorElement: <ErrorRouter />,
+  },
+  {
+    path: "/sponsors",
+    element: <Sponsors />,
     errorElement: <ErrorRouter />,
   },
 ]);
