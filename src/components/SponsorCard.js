@@ -1,11 +1,10 @@
 import React from "react";
 import "../styles/obcard.css";
-import { Button } from "@mui/material";
 
 function SponsorCard({ eventname, image, link }) {
   return (
-    <div className="my-5">
-      <div className="SponsorContainer">
+    <div className="SponsorContainer">
+      <div className="SponsorImageContainer">
         <img
           src={image}
           onClick={() => {
@@ -14,7 +13,7 @@ function SponsorCard({ eventname, image, link }) {
         />
       </div>
       <div className="SponsorTitle">
-        <p className="text-1xl md:text-3xl lg:text-4xl font-['Title'] text-white my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        <p className="text-1xl md:text-2xl lg:text-3xl my-3 font-['Title'] text-white text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
           {eventname}
         </p>
       </div>
