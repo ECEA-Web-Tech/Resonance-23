@@ -13,11 +13,11 @@ function Sponsors() {
         Day Sponsors
       </h2>
       <SponsorPage props={daySponsors}/>
-      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Title'] text-white  text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Title'] text-white my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
         Apparel Partner
       </h2>
       <SponsorPage props={apparelSponsor} />
-      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Title'] text-white  text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Title'] text-white my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
         Refreshment Partners
       </h2>
       <SponsorPage props={refreshmentSponsors} />
