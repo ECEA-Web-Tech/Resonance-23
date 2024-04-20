@@ -8,7 +8,7 @@ function EventCard({ eventname, image, link }) {
       <img
         src={image}
         onClick={() => {
-          window.location = link;
+          window.open(link, '_blank').focus();
         }}
       />
       <div className="EventTitle text-center font-['Title']">

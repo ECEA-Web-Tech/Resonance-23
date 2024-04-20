@@ -6,6 +6,7 @@ import hayati from "../assets/images/sponsors/hayati.png"
 import rajans from "../assets/images/sponsors/rajans.png"
 import karsun from "../assets/images/sponsors/karsun.png"
 import touriga from "../assets/images/sponsors/touriga.png"
+import eeci from "../assets/images/sponsors/eecigate.PNG"
 
 const daySponsors = [
   {
@@ -30,8 +31,8 @@ const refreshmentSponsors = [
 
 const printingSponsor = [
   {
-    name: "Rajaram's Digital Offset Prints",
-    link: "https://rajarams.in/",
+    name: "Rajam's Digital Offset Prints",
+    link: "https://rajams.in/",
     image: rajarams
   },
   {
@@ -60,9 +61,17 @@ const consultancySponsor = [
 const travelSponsor = [
   {
     name: "Touriga",
-    link: "",
+    link: "https://www.instagram.com/touriga_holidays?igsh=dnN3ZzJ4ZDFrNnlz",
     image: touriga
   }
 ]
 
-export {daySponsors, refreshmentSponsors, printingSponsor, apparelSponsor, consultancySponsor, travelSponsor};
+const educationSponsor = [
+  {
+    name: "EECI Gate Academy",
+    link: "https://www.eecigate.in/",
+    image: eeci
+  }
+]
+
+export {daySponsors, refreshmentSponsors, printingSponsor, apparelSponsor, consultancySponsor, travelSponsor, educationSponsor};
