@@ -1,7 +1,9 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import SponsorPage from "../components/SponsorPage";
-import { daySponsors, refreshmentSponsors, apparelSponsor, consultancySponsor, printingSponsor } from "../utils/SponsorDetails";
+import Footer from "../components/Footer"
+import { daySponsors, refreshmentSponsors, apparelSponsor, consultancySponsor, printingSponsor, travelSponsor } from "../utils/SponsorDetails";
+
 function Sponsors() {
   return (
     <div>
@@ -29,6 +31,11 @@ function Sponsors() {
         Consultancy Partner
       </h2>
       <SponsorPage props={consultancySponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Title'] text-white my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        Travel Partner 
+      </h2>
+      <SponsorPage props={travelSponsor} />
+      <Footer />
     </div>
   );
 }

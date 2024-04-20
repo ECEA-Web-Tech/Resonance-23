@@ -1,4 +1,3 @@
-import dummy from "../assets/images/dummy-image.jpg";
 import indira from "../assets/images/sponsors/indirainsignia.png"
 import makerscafe from "../assets/images/sponsors/makerscafe.png"
 import rajarams from "../assets/images/sponsors/rajarams.png"
@@ -6,6 +5,7 @@ import ads from "../assets/images/sponsors/123ads.jpg"
 import hayati from "../assets/images/sponsors/hayati.png"
 import rajans from "../assets/images/sponsors/rajans.png"
 import karsun from "../assets/images/sponsors/karsun.png"
+import touriga from "../assets/images/sponsors/touriga.png"
 
 const daySponsors = [
   {
@@ -57,4 +57,12 @@ const consultancySponsor = [
   },
 ];
 
-export {daySponsors, refreshmentSponsors, printingSponsor, apparelSponsor, consultancySponsor};
+const travelSponsor = [
+  {
+    name: "Touriga",
+    link: "",
+    image: touriga
+  }
+]
+
+export {daySponsors, refreshmentSponsors, printingSponsor, apparelSponsor, consultancySponsor, travelSponsor};
