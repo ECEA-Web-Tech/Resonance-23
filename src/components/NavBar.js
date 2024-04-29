@@ -22,6 +22,8 @@ function NavBar() {
     "Non Tech Events",
     "Workshop",
     "Sponsors",
+    "Accomodation",
+    "Other college registration",
   ];
   const links = {
     Home: "/",
@@ -29,6 +31,8 @@ function NavBar() {
     "Non Tech Events": "/nontechevents",
     Workshop: "/workshop",
     Sponsors: "/sponsors",
+    Accomodation: "https://forms.gle/oNXT9cocY6ecz5468",
+    "Other college registration": "https://forms.gle/ehnxgegheq59398g8",
   };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
