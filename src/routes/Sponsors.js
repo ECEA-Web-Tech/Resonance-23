@@ -12,6 +12,7 @@ import {
   educationSponsor,
   foodSponsor,
 } from "../utils/SponsorDetails";
+import bg from "../assets/videos/bg.mp4";
 
 function Sponsors() {
   return (
