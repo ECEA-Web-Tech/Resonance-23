@@ -1,4 +1,4 @@
-import carnival from "../assets/images/posters/Design Posters/Non Tech/carnival.jpg";
+import carnival from "../assets/images/posters/Design Posters/Non Tech/CARNIVAL.jpg";
 import cinekraze from "../assets/images/posters/Design Posters/Non Tech/cinekraze.png";
 import fandom from "../assets/images/posters/Design Posters/Non Tech/fandomfiesta.jpg";
 import ipl from "../assets/images/posters/Design Posters/Non Tech/iplauction.jpg";

@@ -43,7 +43,7 @@ function Resonance() {
                   - Electronics and Communication Engineer's Association (ECEA)
                   is a student-run organization functioning for the well-being
                   of the students for nearly three decades.It is headed by our
-                  most revered HOD Dr. M. Meenakshi, Chairperson, ECEA.
+                  most revered HOD Dr.M.A.Bhagyaveni, Chairperson, ECEA.
                   </Typography>
                 </li>
                 <li>

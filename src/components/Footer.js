@@ -43,7 +43,7 @@ function Footer() {
             fontSize="large"
           />
         </Button>
-        <Button href="mailto: ecea2023.24@gmail.com">
+        <Button href="mailto: ecea24.25@gmail.com">
           <EmailIcon
             className="button"
             sx={{
