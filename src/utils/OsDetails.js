@@ -1,41 +1,37 @@
-import lakshanya from "../assets/images/organisingSecretaries/lakshanya.jpg";
-import vishwa from "../assets/images/organisingSecretaries/vishwajeith.jpg";
-import john from "../assets/images/organisingSecretaries/john.jpg";
-import jenifer from "../assets/images/organisingSecretaries/jenifer.jpg";
-import arun from "../assets/images/organisingSecretaries/aruneshwar.jpg";
-import sivakumar from "../assets/images/organisingSecretaries/sivakumar.jpeg";
+import amirthaa from "../assets/images/organisingSecretaries/amirthaa.jpg";
+import bharani from "../assets/images/organisingSecretaries/bharani.jpg";
+import darshana from "../assets/images/organisingSecretaries/darshana.jpg";
+import esakki from "../assets/images/organisingSecretaries/esakki.jpg";
+import santhosh from "../assets/images/organisingSecretaries/santhosh.jpg";
+
 
 const OsDetails = [
   {
-    name: "Lakshanya R",
-    designation: "Organising Secretary",
-    photo: lakshanya,
+    name: "Amirthaa P",
+    designation: "Non Tech",
+    photo: amirthaa,
   },
   {
-    name: "Vishwajeith S",
-    designation: "Organising Secretary",
-    photo: vishwa,
+    name: "Bharani M",
+    designation: "Tech",
+    photo: bharani,
   },
   {
-    name: "John Felix",
-    designation: "Organising Secretary",
-    photo: john,
+    name: "Darshana R",
+    designation: "Workshop",
+    photo: darshana,
   },
   {
-    name: "Jenifer B",
-    designation: "Organising Secretary",
-    photo: jenifer,
+    name: "Esakki Rangaraj R",
+    designation: "Newsletter",
+    photo: esakki,
   },
   {
-    name: "Aruneshwar R",
-    designation: "Organising Secretary",
-    photo: arun,
+    name: "Santosh SV",
+    designation: "Career Guidance",
+    photo: santhosh,
   },
-  {
-    name: "Siva Kumar R V",
-    designation: "Organising Secretary",
-    photo: sivakumar,
-  },
+  ,
 ];
 
 export default OsDetails;

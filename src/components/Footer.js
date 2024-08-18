@@ -8,6 +8,9 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import EmailIcon from "@mui/icons-material/Email";
 
 function Footer() {
+  const handleclick=()=>{
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=ecea24.25@gmail.com', '_blank');
+  }
   return (
     <div id="footer">
       <Stack
@@ -43,7 +46,7 @@ function Footer() {
             fontSize="large"
           />
         </Button>
-        <Button href="mailto: ecea24.25@gmail.com">
+        <Button onClick={handleclick}>
           <EmailIcon
             className="button"
             sx={{
