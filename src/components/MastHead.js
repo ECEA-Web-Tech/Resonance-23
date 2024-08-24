@@ -16,7 +16,7 @@ function MastHead() {
         <source src={Background} />
       </video>
       <div className="p-12 font-bold z-10 text-white flex flex-col items-center">
-        <img src={logo} style={{ height: 275, width: 275 }} />
+        <img src={logo} style={{ height: 450, width: 450 }} />
         <Fade>
           <h2 className=" font-['Title'] tracking-wide text-center">
             

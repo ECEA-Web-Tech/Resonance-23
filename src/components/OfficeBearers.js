@@ -24,6 +24,8 @@ function OfficeBearers({ ObDetails, title }) {
                     name={detail.name}
                     designation={detail.designation}
                     photo={detail.photo}
+                    instagram={detail.instagram}
+                    linkedin={detail.linkedin}
                   />
                 </Grid>
               </>
