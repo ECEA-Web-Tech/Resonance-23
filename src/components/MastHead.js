@@ -15,18 +15,14 @@ function MastHead() {
       >
         <source src={Background} />
       </video>
-      <div className="p-12 font-bold z-10 text-white flex flex-col items-center">
-        <img src={r25} style={{ height: 600, width: 500 }} />
-        <Fade>
-          <h2 className=" font-['Title'] tracking-wide text-center">
-            
-          </h2>
-        </Fade>
-        <h1 className="mb-6 text-4xl sm:text-6xl md:text-8xl tracking-wide font-['MainTitle']">
-          <Fade triggerOnce={true} cascade duration={200}>
-            
-          </Fade>
-        </h1>
+      <div className="flex items-center justify-center p-4 font-bold z-10 text-white">
+      {r25 && (
+        <img
+          src={r25}
+          alt="Centered display"
+          className="max-h-[90vh] max-w-[90vw] object-contain"
+        />
+      )}
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
+    "About Us",
     "Tech Events",
     "Non Tech Events",
     "Workshop",
@@ -29,6 +30,7 @@ function NavBar() {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
+    "About Us":"/aboutus",
     Workshop: "/workshop",
     Sponsors: "/sponsors",
     Accomodation: "https://forms.gle/oNXT9cocY6ecz5468",
