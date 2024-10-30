@@ -11,7 +11,7 @@ function MastHead() {
         loop
         muted
         playsInline
-        className="absolute w-full h-full object-cover"
+        className="fixed w-full h-full object-cover"
       >
         <source src={Background} />
       </video>
