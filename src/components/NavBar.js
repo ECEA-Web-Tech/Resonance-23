@@ -22,15 +22,13 @@ function NavBar() {
     "Tech Events",
     "Non Tech Events",
     "Workshop",
-   
   ];
   const links = {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
-    "About Us":"/aboutus",
+    "About Us": "/aboutus",
     Workshop: "/workshop",
-    
   };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
