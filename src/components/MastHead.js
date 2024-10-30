@@ -1,8 +1,8 @@
 import React from "react";
-import Background from "../assets/videos/background.mp4";
+import Background from "../assets/videos/bgslow.mp4";
 import { Slide, Fade } from "react-awesome-reveal";
 import logo from "../assets/images/eceaWhite.png";
-
+import r25 from "../assets/images/resonance_25.png"
 function MastHead() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
@@ -16,7 +16,7 @@ function MastHead() {
         <source src={Background} />
       </video>
       <div className="p-12 font-bold z-10 text-white flex flex-col items-center">
-        <img src={logo} style={{ height: 550, width: 400 }} />
+        <img src={r25} style={{ height: 600, width: 500 }} />
         <Fade>
           <h2 className=" font-['Title'] tracking-wide text-center">
             

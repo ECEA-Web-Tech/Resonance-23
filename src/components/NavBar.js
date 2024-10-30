@@ -72,7 +72,7 @@ function NavBar() {
               fontFamily: "Title",
               fontWeight: 900,
               letterSpacing: ".3rem",
-              color: "#fff",
+              color: "#f9f295",
               fontSize: "30px",
               textDecoration: "none",
             }}
