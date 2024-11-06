@@ -1,82 +1,90 @@
-.Container{
-    width: 100%;
-    height: 350px;
-    padding: 10px;
-    border-radius: 20px;
-    position: relative;
-    transition: all 1s ease-in-out;
+.Container {
+  width: 100%;
+  height: 350px;
+  padding: 0px;
+  border-radius: 20px;
+  position: relative;
+  transition: all 1s ease-in-out;
+  box-shadow: 6px 6px rgb(163, 155, 0);
+  overflow: hidden;
 }
-.EventsContainer{
-    height: 300px;
-    width: 300px;
-    padding: 10px;
-    border-radius: 20px;
-    margin-bottom:30px;
-    position: relative;
-    align-self: center;
-    transition: all 1s ease-in-out;
-
+.EventsContainer {
+  height: 300px;
+  width: 300px;
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  align-self: center;
+  transition: all 1s ease-in-out;
 }
-img{
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    border-radius: 20px;
-}
-
-.Title{
-    background-color: #fff;
-    height: 120px;
-    width: 100%;
-    padding: 10px;
-    border-radius: 20px;
-    display: none;
-    z-index: 10;
-    bottom: 10px;
-    transition: all 2s ease-in-out;
-}
-.EventTitle{
-    background-color: #fff;
-    height: 80px;
-    width: 100%;
-    padding: 10px;
-    border-radius: 20px;
-    display: none;
-    z-index: 10;
-    bottom: 10px;
-    transition: all 2s ease-in-out;
-    
-}
-.Container:hover .Title{
-    display: block;
-    transform: translateY(-120px);
-    transition: all 2s ease-in-out;
+img {
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  border-radius: 20px;
+  object-fit: cover;
 }
 
-.EventsContainer:hover .EventTitle{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: translateY(-80px);
-    transition: all 2s ease-in-out;
+.Title {
+  background-color: #fff;
+
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  border-radius: 20px;
+  opacity: 0;
+  z-index: 10;
+  bottom: 10px;
+  transition: all 0.3s ease-in-out;
+}
+.EventTitle {
+  background-color: #fff;
+  height: 80px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  display: none;
+  z-index: 10;
+  bottom: 10px;
+  transition: all 2s ease-in-out;
+}
+.Container:hover .Title {
+  display: block;
+  opacity: 100;
+
+  transform: translateY(-120px);
+  transition: 0.3s ease-in-out;
+}
+.Container:hover img {
+  scale: 110%;
+  transition: 0.3s;
 }
 
-.SponsorGridContainer{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+.EventsContainer:hover .EventTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-80px);
+  transition: all 2s ease-in-out;
 }
 
-.SponsorTitle{
-    width: "100%";
+.SponsorGridContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.SponsorContainer{
-    height: fit-content;
-    width: 300px;
-    padding: 10px;
-    border-radius: 20px;
-    position: relative;
-    align-self: center;
-    transition: all 1s ease-in-out;
+.SponsorTitle {
+  width: "100%";
+}
+
+.SponsorContainer {
+  height: fit-content;
+  width: 300px;
+  padding: 10px;
+  border-radius: 20px;
+  position: relative;
+  align-self: center;
+  transition: all 1s ease-in-out;
 }

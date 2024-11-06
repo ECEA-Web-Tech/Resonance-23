@@ -18,21 +18,17 @@ function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
+    "About Us",
     "Tech Events",
     "Non Tech Events",
     "Workshop",
-    "Sponsors",
-    "Accomodation",
-    "Other college registration",
   ];
   const links = {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
+    "About Us": "/aboutus",
     Workshop: "/workshop",
-    Sponsors: "/sponsors",
-    Accomodation: "https://forms.gle/oNXT9cocY6ecz5468",
-    "Other college registration": "https://forms.gle/ehnxgegheq59398g8",
   };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -72,7 +68,7 @@ function NavBar() {
               fontFamily: "Title",
               fontWeight: 900,
               letterSpacing: ".3rem",
-              color: "#fff",
+              color: "#f9f295",
               fontSize: "30px",
               textDecoration: "none",
             }}

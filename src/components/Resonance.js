@@ -1,4 +1,5 @@
 import React from "react";
+
 import eceaFull from "../assets/images/ecea.png";
 import eceaGold from "../assets/images/eceaGold.png";
 import { Container, Typography } from "@mui/material";
