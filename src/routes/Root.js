@@ -19,7 +19,7 @@ function Root() {
     <>
       <NavBar />
       <MastHead />
-      <Resonance />
+
       <h1 className="text-2xl md:text-4xl lg:text-5xl font-['Title'] text-white my-7 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
         Sponsors
       </h1>
@@ -55,7 +55,7 @@ function Root() {
         Consultancy Partner
       </h2>
       <SponsorPage props={consultancySponsor} />
-      <Footer/>
+      <Footer />
     </>
   );
 }
