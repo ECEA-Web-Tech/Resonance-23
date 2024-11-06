@@ -1,12 +1,11 @@
 import React from "react";
-import Background from "../assets/videos/bgslow.mp4";
-import { Slide, Fade } from "react-awesome-reveal";
+import Background from "../assets/videos/bg-5.mp4";
 import logo from "../assets/images/eceaWhite.png";
 import r25 from "../assets/images/resonance_25.png";
 
 function MastHead() {
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center">
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <video
         autoPlay
         loop
@@ -16,21 +15,22 @@ function MastHead() {
       >
         <source src={Background} />
       </video>
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 font-bold text-white">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center font-bold text-white">
         {r25 && (
-          <img
-            src={r25}
-            alt="Centered display"
-            className="max-h-[90vh] max-w-[90vw] object-contain"
-          />
+          <div className="flex flex-col items-center">
+            <img
+              src={r25}
+              alt="Centered display"
+              className="h-72 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain" // Updated size with object-contain
+            />
+            <h2 className="text-yellow-500 text-lg md:text-2xl lg:text-3xl ">
+              NOVEMBER 16<sup>th</sup> 17<sup>th</sup>
+            </h2>
+          </div>
         )}
       </div>
-
       <div className="relative z-20 bg-grey-800 bg-opacity-40 backdrop-blur-sm rounded-lg p-6 md:p-10 lg:p-16 max-w-4xl text-white flex flex-col items-center md:flex-row md:justify-between space-y-6 md:space-y-0">
         <div className="flex-1 text-center md:text-left md:pr-8">
-          <h2 className="text-yellow-500 text-2xl md:text-4xl lg:text-5xl font-bold text-center">
-            R E S O N A N C E '2 5
-          </h2>
           <p className="text-justify text-0.5xl md:text-1.5xl lg:text-lg leading-relaxed">
             The Electronics and Communication Engineering Association (ECEA) is
             excited to present Resonance '25, our annual intra-college symposium
