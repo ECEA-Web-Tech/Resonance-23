@@ -23,9 +23,10 @@ function MastHead() {
           className="max-h-[90vh] max-w-[90vw] object-contain"
         />
       )}
-      </div>
+       </div>
     </div>
   );
 }
 
 export default MastHead;
+
