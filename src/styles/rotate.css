@@ -1,0 +1,13 @@
+.rotating-image {
+    
+    animation: rotate 5s linear infinite; /* Animation properties */
+  }
+  
+  @keyframes rotate {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }

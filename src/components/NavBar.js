@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Avatar,
@@ -15,6 +15,29 @@ import Logo from "../../src/assets/images/logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function NavBar() {
+  // State for scroll position and visibility
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  // Handle scroll events
+  const handleScroll = () => {
+    if (typeof window !== "undefined") {
+      if (window.scrollY === 0) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+      setLastScrollY(window.scrollY);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   // Pages and Links
   const pages = [
     "Home",
@@ -52,9 +75,10 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky" color="transparent">
+      <AppBar position="sticky" color="transparent" sx={{ display: visible ? "block" : "none" }}>
         <Toolbar>
           <Avatar
             alt="ECEA"
@@ -69,10 +93,14 @@ function NavBar() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "Title",
+              fontFamily: "Navbar",
               fontWeight: 900,
               letterSpacing: ".3rem",
+<<<<<<< Updated upstream
               color: "#fff",
+=======
+              color: "#ffb700",
+>>>>>>> Stashed changes
               fontSize: "30px",
               textDecoration: "none",
             }}
@@ -111,15 +139,18 @@ function NavBar() {
               onClose={handleCloseNavMenu}
               sx={{
                 mt: "1px",
-                "& .MuiMenu-paper": { backgroundColor: "#000" },
+                "& .MuiMenu-paper": { backgroundColor: "#14213D" },
                 display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
-                <Link to={links[page]}>
+                <Link to={links[page]} key={page}>
                   <MenuItem
-                    sx={{ backgroundColor: "#000", fontFamily: "Title" }}
-                    key={page}
+                    sx={{
+                      backgroundColor: "#14213D",
+                      fontFamily: "Navbar",
+                      "&:hover": { backgroundColor: "#ffb700" }, // Change background color on hover
+                    }}
                     onClick={handleCloseNavMenu}
                   >
                     <Typography
@@ -147,7 +178,7 @@ function NavBar() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "Title",
+              fontFamily: "Navbar",
               fontWeight: 700,
               fontSize: "30px",
               letterSpacing: ".1rem",
@@ -159,16 +190,16 @@ function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Link to={links[page]}>
+              <Link to={links[page]} key={page}>
                 <Button
-                  key={page}
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
                     color: "#fff",
                     display: "block",
                     fontSize: "15px",
-                    fontFamily: "Title",
+                    fontFamily: "Navbar",
+                    "&:hover": { color: "#ffb700" }, // Change text color on hover
                   }}
                 >
                   {page}

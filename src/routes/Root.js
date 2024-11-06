@@ -12,6 +12,7 @@ function Root() {
     <>
       <NavBar />
       <MastHead />
+<<<<<<< Updated upstream
       <Resonance />
 
       {/* Office Bearers */}
@@ -22,6 +23,44 @@ function Root() {
 
       {/* Joint Secretaries */}
       <OfficeBearers ObDetails={JsDetails} title="Joint Secretaries" />
+=======
+      
+      <h1 className="text-2xl md:text-4xl lg:text-5xl font-['Title'] text-yellow-500 my-7 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        SPONSORS
+      </h1>
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        DAY SPONSORS
+      </h2>
+      <SponsorPage props={daySponsors} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        EDUCATIONAL PARTNER
+      </h2>
+      <SponsorPage props={educationSponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        TRAVEL PARTNER
+      </h2>
+      <SponsorPage props={travelSponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        APPAREL PARTNER
+      </h2>
+      <SponsorPage props={apparelSponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        FOOD PARTNER
+      </h2>
+      <SponsorPage props={foodSponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        REFRESHMENT SPONSORS
+      </h2>
+      <SponsorPage props={refreshmentSponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        PRINTING PARTNERS
+      </h2>
+      <SponsorPage props={printingSponsor} />
+      <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
+        CONSULTANCY PARTNER
+      </h2>
+      <SponsorPage props={consultancySponsor} />
+>>>>>>> Stashed changes
       <Footer/>
     </>
   );

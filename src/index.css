@@ -4,12 +4,26 @@
 
 @font-face {
   font-family: 'Title';
+  src: url("./assets/fonts/GloriousChristmas-BLWWB.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Navbar';
   src: url("./assets/fonts/Mulish-Medium.ttf") format('truetype');
 }
 
 @font-face {
   font-family: 'MainTitle';
   src: url("./assets/fonts/RaceSport.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Sponsor';
+  src: url("./assets/fonts/SEASRN__.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Sponsor2';
+  src: url("./assets/fonts/LobsterTwo-Regular.otf") format('truetype');
 }
 
 *{
