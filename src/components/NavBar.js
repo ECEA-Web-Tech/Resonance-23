@@ -143,6 +143,7 @@ function NavBar() {
               mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
+
               fontFamily: "Title",
               fontWeight: 700,
               fontSize: "30px",
@@ -153,7 +154,12 @@ function NavBar() {
           >
             ECEA
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", marginLeft: "350px" },
+            }}
+          >
             {pages.map((page) => (
               <Link to={links[page]}>
                 <Button
@@ -161,10 +167,28 @@ function NavBar() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
-                    color: "#fff",
+                    color: "#fbbf24",
                     display: "block",
+                    fontWeight: "900",
+                    marginRight: "50px",
                     fontSize: "15px",
+                    textAlign: "center",
                     fontFamily: "Title",
+                    transition: "0.3s",
+                    "&::after": {
+                      content: '""',
+                      position: "absolute",
+                      left: 0,
+                      bottom: 0,
+                      width: "100%",
+                      height: "3px",
+                      backgroundColor: "#fbbf24",
+                      transition: "transform 0.2s ease-in-out",
+                      transform: "scaleX(0)",
+                    },
+                    "&:hover::after": {
+                      transform: "scaleX(1)",
+                    },
                   }}
                 >
                   {page}

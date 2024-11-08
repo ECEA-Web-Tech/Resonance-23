@@ -47,7 +47,7 @@ function AboutUs() {
             {width > 425 ? (
               <img
                 src={eceaFull}
-                className="w-52 h-75 mb-10 mb-10" // Full width, auto height for responsiveness
+                className="w-52 h-75 mb-10" // Full width, auto height for responsiveness
                 style={{
                   filter: "brightness(1.2) contrast(1.1)", // Enhancing visibility
                   maxWidth: '100%', // Ensure the image doesn't overflow

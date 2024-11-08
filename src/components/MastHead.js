@@ -23,8 +23,8 @@ function MastHead() {
               alt="Centered display"
               className="h-72 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain" // Updated size with object-contain
             />
-            <h2 className="text-yellow-500 text-lg md:text-2xl lg:text-3xl ">
-              NOVEMBER 16<sup>th</sup> 17<sup>th</sup>
+            <h2 className="text-yellow-500 text-lg md:text-2xl lg:text-3xl mt-5 ">
+              NOVEMBER 16<sup>th</sup> AND 17<sup>th</sup>
             </h2>
           </div>
         )}
