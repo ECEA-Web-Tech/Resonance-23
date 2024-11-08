@@ -77,25 +77,25 @@ function Footer() {
             href="https://www.linkedin.com/in/nirmal-kishore-5a6575202/"
             target="_blank"
           >
-            <p className="mr-1">| Nirmal Kishore A |</p>
+            <p className="mr-1">| Abinaya B |</p>
           </a>
           <a
             href="https://www.linkedin.com/in/dhanush-s-aab849206/"
             target="_blank"
           >
-            <p className="mr-1">| Dhanush S |</p>
+            <p className="mr-1">| John Felix A |</p>
           </a>
           <a
             href="https://www.linkedin.com/in/harshanand-s-v-2809921bb/"
             target="_blank"
           >
-            <p className="mr-1">| Harshanand S V |</p>
+            <p className="mr-1">| Saravanan S |</p>
           </a>
           <a
             href="https://www.linkedin.com/in/deepak-vasan-ab2ab9203/"
             target="_blank"
           >
-            <p className="mr-1">| Deepak Vasan R |</p>
+            <p className="mr-1">| Venkatachalapathy M |</p>
           </a>
         </div>
         <p id="copy" className="font-['Title']">

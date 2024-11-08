@@ -31,7 +31,7 @@ function MastHead() {
       </div>
       <div className="relative z-20 bg-grey-800 bg-opacity-40 backdrop-blur-sm rounded-lg p-6 md:p-10 lg:p-16 max-w-4xl text-white flex flex-col items-center md:flex-row md:justify-between space-y-6 md:space-y-0">
         <div className="flex-1 text-center md:text-left md:pr-8">
-          <p className="text-justify text-0.5xl md:text-1.5xl lg:text-lg leading-relaxed">
+          <p className="text-justify text-md md:text-lg lg:text-xl leading-relaxed">
             The Electronics and Communication Engineering Association (ECEA) is
             excited to present Resonance '25, our annual intra-college symposium
             that unites students, industry leaders, and researchers in the field

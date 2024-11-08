@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar";
 import EventPage from "../components/EventPage";
 import WorkshopDetails from "../utils/WorkshopDetails";
 import Footer from "../components/Footer";
-import bg from "../assets/videos/bg.mp4";
+import bg from "../assets/videos/bgslow.mp4";
 
 function Workshop() {
   return (

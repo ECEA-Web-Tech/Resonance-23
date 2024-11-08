@@ -68,7 +68,7 @@ function NavBar() {
               fontFamily: "Title",
               fontWeight: 900,
               letterSpacing: ".3rem",
-              color: "#f9f295",
+              color: "#ffb200",
               fontSize: "30px",
               textDecoration: "none",
             }}
@@ -151,7 +151,7 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            ECEA'24
+            ECEA
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
