@@ -24,7 +24,7 @@ function Footer() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "white",
+          
           opacity: 0.9,
           zIndex: -1,
         }}
@@ -89,7 +89,7 @@ function Footer() {
             href="https://www.linkedin.com/in/harshanand-s-v-2809921bb/"
             target="_blank"
           >
-            <p className="mr-1">| Saravanan S |</p>
+            <p className="mr-1">| Saravanan D |</p>
           </a>
           <a
             href="https://www.linkedin.com/in/deepak-vasan-ab2ab9203/"
