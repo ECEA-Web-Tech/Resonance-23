@@ -66,7 +66,7 @@ function AboutUs() {
                       className="w-full h-auto mb-7"
                       style={{
                         filter: "brightness(1.2) contrast(1.1)",
-                        maxWidth: "70%", // Ensure image fits the container
+                        maxWidth: "100%", // Ensure image fits the container
                         objectFit: "contain", // Keep the aspect ratio
                       }}
                     />
