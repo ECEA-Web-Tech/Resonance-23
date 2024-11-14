@@ -1,46 +1,42 @@
 import carnival from "../assets/images/posters/Design Posters/Non Tech/CARNIVAL.jpg";
-import cinekraze from "../assets/images/posters/Design Posters/Non Tech/cinekraze.png";
-import fandom from "../assets/images/posters/Design Posters/Non Tech/fandomfiesta.jpg";
-import ipl from "../assets/images/posters/Design Posters/Non Tech/iplauction.jpg";
-import melocity from "../assets/images/posters/Design Posters/Non Tech/melocity.png";
-import minigame from "../assets/images/posters/Design Posters/Non Tech/minigame.jpg";
-import mystery from "../assets/images/posters/Design Posters/Non Tech/mystery.jpg";
-
+import shadows from "../assets/images/posters/Design Posters/Non Tech/Shadows.png";
+import kadhaipoma from "../assets/images/posters/Design Posters/Non Tech/Kadhaipoma.jpg";
+import chess from "../assets/images/posters/Design Posters/Non Tech/Chess.jpg";
+import duodynamics from "../assets/images/posters/Design Posters/Non Tech/Duo Dynamics.png";
+import cricket from "../assets/images/posters/Design Posters/Non Tech/Cricket.jpg";
 const NonTech = [
+ 
+  {
+    eventname: "Shadows of suspicious",
+    image: shadows,
+    link: "https://forms.gle/Ng21WoyuKrSHm9919",
+  },
+  {
+    eventname: "Kadhaipoma",
+    image: kadhaipoma,
+    link: "https://forms.gle/igr1AxAxvT3rNXF96",
+  },
+  {
+    eventname: "Duo Dynamics",
+    image: duodynamics,
+    link: "https://forms.gle/Mr2Nibm21Gwq23qq5",
+  },
+  {
+    eventname: "Chess",
+    image: chess,
+    link: "",
+  },
+  {
+    eventname: "cricket",
+    image: cricket,
+    link: "",
+  },
+  
+  
   {
     eventname: "Carnival",
     image: carnival,
     link: "",
-  },
-  {
-    eventname: "Cine Kraze",
-    image: cinekraze,
-    link: "https://forms.gle/7E9qcV48jmLtu4U96",
-  },
-  {
-    eventname: "Fandom Fiesta",
-    image: fandom,
-    link: "https://forms.gle/dhr7sBPYvo7eXy8VA",
-  },
-  {
-    eventname: "IPL Auction",
-    image: ipl,
-    link: "https://forms.gle/JFnfhsSfy2KW21Ym8",
-  },
-  {
-    eventname: "Mini Game Mayhem",
-    image: minigame,
-    link: "https://forms.gle/v15raHr3fptoCkqk9",
-  },
-  {
-    eventname: "Mystery Mastery",
-    image: mystery,
-    link: "https://forms.gle/FCkerNaipiKqRDni6",
-  },
-  {
-    eventname: "Melo City",
-    image: melocity,
-    link: "https://forms.gle/pcUnHZDmr8pUCZfo6",
   },
 ];
 
