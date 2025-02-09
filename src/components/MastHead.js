@@ -2,7 +2,7 @@ import React from "react";
 import Background from "../assets/videos/bg-5.mp4";
 import logo from "../assets/images/eceaWhite.png";
 import r25 from "../assets/images/resonance_25.png";
-import {Typography}  from "@mui/material";
+import { Typography } from "@mui/material";
 function MastHead() {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -32,25 +32,27 @@ function MastHead() {
       <div className="relative z-20 bg-grey-800 bg-opacity-40 backdrop-blur-sm rounded-lg p-6 md:p-10 lg:p-16 max-w-4xl text-white flex flex-col items-center md:flex-row md:justify-between space-y-6 md:space-y-0">
         <div className="flex-1 text-center md:text-left md:pr-8">
           <p className=" bg-black rounded-xl p-10 max-w-4xl bg-opacity-40 backdrop-blur-sm shadow-lg text-md md:text-lg lg:text-xl font-normal leading-relaxed text-white text-center ">
-          <Typography
-                  sx={{
-                    fontSize: {
-                      xs: "0.7rem", // small screens
-                      sm: "0.9rem", // medium screens
-                      md: "1rem", // large screens
-                      lg: "1.2rem",
-                      textAlign: "center",
-                      fontWeight: "700",
-                    },}}
-                >
-            The Electronics and Communication Engineering Association (ECEA) is
-            excited to present Resonance '25, our annual intra-college symposium
-            that unites students, industry leaders, and researchers in the field
-            of Electronics and Communication. This year’s event features
-            engaging workshops, technical sessions, and competitions designed to
-            inspire and challenge participants. Join us to connect with
-            like-minded peers, showcase your skills, and explore the future of
-            ECE technology. Let’s resonate with innovation at Resonance '25!
+            <Typography
+              sx={{
+                fontSize: {
+                  xs: "0.7rem", // small screens
+                  sm: "0.9rem", // medium screens
+                  md: "1rem", // large screens
+                  lg: "1.2rem",
+                  textAlign: "center",
+                  fontWeight: "700",
+                },
+              }}
+            >
+              The Electronics and Communication Engineering Association (ECEA)
+              is excited to present Resonance '25, our annual intra-college
+              symposium that unites students, industry leaders, and researchers
+              in the field of Electronics and Communication. This year’s event
+              features engaging workshops, technical sessions, and competitions
+              designed to inspire and challenge participants. Join us to connect
+              with like-minded peers, showcase your skills, and explore the
+              future of ECE technology. Let’s resonate with innovation at
+              Resonance '25!
             </Typography>
           </p>
         </div>
