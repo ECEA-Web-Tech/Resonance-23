@@ -5,11 +5,17 @@ import "./App.css";
 import TechEvents from "./routes/TechEvents";
 import NonTechEvents from "./routes/NonTechEvents";
 import Workshop from "./routes/Workshop";
-import AboutUs from "./routes/AboutUs"
+import AboutUs from "./routes/AboutUs";
+import Login from "./routes/Login";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorRouter />,
+  },
+  {
+    path: "/Login",
+    element: <Login />,
     errorElement: <ErrorRouter />,
   },
   {
@@ -32,7 +38,6 @@ const router = createBrowserRouter([
     element: <Workshop />,
     errorElement: <ErrorRouter />,
   },
-  
 ]);
 
 function App() {

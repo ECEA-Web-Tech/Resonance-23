@@ -18,6 +18,7 @@ function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
+    "Login",
     "About Us",
     "Tech Events",
     "Non Tech Events",
@@ -28,6 +29,7 @@ function NavBar() {
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
     "About Us": "/aboutus",
+    Login: "/login",
     Workshop: "/workshop",
   };
 
@@ -69,7 +71,7 @@ function NavBar() {
               fontWeight: 900,
               letterSpacing: ".3rem",
               color: "#ffb200",
-              fontSize: "30px",
+              fontSize: "27px",
               textDecoration: "none",
             }}
           >
