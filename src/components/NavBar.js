@@ -18,7 +18,7 @@ function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
-    "Login",
+    "Vision-ID",
     "About Us",
     "Tech Events",
     "Non Tech Events",
@@ -29,7 +29,7 @@ function NavBar() {
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
     "About Us": "/aboutus",
-    Login: "/login",
+    "Vision-ID": "/Vision-ID",
     Workshop: "/workshop",
   };
 

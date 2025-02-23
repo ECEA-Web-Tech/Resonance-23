@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorRouter />,
   },
   {
-    path: "/Login",
+    path: "/Vision-ID",
     element: <Login />,
     errorElement: <ErrorRouter />,
   },
