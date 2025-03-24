@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { app } from "../firebase.js";
 
 function InitialLogin({ onNewLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [visionID, setVisionID] = useState(sessionStorage.getItem("visionID") || null);
+  const [visionID, setVisionID] = useState(
+    sessionStorage.getItem("visionID") || null
+  );
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -60,6 +68,10 @@ function InitialLogin({ onNewLogin }) {
     setVisionID(null);
   };
 
+  const handleTechEventsClick = () => {
+    navigate("/techevents"); // Navigates to Tech Events page
+  };
+
   return (
     <div className="relative bg-white p-8 rounded-lg shadow-md w-96 bg-opacity-90">
       <h2 className="text-xl font-bold mb-4 text-center">
@@ -68,10 +80,22 @@ function InitialLogin({ onNewLogin }) {
 
       {visionID ? (
         <div>
-          <p className="text-center text-2xl font-semibold">Vision ID: {visionID}</p>
+          <p className="text-center text-2xl font-semibold">
+            Vision ID: <span className="text-blue-600">{visionID}</span>
+          </p>
+
+          {/* Tech Events Button */}
+          <button
+            onClick={handleTechEventsClick}
+            className="w-full bg-purple-500 text-white p-2 rounded hover:bg-purple-600 mt-4"
+          >
+            Take me to Events!!
+          </button>
+
+          {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600 mt-4"
+            className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600 mt-2"
           >
             Logout
           </button>
