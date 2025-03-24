@@ -18,18 +18,19 @@ function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
-    "Vision-ID",
+    
     "About Us",
     "Tech Events",
     "Non Tech Events",
     "Workshop",
+    "Login",
   ];
   const links = {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
     "About Us": "/aboutus",
-    "Vision-ID": "/Vision-ID",
+    "Login": "/Vision-ID",
     Workshop: "/workshop",
   };
 

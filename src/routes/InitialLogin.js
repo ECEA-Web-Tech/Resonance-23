@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getAuth,
   sendPasswordResetEmail,
@@ -7,13 +8,12 @@ import {
 import { app } from "../firebase.js";
 import {
   getFirestore,
-  doc,
-  getDoc,
   collection,
   query,
   where,
   getDocs,
   updateDoc,
+  doc,
 } from "firebase/firestore";
 
 function InitialLogin({ onNewLogin }) {
@@ -23,39 +23,46 @@ function InitialLogin({ onNewLogin }) {
   const [error, setError] = useState("");
   const [visionID, setVisionID] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [currentView, setCurrentView] = useState("login"); // 'login', 'forgotPassword', 'resetPassword'
+  const [currentView, setCurrentView] = useState("login");
   const [resetCode, setResetCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (visionID) {
+      setTimeout(() => {
+        navigate("/techevents");
+      }, 5000);
+    }
+  }, [visionID, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       const db = getFirestore(app);
-
-      // Query the "Students" collection for a document where the "rollNumber" field matches the entered rollNumber
       const studentsRef = collection(db, "Students");
-      const q = query(studentsRef, where("rollNumber", "==", rollNumber));
+      const q = query(studentsRef, where("email", "==", email));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           const userData = doc.data();
           if (userData.password === password) {
-            setVisionID(userData.uniqueID); // Set the Vision ID
+            setVisionID(userData.uniqueID);
           } else {
             setError("Incorrect password");
           }
         });
       } else {
-        setError("Roll number not found");
+        setError("User not found");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -69,11 +76,8 @@ function InitialLogin({ onNewLogin }) {
     const auth = getAuth(app);
 
     try {
-      console.log("Sending reset Email");
       await sendPasswordResetEmail(auth, email);
-      alert(
-        "Password reset email sent. Check your inbox for the temporary code."
-      );
+      alert("Password reset email sent. Check your inbox.");
       setCurrentView("resetPassword");
     } catch (error) {
       setError(error.message);
@@ -105,9 +109,7 @@ function InitialLogin({ onNewLogin }) {
         await updateDoc(doc(db, "Students", studentDoc.id), {
           password: newPassword,
         });
-        alert(
-          "Password reset successful. You can now login with your new password."
-        );
+        alert("Password reset successful. You can now log in.");
         setCurrentView("login");
       } else {
         setError("No account found with this email");
@@ -121,7 +123,10 @@ function InitialLogin({ onNewLogin }) {
 
   return (
     <div className="relative bg-white p-8 rounded-lg shadow-md w-96 bg-opacity-90">
-      <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">
+        {currentView === "login" ? "Login" : "Forgot Password"}
+      </h2>
+
       {visionID ? (
         <p className="text-center text-2xl">Your Vision ID: {visionID}</p>
       ) : currentView === "resetPassword" ? (
@@ -160,15 +165,40 @@ function InitialLogin({ onNewLogin }) {
             {loading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
+      ) : currentView === "forgotPassword" ? (
+        <div className="mt-4">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full p-2 border rounded mt-1 mb-2"
+            required
+          />
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <button
+            onClick={handleForgotPassword}
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            disabled={loading}
+          >
+            Send Reset Code
+          </button>
+          <button
+            onClick={() => setCurrentView("login")}
+            className="w-full bg-gray-300 text-gray-700 p-2 rounded hover:bg-gray-400 mt-2"
+          >
+            Back to Login
+          </button>
+        </div>
       ) : (
         <>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700">Roll Number</label>
+              <label className="block text-gray-700">Email</label>
               <input
                 type="text"
-                value={rollNumber}
-                onChange={(e) => setRollNumber(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 border rounded mt-1"
                 required
               />
@@ -187,7 +217,7 @@ function InitialLogin({ onNewLogin }) {
             <button
               type="submit"
               className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 mb-2"
-              disabled={loading} // Disable the button while loading
+              disabled={loading}
             >
               {loading ? "Loading..." : "Login"}
             </button>
@@ -199,25 +229,6 @@ function InitialLogin({ onNewLogin }) {
           >
             Forgot Password
           </button>
-          {currentView === "forgotPassword" && (
-            <div className="mt-4">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full p-2 border rounded mt-1 mb-2"
-                required
-              />
-              <button
-                onClick={handleForgotPassword}
-                className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                disabled={loading}
-              >
-                Send Reset Code
-              </button>
-            </div>
-          )}
           <button
             onClick={onNewLogin}
             className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 mt-2"

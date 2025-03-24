@@ -2,21 +2,28 @@ import { useState } from "react";
 import bg from "../assets/videos/bgslow.mp4";
 import NavBar from "../components/NavBar";
 import InitialLogin from "./InitialLogin";
-import { getFirestore, collection, addDoc } from "firebase/firestore"; // Import Firestore functions
+import { getFirestore, collection, addDoc,getDocs } from "firebase/firestore"; // Import Firestore functions
 import { app } from "../firebase.js"; // Import your Firebase app instance
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-function generateUniqueID(rollNumber) {
+async function generateUniqueID(rollNumber, collegeType) {
   if (!rollNumber || rollNumber.length < 3) return "";
 
-  const year = "25";
-  const randomLetters = Array(4)
-    .fill()
-    .map(() => String.fromCharCode(65 + Math.floor(Math.random() * 26)))
-    .join("");
-  const lastThreeDigits = rollNumber.slice(-3);
+  const db = getFirestore();
+  const studentsRef = collection(db, "Students");
+  const snapshot = await getDocs(studentsRef);
 
-  return `V${year}${randomLetters}${lastThreeDigits}`;
+  let count = 0;
+  snapshot.forEach((doc) => {
+    const student = doc.data();
+    if (student.collegeType === collegeType) {
+      count++;
+    }
+  });
+
+  const baseID = collegeType === "AU" ? 50001 : 59001;
+  const uniqueNumber = baseID + count;
+
+  return `V2${uniqueNumber}`;
 }
 
 function Login() {
@@ -40,6 +47,9 @@ function Login() {
     email: "",
     password: "",
     reenterPassword: "",
+    phoneNumber:"",
+    department:"",
+    year:"",
   });
 
   const [uniqueID, setUniqueID] = useState("");
@@ -79,7 +89,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (formData.password.length < 8) {
       setPasswordError("Password must be at least 8 characters long");
       return;
@@ -88,29 +98,22 @@ function Login() {
       setPasswordError("Passwords do not match");
       return;
     }
-
-    const generatedID = generateUniqueID(formData.rollNumber);
-    setUniqueID(generatedID);
-
+  
     try {
+      const generatedID = await generateUniqueID(formData.rollNumber, formData.collegeType);
+      setUniqueID(generatedID); // Update state with the generated ID
+  
       const auth = getAuth(app);
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
-
-      // Get Firestore instance
+  
       const db = getFirestore(app);
-
-      // Add a new document to the "Students" collection
       const docRef = await addDoc(collection(db, "Students"), {
         ...formData,
-        uniqueID: generatedID,
-        uid: user.uid, // Store the Firebase Auth UID
+        uniqueID: generatedID, // Ensure this value is resolved before passing
+        uid: user.uid, 
       });
-
+  
       console.log("Document written with ID: ", docRef.id);
       setFormSubmitted(true);
     } catch (error) {
@@ -187,7 +190,7 @@ function Login() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700">Are you from?</label>
+                  <label className="block text-gray-700">University</label>
                   <select
                     name="collegeType"
                     value={formData.collegeType}
@@ -200,7 +203,7 @@ function Login() {
                   </select>
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700">College</label>
+                  <label className="block text-gray-700">College Name</label>
                   {formData.collegeType === "AU" ? (
                     <select
                       name="college"
@@ -225,11 +228,50 @@ function Login() {
                   )}
                 </div>
                 <div className="mb-4">
+                  <label className="block text-gray-700">Department</label>
+                  <input
+                    type="text"
+                    name="department"
+                    value={formData.department}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Year of study</label>
+                  <select
+                    
+                    name="year"
+                    value={formData.year}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    required
+                  >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  </select>
+                </div>
+                <div className="mb-4">
                   <label className="block text-gray-700">Email</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded mt-1"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Phone Number</label>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
                     onChange={handleChange}
                     className="w-full p-2 border rounded mt-1"
                     required

@@ -13,11 +13,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorRouter />,
   },
-  {
-    path: "/Vision-ID",
-    element: <Login />,
-    errorElement: <ErrorRouter />,
-  },
+  
   {
     path: "/aboutus",
     element: <AboutUs />,
@@ -36,6 +32,11 @@ const router = createBrowserRouter([
   {
     path: "/workshop",
     element: <Workshop />,
+    errorElement: <ErrorRouter />,
+  },
+  {
+    path: "/Vision-ID",
+    element: <Login />,
     errorElement: <ErrorRouter />,
   },
 ]);
