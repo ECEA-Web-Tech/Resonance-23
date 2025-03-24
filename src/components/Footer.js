@@ -9,12 +9,32 @@ import EmailIcon from "@mui/icons-material/Email";
 
 function Footer() {
   return (
+<<<<<<< HEAD
     <div id="footer">
       <Stack
         direction={"row"}
         alignItems={"centre"}
         spacing={1}
         className="buttons"
+=======
+    <div style={{ position: "relative", zIndex:10 , backgroundColor: "#474e52"}}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: -1,
+        }}
+      />
+      <div
+        id="footer"
+        style={{
+          padding: "20px",
+          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+        }}
+>>>>>>> d04940d (FrontEnd)
       >
         <Button href="https://youtube.com/@ecea_ceg?si=Uw8SKyjaOQNtK-jz">
           <YouTubeIcon
@@ -59,6 +79,7 @@ function Footer() {
           href="https://www.linkedin.com/in/nirmal-kishore-5a6575202/"
           target="_blank"
         >
+<<<<<<< HEAD
           <p className="mr-1">| Nirmal Kishore A |</p>
         </a>
         <a
@@ -79,6 +100,67 @@ function Footer() {
         >
           <p className="mr-1">| Deepak Vasan R |</p>
         </a>
+=======
+          <Button href="https://youtube.com/@ecea_ceg?si=Uw8SKyjaOQNtK-jz">
+            <YouTubeIcon
+              className="button"
+              sx={{ color: "cyan" }}
+              fontSize="large"
+            />
+          </Button>
+          <Button href="https://www.linkedin.com/in/ecea-ceg?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
+            <LinkedInIcon
+              className="button"
+              sx={{ color: "cyan" }}
+              fontSize="large"
+            />
+          </Button>
+          <Button href="https://instagram.com/ecea_ceg?igshid=OGQ5ZDc2ODk2ZA==">
+            <InstagramIcon
+              className="button"
+              sx={{ color: "cyan" }}
+              fontSize="large"
+            />
+          </Button>
+          <Button onClick={handleclick}>
+            <EmailIcon
+              className="button"
+              sx={{ color: "cyan" }}
+              fontSize="large"
+            />
+          </Button>
+        </Stack>
+        <p className="font-['Title'] mb-2">Developed by:</p>
+        <div id="Credits">
+          <a
+            href="https://www.linkedin.com/in/abinaya-boopathy-958183280/"
+            target="_blank"
+          >
+            <p className="mr-1">| Abinaya B |</p>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/john-felix-14001a244/"
+            target="_blank"
+          >
+            <p className="mr-1">| John Felix A |</p>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/saravanan-d-07586422a/"
+            target="_blank"
+          >
+            <p className="mr-1">| Saravanan D |</p>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/venkatachalapathy-m-680b87243/"
+            target="_blank"
+          >
+            <p className="mr-1">| Venkatachalapathy M |</p>
+          </a>
+        </div>
+        <p id="copy" className="font-['Title']">
+          Copyright © ECEA
+        </p>
+>>>>>>> d04940d (FrontEnd)
       </div>
       <p id="copy" className="font-['Title']">
         Copyright © ECEA

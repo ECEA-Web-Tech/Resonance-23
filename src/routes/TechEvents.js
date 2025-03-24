@@ -3,24 +3,23 @@ import NavBar from "../components/NavBar";
 import EventPage from "../components/EventPage";
 import Tech from "../utils/Tech";
 import Footer from "../components/Footer";
+<<<<<<< HEAD
 import bg from "../assets/videos/bg.mp4";
+=======
+import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
+>>>>>>> d04940d (FrontEnd)
 
 function TechEvents() {
   return (
     <>
       <NavBar />
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute w-full h-full object-cover"
-      >
-        <source src={bg} />
-      </video>
-      <h1 className="text-2xl md:text-4xl lg:text-5xl font-['Title'] text-white my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
-        Tech Events
-      </h1>
+      <div className="absolute inset-0 w-full h-full max-w-[1920px] mx-auto -z-10">
+        <img
+          src={bgLayer1}
+          alt="Background Dark"
+          className="w-full h-full object-cover"
+        />
+      </div>
       <EventPage props={Tech} />
       <Footer />
     </>

@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Logo from "../../src/assets/images/logo.png";
+import Logo from "../../src/assets/images/eceaWhite.png";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function NavBar() {
@@ -41,17 +41,30 @@ function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
+<<<<<<< HEAD
     "Tech Events",
     "Non Tech Events",
     "Workshop",
     "Sponsors",
     "Accomodation",
     "Other college registration",
+=======
+    "About Us",
+    "Tech Events",
+    "Non Tech Events",
+    "Workshop",
+    "Login",
+>>>>>>> d04940d (FrontEnd)
   ];
   const links = {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
+<<<<<<< HEAD
+=======
+    "About Us": "/aboutus",
+    Login: "/Vision-ID",
+>>>>>>> d04940d (FrontEnd)
     Workshop: "/workshop",
     Sponsors: "/sponsors",
     Accomodation: "https://forms.gle/oNXT9cocY6ecz5468",
@@ -78,7 +91,11 @@ function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+<<<<<<< HEAD
       <AppBar position="sticky" color="transparent" sx={{ display: visible ? "block" : "none" }}>
+=======
+      <AppBar position="absolute" color="transparent">
+>>>>>>> d04940d (FrontEnd)
         <Toolbar>
           <Avatar
             alt="ECEA"
@@ -96,12 +113,17 @@ function NavBar() {
               fontFamily: "Navbar",
               fontWeight: 900,
               letterSpacing: ".3rem",
+<<<<<<< HEAD
 <<<<<<< Updated upstream
               color: "#fff",
 =======
               color: "#ffb700",
 >>>>>>> Stashed changes
               fontSize: "30px",
+=======
+              color: "#22d3ee",
+              fontSize: "27px",
+>>>>>>> d04940d (FrontEnd)
               textDecoration: "none",
             }}
           >
@@ -164,6 +186,7 @@ function NavBar() {
               ))}
             </Menu>
           </Box>
+          
           <Avatar
             alt="ECEA"
             src={Logo}
@@ -182,13 +205,22 @@ function NavBar() {
               fontWeight: 700,
               fontSize: "30px",
               letterSpacing: ".1rem",
-              color: "#fff",
+              color: "#22d3ee",
               textDecoration: "none",
             }}
           >
             ECEA'24
           </Typography>
+<<<<<<< HEAD
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+=======
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", marginLeft: "40px" },
+            }}
+          >
+>>>>>>> d04940d (FrontEnd)
             {pages.map((page) => (
               <Link to={links[page]} key={page}>
                 <Button
@@ -198,8 +230,28 @@ function NavBar() {
                     color: "#fff",
                     display: "block",
                     fontSize: "15px",
+<<<<<<< HEAD
                     fontFamily: "Navbar",
                     "&:hover": { color: "#ffb700" }, // Change text color on hover
+=======
+                    textAlign: "center",
+                    fontFamily: "Title",
+                    transition: "0.3s",
+                    "&::after": {
+                      content: '""',
+                      position: "absolute",
+                      left: 0,
+                      bottom: 0,
+                      width: "100%",
+                      height: "3px",
+                      backgroundColor: "#22d3ee",
+                      transition: "transform 0.2s ease-in-out",
+                      transform: "scaleX(0)",
+                    },
+                    "&:hover::after": {
+                      transform: "scaleX(1)",
+                    },
+>>>>>>> d04940d (FrontEnd)
                   }}
                 >
                   {page}

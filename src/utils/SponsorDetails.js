@@ -20,6 +20,36 @@ const daySponsors = [
     link: "https://karsun-llc.com/",
     image: karsun,
   },
+  {
+    name: "",
+    link: "",
+    image: iim,
+  },
+  {
+    name: "",
+    link: "",
+    image: barola,
+  },
+  {
+    name: "",
+    link: "",
+    image: iim,
+  },
+  {
+    name: "",
+    link: "",
+    image: barola,
+  },
+  {
+    name: "",
+    link: "",
+    image: iim,
+  },
+  {
+    name: "",
+    link: "",
+    image: barola,
+  },
 ];
 
 const foodSponsor = [

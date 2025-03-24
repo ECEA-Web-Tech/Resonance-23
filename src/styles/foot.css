@@ -1,5 +1,6 @@
 /* Footer */
 #footer {
+<<<<<<< HEAD
     display: grid;
     place-items: center;
     font-family: "Montserrat";
@@ -10,6 +11,18 @@
    
   }
 #copy{
+=======
+  display: grid;
+  place-items: center;
+  font-family: "Montserrat";
+  font-weight: bold;
+  background-color: #474e52;
+  color: white;
+  padding: 10px 0;
+  z-index: 10;
+}
+#copy {
+>>>>>>> d04940d (FrontEnd)
   font-weight: normal;
 }
   .buttons {

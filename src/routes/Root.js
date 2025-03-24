@@ -1,17 +1,24 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import MastHead from "../components/MastHead";
+<<<<<<< HEAD
 import Resonance from "../components/Resonance";
 import OfficeBearers from "../components/OfficeBearers";
 import ObDetails from "../utils/ObDetails";
 import OsDetails from "../utils/OsDetails";
 import JsDetails from "../utils/JsDetails";
+=======
+import EventDescription from "../components/VisionDescp.js";
+import SponsorPage from "../components/SponsorPage";
+import { daySponsors } from "../utils/SponsorDetails";
+>>>>>>> d04940d (FrontEnd)
 import Footer from "../components/Footer.js";
 function Root() {
   return (
     <>
       <NavBar />
       <MastHead />
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       <Resonance />
 
@@ -31,6 +38,10 @@ function Root() {
       <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
         DAY SPONSORS
       </h2>
+=======
+      <EventDescription />
+
+>>>>>>> d04940d (FrontEnd)
       <SponsorPage props={daySponsors} />
       <h2 className="text-1xl md:text-3xl lg:text-4xl font-['Sponsor2'] text-yellow-400 my-5 text-center drop-shadow-[0_5px_5px_rgba(255,255,255,0.5)] font-bold">
         EDUCATIONAL PARTNER
