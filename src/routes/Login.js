@@ -1,10 +1,10 @@
 import { useState } from "react";
-import bg from "../assets/videos/bgslow.mp4";
 import NavBar from "../components/NavBar";
 import InitialLogin from "./InitialLogin";
 import { getFirestore, collection, addDoc } from "firebase/firestore"; // Import Firestore functions
 import { app } from "../firebase.js"; // Import your Firebase app instance
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
 
 function generateUniqueID(rollNumber) {
   if (!rollNumber || rollNumber.length < 3) return "";
@@ -126,16 +126,15 @@ function Login() {
   return (
     <>
       <NavBar />
-      <div className="relative flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="relative flex items-center justify-center min-h-screen">
         {/* Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src={bg} type="video/mp4" />
-        </video>
+        <div className="absolute inset-0 w-full h-full max-w-[1920px] mx-auto -z-10">
+          <img
+            src={bgLayer1}
+            alt="Background Dark"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
         {showInitialLogin ? (
           <InitialLogin

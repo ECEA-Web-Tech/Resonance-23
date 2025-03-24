@@ -11,25 +11,25 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import Logo from "../../src/assets/images/logo.png";
+import Logo from "../../src/assets/images/eceaWhite.png";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function NavBar() {
   // Pages and Links
   const pages = [
     "Home",
-    "Vision-ID",
     "About Us",
     "Tech Events",
     "Non Tech Events",
     "Workshop",
+    "Login",
   ];
   const links = {
     Home: "/",
     "Tech Events": "/techevents",
     "Non Tech Events": "/nontechevents",
     "About Us": "/aboutus",
-    "Vision-ID": "/Vision-ID",
+    Login: "/Vision-ID",
     Workshop: "/workshop",
   };
 
@@ -52,7 +52,7 @@ function NavBar() {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky" color="transparent">
+      <AppBar position="absolute" color="transparent">
         <Toolbar>
           <Avatar
             alt="ECEA"
@@ -70,7 +70,7 @@ function NavBar() {
               fontFamily: "Title",
               fontWeight: 900,
               letterSpacing: ".3rem",
-              color: "#ffb200",
+              color: "#22d3ee",
               fontSize: "27px",
               textDecoration: "none",
             }}
@@ -131,6 +131,7 @@ function NavBar() {
               ))}
             </Menu>
           </Box>
+          
           <Avatar
             alt="ECEA"
             src={Logo}
@@ -150,7 +151,7 @@ function NavBar() {
               fontWeight: 700,
               fontSize: "30px",
               letterSpacing: ".1rem",
-              color: "#fff",
+              color: "#22d3ee",
               textDecoration: "none",
             }}
           >
@@ -159,7 +160,7 @@ function NavBar() {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: "none", md: "flex", marginLeft: "400px" },
+              display: { xs: "none", md: "flex", marginLeft: "40px" },
             }}
           >
             {pages.map((page) => (
@@ -169,7 +170,7 @@ function NavBar() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
-                    color: "#fbbf24",
+                    color: "#fff",
                     display: "block",
                     fontWeight: "900",
                     marginRight: "50px",
@@ -184,7 +185,7 @@ function NavBar() {
                       bottom: 0,
                       width: "100%",
                       height: "3px",
-                      backgroundColor: "#fbbf24",
+                      backgroundColor: "#22d3ee",
                       transition: "transform 0.2s ease-in-out",
                       transform: "scaleX(0)",
                     },

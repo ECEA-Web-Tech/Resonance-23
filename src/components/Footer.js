@@ -16,7 +16,7 @@ function Footer() {
   };
 
   return (
-    <div style={{ position: "relative", zIndex: 10 }}>
+    <div style={{ position: "relative", zIndex:10 , backgroundColor: "#474e52"}}>
       <div
         style={{
           position: "absolute",
@@ -24,8 +24,6 @@ function Footer() {
           left: 0,
           right: 0,
           bottom: 0,
-          
-          opacity: 0.9,
           zIndex: -1,
         }}
       />
@@ -45,28 +43,28 @@ function Footer() {
           <Button href="https://youtube.com/@ecea_ceg?si=Uw8SKyjaOQNtK-jz">
             <YouTubeIcon
               className="button"
-              sx={{ color: "black" }}
+              sx={{ color: "cyan" }}
               fontSize="large"
             />
           </Button>
           <Button href="https://www.linkedin.com/in/ecea-ceg?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
             <LinkedInIcon
               className="button"
-              sx={{ color: "black" }}
+              sx={{ color: "cyan" }}
               fontSize="large"
             />
           </Button>
           <Button href="https://instagram.com/ecea_ceg?igshid=OGQ5ZDc2ODk2ZA==">
             <InstagramIcon
               className="button"
-              sx={{ color: "black" }}
+              sx={{ color: "cyan" }}
               fontSize="large"
             />
           </Button>
           <Button onClick={handleclick}>
             <EmailIcon
               className="button"
-              sx={{ color: "black" }}
+              sx={{ color: "cyan" }}
               fontSize="large"
             />
           </Button>

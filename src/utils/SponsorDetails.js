@@ -13,6 +13,36 @@ const daySponsors = [
     link: "",
     image: barola,
   },
+  {
+    name: "",
+    link: "",
+    image: iim,
+  },
+  {
+    name: "",
+    link: "",
+    image: barola,
+  },
+  {
+    name: "",
+    link: "",
+    image: iim,
+  },
+  {
+    name: "",
+    link: "",
+    image: barola,
+  },
+  {
+    name: "",
+    link: "",
+    image: iim,
+  },
+  {
+    name: "",
+    link: "",
+    image: barola,
+  },
 ];
 
 
