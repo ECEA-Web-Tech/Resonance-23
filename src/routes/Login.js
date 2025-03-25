@@ -102,11 +102,27 @@ function Login() {
       setFormSubmitted(true);
 
       const auth = getAuth(app);
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
+      var userCredential = null;
+      try {
+        userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        console.log("User created:", userCredential.user);
+      } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+          alert("This email is already in use. Please use a different email.");
+          console.error(
+            "This email is already in use. Please use a different email."
+          );
+        } else {
+          console.error("Error creating user:", error.message);
+        }
+      }
+      if (userCredential == null) {
+        alert("Error Creating user");
+      }
       const user = userCredential.user;
 
       const db = getFirestore(app);
@@ -124,10 +140,12 @@ function Login() {
         vision_id: generatedID,
       };
 
+      const templateID =
+        formData.collegeType == "AU" ? "template_za0sl3g" : "template_89mdpk5";
       emailjs
         .send(
           "service_6x0bt4b", // Replace with your EmailJS Service ID
-          "template_za0sl3g", // Replace with your EmailJS Template ID
+          templateID, // Replace with your EmailJS Template ID
           templateParams,
           "98J915iiKG4fVwCrt" // Replace with your EmailJS Public Key
         )

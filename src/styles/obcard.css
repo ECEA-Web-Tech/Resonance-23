@@ -5,7 +5,7 @@
   border-radius: 20px;
   position: relative;
   transition: all 1s ease-in-out;
-  box-shadow: 6px 6px rgb(163, 155, 0);
+  box-shadow: 6px 6px rgb(29, 235, 244);
   overflow: hidden;
 }
 .EventsContainer {
@@ -80,10 +80,10 @@ img {
 }
 
 .SponsorContainer {
-  height: fit-content;
-  width: 300px;
+  width: 200px;
+  height: 200px;
   padding: 10px;
-  border-radius: 20px;
+  background-color: #474e52;
   position: relative;
   align-self: center;
   transition: all 1s ease-in-out;

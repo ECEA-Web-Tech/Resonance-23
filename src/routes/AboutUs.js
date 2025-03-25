@@ -8,7 +8,7 @@ import ObDetails from "../utils/ObDetails";
 import OsDetails from "../utils/OsDetails";
 import JsDetails from "../utils/JsDetails";
 import Footer from "../components/Footer";
-import bg from "../assets/videos/bgslow.mp4";
+import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
 import { Container, Typography } from "@mui/material";
 import useWindowDimensions from "../utils/useWindowDimensions";
 
@@ -18,29 +18,20 @@ function AboutUs() {
   return (
     <>
       <NavBar />
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed w-full h-full object-cover"
-      >
-        <source src={bg} />
-      </video>
-      <div className="flex flex-col justify-center items-center mb-5"></div>
-
-      <h1 className="text-white text-center text-5xl md:text-6xl font-bold font-['Title'] my-6 drop-shadow-[0_5px_5px_rgba(240,240,240,0.5)]">
-        <Fade triggerOnce={true} duration={800}>
-          About Us
-        </Fade>
-      </h1>
+      <div className="absolute inset-0 w-full h-full max-w-[1920px] mx-auto -z-10">
+        <img
+          src={bgLayer1}
+          alt="Background Dark"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <Zoom triggerOnce={true} duration={800}>
         <Container
-          className="rounded-xl p-10 max-w-4xl shadow-lg"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }} // Darker, semi-transparent background
+          className="rounded-xl p-10 max-w-4xl shadow-lg mt-8 "
+          style={{ backgroundColor: "#30363a" }} // Darker, semi-transparent background
         >
-          <div className="m-2 px-5 flex flex-col justify-center items-center">
+          <div className="m-2 px-10 flex flex-col sm:flex-row justify-center items-center md:gap-32 sm:gap-20 my-3 sm:my-20">
             <Slide
               direction="down"
               triggerOnce={true}
@@ -52,7 +43,8 @@ function AboutUs() {
                   {width > 425 ? (
                     <img
                       src={eceaFull}
-                      className="w-52 h-75 mb-10" // Full width, auto height for responsiveness
+                      alt="ecea logo"
+                      className=" w-[150px] sm:w-[600px] p-2 mb-10" // Full width, auto height for responsiveness
                       style={{
                         filter: "brightness(1.2) contrast(1.1)", // Enhancing visibility
                         maxWidth: "100%", // Ensure the image doesn't overflow
@@ -63,7 +55,8 @@ function AboutUs() {
                   ) : (
                     <img
                       src={eceaGold}
-                      className="w-full h-auto mb-7"
+                      alt="ecea logo"
+                      className="w-[100px] h-[30%] mb-7"
                       style={{
                         filter: "brightness(1.2) contrast(1.1)",
                         maxWidth: "100%", // Ensure image fits the container
@@ -77,7 +70,7 @@ function AboutUs() {
 
             {/* Text appears after image */}
             <Slide
-              direction="up"
+              direction="right"
               triggerOnce={true}
               delay={1400}
               duration={1200}
@@ -86,11 +79,11 @@ function AboutUs() {
                 <Typography
                   sx={{
                     fontSize: {
-                      xs: "0.7rem", // small screens
-                      sm: "0.9rem", // medium screens
-                      md: "1rem", // large screens
-                      lg: "1.2rem",
-                      textAlign: "center",
+                      xs: "0.6rem", // small screens
+                      sm: "0.8rem", // medium screens
+                      md: "0.9rem", // large screens
+                      lg: "1.1rem",
+                      textAlign: "justify",
                       fontWeight: "700",
                     },
                     lineHeight: 1.8,

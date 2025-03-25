@@ -5,7 +5,7 @@ import EventCard from "./EventCard";
 function EventPage({ props }) {
   return (
     <div className="">
-      <div className="min-w-full min-h-screen p-4">
+      <div className="min-w-full min-h-screen bg-[#2A3033] p-4 pt-32">
         <Grid
           container
           columnSpacing={10}

@@ -1,64 +1,110 @@
 import React from "react";
-import Background from "../assets/videos/bg-5.mp4";
-import logo from "../assets/images/eceaWhite.png";
-import r25 from "../assets/images/resonance_25.png";
-import { Typography } from "@mui/material";
-function MastHead() {
+import { useState, useEffect } from "react";
+import bgLayer1 from "../assets/images/landingPageBg1.png"; // Dark background
+import bgLayer2 from "../assets/images/circle.png"; // Circle
+import v25 from "../assets/images/z_logo.svg"; // Vision '25 logo
+
+const CountdownTimer = ({ targetDate }) => {
+  const calculateTimeLeft = () => {
+    const difference = targetDate - new Date();
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover"
-      >
-        <source src={Background} />
-      </video>
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center font-bold text-white">
-        {r25 && (
-          <div className="flex flex-col items-center">
-            <img
-              src={r25}
-              alt="Centered display"
-              className="h-72 md:w-72 md:h-72 lg:w-96 lg:h-96 object-contain" // Updated size with object-contain
-            />
-            <h2 className="text-yellow-500 text-lg md:text-2xl lg:text-3xl mt-5 ">
-              NOVEMBER 16<sup>th</sup> & 17<sup>th</sup>
-            </h2>
+    <div className="flex flex-wrap lg:flex-nowrap gap-4 md:gap-6 justify-center md:justify-start w-full">
+      {["DAYS", "HOURS", "MINUTES", "SECONDS"].map((label, index) => {
+        const timeValue = [
+          timeLeft.days,
+          timeLeft.hours,
+          timeLeft.minutes,
+          timeLeft.seconds,
+        ][index];
+        return (
+          <div
+            key={index}
+            className="flex flex-col items-center p-4 md:p-6 bg-gray-800 bg-opacity-60 rounded-md shadow-lg w-20 md:w-28 lg:w-30"
+          >
+            <p className="text-4xl md:text-5xl lg:text-6xl text-cyan-400 font-extrabold">
+              {timeValue}
+            </p>
+            <p className="text-xs md:text-sm lg:text-lg">{label}</p>
           </div>
-        )}
-      </div>
-      <div className="relative z-20 bg-grey-800 bg-opacity-40 backdrop-blur-sm rounded-lg p-6 md:p-10 lg:p-16 max-w-4xl text-white flex flex-col items-center md:flex-row md:justify-between space-y-6 md:space-y-0">
-        <div className="flex-1 text-center md:text-left md:pr-8">
-          <p className=" bg-black rounded-xl p-10 max-w-4xl bg-opacity-40 backdrop-blur-sm shadow-lg text-md md:text-lg lg:text-xl font-normal leading-relaxed text-white text-center ">
-            <Typography
-              sx={{
-                fontSize: {
-                  xs: "0.7rem", // small screens
-                  sm: "0.9rem", // medium screens
-                  md: "1rem", // large screens
-                  lg: "1.2rem",
-                  textAlign: "center",
-                  fontWeight: "700",
-                },
-              }}
-            >
-              The Electronics and Communication Engineering Association (ECEA)
-              is excited to present Resonance '25, our annual intra-college
-              symposium that unites students, industry leaders, and researchers
-              in the field of Electronics and Communication. This year’s event
-              features engaging workshops, technical sessions, and competitions
-              designed to inspire and challenge participants. Join us to connect
-              with like-minded peers, showcase your skills, and explore the
-              future of ECE technology. Let’s resonate with innovation at
-              Resonance '25!
-            </Typography>
-          </p>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
-}
+};
+
+const MastHead = () => {
+  const targetDate = new Date("2025-04-04T16:00:00");
+  return (
+    <div className="relative h-screen flex flex-col items-center justify-center text-white font-bold">
+      {/* Background */}
+      <div className="absolute inset-0 w-full h-full max-w-[1920px] mx-auto -z-10">
+        <img
+          src={bgLayer1}
+          alt="Background Dark"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Content Section - Full Vertical Centering */}
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full px-4 mt-16 sm:mt-40 md:px-16 lg:px-24 md:gap-10">
+        {/* Left: Countdown Timer */}
+        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left gap-10">
+          <h1 className="sm:pl-4 text-5xl md:text-6xl lg:text-7xl font-extrabold text-white-400 mt-4 sm:mb-4 sm:mt-0">
+            VISION'25
+          </h1>
+          <CountdownTimer targetDate={targetDate} />
+          <p className="sm:pl-4 mt-4 text-lg md:text-xl lg:text-2xl text-white-400 font-semibold">
+            APRIL 4, 5 & 6
+          </p>
+          <button
+            onClick={() => (window.location.href = "/Vision-ID")}
+            className="ml-2 mt-6 px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-lg rounded-lg transition duration-300"
+          >
+            Login
+          </button>
+        </div>
+
+        {/* Right: Circle with Logo - Centered */}
+        <div className="w-full md:w-1/2 flex justify-center items-center relative">
+          <div className="relative w-[80%] sm:w-[65%] max-w-[1000px] h-auto flex justify-center">
+            <img
+              src={bgLayer2}
+              alt="Circle with Logo"
+              className="w-full h-auto"
+            />
+            <img
+              src={v25}
+              alt="Vision 25 Logo"
+              className="absolute inset-0 m-auto w-[40%] max-w-[50%] h-auto"
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Event Description - Stays Below */}
+    </div>
+  );
+};
 
 export default MastHead;
