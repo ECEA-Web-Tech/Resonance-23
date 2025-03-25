@@ -1,17 +1,25 @@
-import genai from "../assets/images/posters/Design Posters/Workshops/Genai.jpg"
-import robosoccer from "../assets/images/posters/Design Posters/Workshops/robosoccer.jpg"
+import data from "../assets/images/posters/Design Posters/Workshops/data.jpg"
+import finance from "../assets/images/posters/Design Posters/Workshops/finance.jpg"
+import vivado from "../assets/images/posters/Design Posters/Workshops/vivado.png"
+
 
 const WorkshopDetails = [
     {
-        eventname: "GenAI",
-        image: genai,
-        link: "https://forms.gle/hW1HxHrygGVApsS59"
+        eventname: "PowerBI",
+        image: data,
+        
     },
     {
-        eventname: "Robo Soccer",
-        image: robosoccer,
-        link: ""
-    }
+        eventname: "Finance",
+        image: finance,
+        
+    },
+    {
+        eventname: "VLSI and ASIC",
+        image: vivado,
+        
+    },
+   
 ]
 
 export default WorkshopDetails;
