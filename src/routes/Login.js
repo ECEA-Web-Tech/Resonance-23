@@ -113,6 +113,39 @@ function Login() {
 
       console.log("Document written with ID: ", docRef.id);
       setFormSubmitted(true);
+<<<<<<< Updated upstream
+=======
+      const templateParams = {
+        user_name: formData.name,
+        email: formData.email,
+        vision_id: generatedID,
+      };
+
+      emailjs
+        .send(
+          "service_6x0bt4b", // Replace with your EmailJS Service ID
+          "template_za0sl3g", // Replace with your EmailJS Template ID
+          templateParams,
+          "98J915iiKG4fVwCrt" 
+        )
+        .then(
+          (response) => {
+            console.log(
+              "Email sent successfully!",
+              response.status,
+              response.text
+            );
+          },
+          (error) => {
+            console.error("Email sending failed!", error);
+          }
+        );
+
+      setTimeout(() => {
+        setShowInitialLogin(true);
+        setFormSubmitted(false);
+      }, 5000);
+>>>>>>> Stashed changes
     } catch (error) {
       console.error("Error adding user: ", error);
       setPasswordError(error.message);
