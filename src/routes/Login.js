@@ -22,6 +22,7 @@ function Login() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [uniqueID, setUniqueID] = useState("");
   const navigate = useNavigate();
+  const [emailError, setEmailError] = useState("");
 
   const handleNewLogin = () => {
     setShowInitialLogin(false);
@@ -100,7 +101,6 @@ function Login() {
         formData.phoneNumber
       );
       setUniqueID(generatedID);
-      setFormSubmitted(true);
 
       const auth = getAuth(app);
       var userCredential = null;
@@ -113,11 +113,10 @@ function Login() {
         console.log("User created:", userCredential.user);
       } catch (error) {
         if (error.code === "auth/email-already-in-use") {
-          setShowInitialLogin(true);
-          alert("This email is already in use. Please use a different email.");
-          console.error(
+          setEmailError(
             "This email is already in use. Please use a different email."
           );
+          return; // Prevent further execution
         } else {
           setShowInitialLogin(true);
           console.error("Error creating user:", error.message);
@@ -131,7 +130,6 @@ function Login() {
         uniqueID: generatedID,
         uid: user.uid,
       });
-
       console.log("Registration successful.");
       setFormSubmitted(true);
       const templateParams = {
@@ -310,6 +308,11 @@ function Login() {
                         className="w-full p-2 border rounded mt-1"
                         required
                       />
+                      {emailError && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {emailError}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-white">Phone Number</label>
