@@ -8,7 +8,7 @@ import ObDetails from "../utils/ObDetails";
 import OsDetails from "../utils/OsDetails";
 import JsDetails from "../utils/JsDetails";
 import Footer from "../components/Footer";
-import bgLayer1 from "../assets/images/log.jpg"; // Dark background
+import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
 import { Container, Typography } from "@mui/material";
 import useWindowDimensions from "../utils/useWindowDimensions";
 
