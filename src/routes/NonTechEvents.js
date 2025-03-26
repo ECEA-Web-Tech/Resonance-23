@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 import EventPage from "../components/EventPage";
 import NonTech from "../utils/NonTech";
 import Footer from "../components/Footer";
-import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
+import bgLayer2 from "../assets/images/log.jpg"; // Dark background
 
 function NonTechEvents() {
   const [userEmail, setUserEmail] = useState(null);
@@ -26,7 +26,7 @@ function NonTechEvents() {
       <NavBar />
       <div className="absolute inset-0 w-full h-full max-w-[1920px] mx-auto -z-10">
         <img
-          src={bgLayer1}
+          src={bgLayer2}
           alt="Background Dark"
           className="w-full h-full object-cover"
         />

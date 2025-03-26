@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 function OfficeBearers({ ObDetails, title }) {
   return (
     <div className="bg-[#2a3033] pb-32">
-      <h1 className="text-5xl mb-20 sm:mb-32 py-8 text-white text-center bg-[#1debf4] font-['Title'] font-bold">
+      <h1 className="text-5xl mb-20 sm:mb-32 py-8 text-black text-center bg-[#1debf4] font-['Title'] font-bold">
         {title}
       </h1>
       <div className="min-w-full p-4">

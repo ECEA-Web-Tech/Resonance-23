@@ -8,7 +8,7 @@ import ObDetails from "../utils/ObDetails";
 import OsDetails from "../utils/OsDetails";
 import JsDetails from "../utils/JsDetails";
 import Footer from "../components/Footer";
-import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
+import bgLayer1 from "../assets/images/log.jpg"; // Dark background
 import { Container, Typography } from "@mui/material";
 import useWindowDimensions from "../utils/useWindowDimensions";
 
@@ -28,8 +28,8 @@ function AboutUs() {
 
       <Zoom triggerOnce={true} duration={800}>
         <Container
-          className="rounded-xl p-10 max-w-4xl shadow-lg mt-8 "
-          style={{ backgroundColor: "#30363a" }} // Darker, semi-transparent background
+          className="rounded-xl mt-36 mb-36 py-20 max-w-4xl shadow-lg  "
+          style={{ backgroundColor: "#9df6fa" }} // Darker, semi-transparent background
         >
           <div className="m-2 px-10 flex flex-col sm:flex-row justify-center items-center md:gap-32 sm:gap-20 my-3 sm:my-20">
             <Slide
@@ -75,7 +75,7 @@ function AboutUs() {
               delay={1400}
               duration={1200}
             >
-              <p className="text-white text-justify text-md md:text-lg lg:text-xl leading-relaxed">
+              <p className="text-black text-justify text-md md:text-lg lg:text-xl leading-relaxed">
                 <Typography
                   sx={{
                     fontSize: {

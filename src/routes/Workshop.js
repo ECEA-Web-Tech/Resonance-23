@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar";
 import EventPage from "../components/EventPage";
 import WorkshopDetails from "../utils/WorkshopDetails";
 import Footer from "../components/Footer";
-import bgLayer1 from "../assets/images/z_bg.png"; // Dark background
+import bgLayer1 from "../assets/images/log.jpg"; // Dark background
 
 function Workshop() {
   return (
