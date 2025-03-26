@@ -73,15 +73,15 @@ function InitialLogin({ onNewLogin }) {
   };
 
   return (
-    <div className="relative bg-white p-8 rounded-lg shadow-md w-96 bg-opacity-90">
-      <h2 className="text-xl font-bold mb-4 text-center">
-        {visionID ? "Welcome" : "Login"}
-      </h2>
+    <div className="flex justify-center items-center min-h-screen w-full  flex-col">
 
+<div className="bg-white bg-opacity-20 backdrop-blur-lg p-8 rounded-2xl shadow-lg w-full max-w-xl">
+<h1 className="text-2xl text-white mb-0 text-center">Login</h1>
+<br></br>
       {visionID ? (
         <div>
-          <p className="text-center text-2xl font-semibold">
-            Vision ID: <span className="text-blue-600">{visionID}</span>
+          <p className="text-center text-2xl">
+            Vision ID:{visionID}
           </p>
 
           {/* Tech Events Button */}
@@ -103,22 +103,24 @@ function InitialLogin({ onNewLogin }) {
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Email</label>
+            
             <input
               type="text"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded mt-1"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300-400 bg-white text-black placeholder-gray-400"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Password</label>
+            
             <input
               type="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded mt-1"
+             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300-400 bg-white text-black placeholder-gray-400"
               required
             />
           </div>
@@ -130,17 +132,22 @@ function InitialLogin({ onNewLogin }) {
           >
             {loading ? "Loading..." : "Login"}
           </button>
-
+          </form>)}
           {/* New Registration Button Always Visible */}
+          <div  className="mt-4 flex justify-center w-full">
+
+          
           <button
-            type="button"
+           
             onClick={onNewLogin}
-            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+            className="text-white text-sm text-right cursor-pointer hover:underline mt-1 pr-1"
           >
-            New Registration
+            Don't have an account? Sign up
           </button>
-        </form>
-      )}
+          </div>
+        
+      
+    </div>
     </div>
   );
 }

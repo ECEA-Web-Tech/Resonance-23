@@ -28,7 +28,7 @@ function AboutUs() {
 
       <Zoom triggerOnce={true} duration={800}>
         <Container
-          className="rounded-xl p-10 max-w-4xl shadow-lg mt-8 "
+          className="rounded-xl mt-36 mb-36 py-20 max-w-4xl shadow-lg  "
           style={{ backgroundColor: "#30363a" }} // Darker, semi-transparent background
         >
           <div className="m-2 px-10 flex flex-col sm:flex-row justify-center items-center md:gap-32 sm:gap-20 my-3 sm:my-20">
