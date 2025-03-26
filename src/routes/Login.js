@@ -12,7 +12,7 @@ function generateUniqueID(rollNumber, collegeType, phoneNumber) {
   if (!rollNumber || rollNumber.length < 3) return "";
   const collegePrefix = collegeType === "AU" ? "AU" : "OT";
   const phone = phoneNumber.slice(0, 3);
-  return `V2${collegePrefix}${rollNumber}${phone}`;
+  return `V2${collegePrefix}${rollNumber}`;
 }
 
 function Login() {

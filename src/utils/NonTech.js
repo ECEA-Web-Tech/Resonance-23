@@ -1,42 +1,55 @@
-import carnival from "../assets/images/posters/Design Posters/Non Tech/CARNIVAL.jpg";
-import shadows from "../assets/images/posters/Design Posters/Non Tech/Shadows.png";
-import kadhaipoma from "../assets/images/posters/Design Posters/Non Tech/Kadhaipoma.jpg";
-import chess from "../assets/images/posters/Design Posters/Non Tech/Chess.jpg";
-import duodynamics from "../assets/images/posters/Design Posters/Non Tech/Duo Dynamics.png";
-import cricket from "../assets/images/posters/Design Posters/Non Tech/Cricket.jpg";
+import carnival from "../assets/images/posters/Design Posters/Non Tech/Carnivals.png";
+import cinemania from "../assets/images/posters/Design Posters/Non Tech/Cinemania.png";
+import exitquest from "../assets/images/posters/Design Posters/Non Tech/ExitQuest.png";
+import iplthunder from "../assets/images/posters/Design Posters/Non Tech/IPL_thunder.png";
+import kandukondain from "../assets/images/posters/Design Posters/Non Tech/KandukondainKandukondain.png";
+import melocity from "../assets/images/posters/Design Posters/Non Tech/Melocity.png"
+import toonfest from "../assets/images/posters/Design Posters/Non Tech/ToonFest.png";
+import vilambaraidaivelai from "../assets/images/posters/Design Posters/Non Tech/VilambaraIdaivelai.png"
 const NonTech = [
  
+ 
   {
-    eventname: "Shadows of suspicious",
-    image: shadows,
-    link: "https://forms.gle/Ng21WoyuKrSHm9919",
+    eventname: "Cinemania",
+    image: cinemania,
+   
   },
   {
-    eventname: "Kadhaipoma",
-    image: kadhaipoma,
-    link: "https://forms.gle/igr1AxAxvT3rNXF96",
+    eventname: "Exit Quest",
+    image: exitquest,
+    
   },
   {
-    eventname: "Duo Dynamics",
-    image: duodynamics,
-    link: "https://forms.gle/Mr2Nibm21Gwq23qq5",
+    eventname: "IPL Thunder",
+    image: iplthunder,
+    
   },
   {
-    eventname: "Chess",
-    image: chess,
-    link: "",
+    eventname: "Kandukondain Kandukondain",
+    image: kandukondain,
+    
   },
   {
-    eventname: "cricket",
-    image: cricket,
-    link: "",
+    eventname: "Melocity 2.0",
+    image: melocity,
+    
+  },
+  {
+    eventname: "Toon Fest",
+    image: toonfest,
+    
+  },
+  {
+    eventname: "Vilambara Idaivelai",
+    image: vilambaraidaivelai,
+    
   },
   
   
   {
     eventname: "Carnival",
     image: carnival,
-    link: "",
+    
   },
 ];
 
