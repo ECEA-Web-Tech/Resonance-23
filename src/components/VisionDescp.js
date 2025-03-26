@@ -26,15 +26,13 @@ const EventDescription = () => {
             textAlign: "justify",
           }}
         >
-          The Electronics and Communication Engineering Association (ECEA) is
-          excited to present <strong>Resonance '25</strong>, our annual
-          intra-college symposium that unites students, industry leaders, and
-          researchers in the field of Electronics and Communication. This year’s
-          event features engaging workshops, technical sessions, and
-          competitions designed to inspire and challenge participants. Join us
-          to connect with like-minded peers, showcase your skills, and explore
-          the future of ECE technology. Let’s resonate with innovation at
-          <strong> Resonance '25!</strong>
+          The Electronics and Communication Engineering Association (ECEA)
+          proudly presents Vision '25, our flagship national-level inter-college
+          symposium that brings together students, industry professionals, and
+          researchers from across the country. This year’s edition promises an
+          exciting lineup of cutting-edge workshops, technical sessions, and
+          thrilling competitions designed to push the boundaries of innovation
+          in Electronics and Communication Engineering.
         </Typography>
       </div>
     </div>
