@@ -27,7 +27,7 @@ const CountdownTimer = ({ targetDate }) => {
     return () => clearInterval(timer);
   }, [targetDate]);
 
-  return (
+  return timeLeft ? (
     <div className="flex flex-wrap lg:flex-nowrap gap-4 md:gap-6 justify-center md:justify-start w-full">
       {["DAYS", "HOURS", "MINUTES", "SECONDS"].map((label, index) => {
         const timeValue = [
@@ -49,6 +49,11 @@ const CountdownTimer = ({ targetDate }) => {
         );
       })}
     </div>
+  ) : (
+    <div className="text-center text-2xl md:text-3xl lg:text-4xl text-cyan-400 font-extrabold ml-5">
+    Hurray! Vision is here.<br></br>
+    Enjoy every events!!
+  </div>
   );
 };
 

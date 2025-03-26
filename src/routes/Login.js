@@ -11,8 +11,9 @@ import emailjs from "emailjs-com";
 function generateUniqueID(rollNumber, collegeType, phoneNumber) {
   if (!rollNumber || rollNumber.length < 3) return "";
   const collegePrefix = collegeType === "AU" ? "AU" : "OT";
+  const roll = rollNumber.slice(-3);
   const phone = phoneNumber.slice(0, 3);
-  return `V2${collegePrefix}${rollNumber}`;
+  return `V${collegePrefix}${roll}${phone}`;
 }
 
 function Login() {
@@ -112,16 +113,15 @@ function Login() {
         console.log("User created:", userCredential.user);
       } catch (error) {
         if (error.code === "auth/email-already-in-use") {
+          setShowInitialLogin(true);
           alert("This email is already in use. Please use a different email.");
           console.error(
             "This email is already in use. Please use a different email."
           );
         } else {
+          setShowInitialLogin(true);
           console.error("Error creating user:", error.message);
         }
-      }
-      if (userCredential == null) {
-        alert("Error Creating user");
       }
       const user = userCredential.user;
 

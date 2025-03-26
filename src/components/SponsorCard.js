@@ -3,10 +3,11 @@ import "../styles/obcard.css";
 
 function SponsorCard({ eventname, image, link }) {
   return (
-    <div className="SponsorContainer">
-      <div className="SponsorImageContainer">
+    <div className="SponsorContainer flex justify-center items-center">
+      <div className="SponsorImageContainer ">
         <img
           src={image}
+          alt="sponsorLogo"
           onClick={() => {
             window.open(link, "_blank").focus();
           }}
