@@ -1,6 +1,6 @@
-import data from "../assets/images/posters/Design Posters/Workshops/data.jpg"
-import finance from "../assets/images/posters/Design Posters/Workshops/finance.jpg"
-import vivado from "../assets/images/posters/Design Posters/Workshops/vivado.png"
+import data from "../assets/images/posters/Design Posters/Workshops/data.webp"
+import finance from "../assets/images/posters/Design Posters/Workshops/finance.webp"
+import vivado from "../assets/images/posters/Design Posters/Workshops/vivado.webp"
 
 
 const WorkshopDetails = [

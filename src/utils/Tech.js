@@ -1,10 +1,10 @@
-import ampedup from "../assets/images/posters/Design Posters/Tech/AmpedUP.png";
-import botrush from "../assets/images/posters/Design Posters/Tech/BotRush.png";
-import cashclash from "../assets/images/posters/Design Posters/Tech/CashClash.png";
-import cybersprint from "../assets/images/posters/Design Posters/Tech/cyberSprint.png";
-import exhivision from "../assets/images/posters/Design Posters/Tech/Exhivision.png";
-import mindbrawl from "../assets/images/posters/Design Posters/Tech/MindBrawl.png";
-import witbit from "../assets/images/posters/Design Posters/Tech/Witbit.png";
+import ampedup from "../assets/images/posters/Design Posters/Tech/AmpedUP.webp";
+import botrush from "../assets/images/posters/Design Posters/Tech/BotRush.webp";
+import cashclash from "../assets/images/posters/Design Posters/Tech/CashClash.webp";
+import cybersprint from "../assets/images/posters/Design Posters/Tech/cyberSprint.webp";
+import exhivision from "../assets/images/posters/Design Posters/Tech/Exhivision.webp";
+import mindbrawl from "../assets/images/posters/Design Posters/Tech/MindBrawl.webp";
+import witbit from "../assets/images/posters/Design Posters/Tech/Witbit.webp";
 
 
 const Tech = [

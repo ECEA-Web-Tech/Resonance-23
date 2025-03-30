@@ -1,11 +1,11 @@
-import carnival from "../assets/images/posters/Design Posters/Non Tech/Carnivals.png";
-import cinemania from "../assets/images/posters/Design Posters/Non Tech/Cinemania.png";
-import exitquest from "../assets/images/posters/Design Posters/Non Tech/ExitQuest.png";
-import iplthunder from "../assets/images/posters/Design Posters/Non Tech/IPL_thunder.png";
-import kandukondain from "../assets/images/posters/Design Posters/Non Tech/KandukondainKandukondain.png";
-import melocity from "../assets/images/posters/Design Posters/Non Tech/Melocity.png"
-import toonfest from "../assets/images/posters/Design Posters/Non Tech/ToonFest.png";
-import vilambaraidaivelai from "../assets/images/posters/Design Posters/Non Tech/VilambaraIdaivelai.png"
+import carnival from "../assets/images/posters/Design Posters/Non Tech/Carnivals.webp";
+import cinemania from "../assets/images/posters/Design Posters/Non Tech/Cinemania.webp";
+import exitquest from "../assets/images/posters/Design Posters/Non Tech/ExitQuest.webp";
+import iplthunder from "../assets/images/posters/Design Posters/Non Tech/IPL_thunder.webp";
+import kandukondain from "../assets/images/posters/Design Posters/Non Tech/KandukondainKandukondain.webp";
+import melocity from "../assets/images/posters/Design Posters/Non Tech/Melocity.webp"
+import toonfest from "../assets/images/posters/Design Posters/Non Tech/ToonFest.webp";
+import vilambaraidaivelai from "../assets/images/posters/Design Posters/Non Tech/VilambaraIdaivelai.webp"
 const NonTech = [
  
  

@@ -8,8 +8,6 @@ import {
   query,
   where,
   getDocs,
-  doc,
-  getDoc,
 } from "firebase/firestore";
 import { auth } from "../firebase.js";
 
@@ -76,7 +74,7 @@ function EventCard({ eventname, image }) {
 
   return (
     <div className="EventsContainer">
-      <img src={image} alt={eventname} />
+      <img src={image} alt={eventname} loading="lazy" />
       <div className="EventTitle text-center font-['Title']">
         <Button variant="contained" onClick={handleRegister}>
           <h3 className="text-1xl text-white">Register</h3>
