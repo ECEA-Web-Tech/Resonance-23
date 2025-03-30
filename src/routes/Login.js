@@ -359,6 +359,11 @@ function Login() {
                   </div>
                 </div>
 
+                {formData.collegeType === "Other" && (
+                  <p className="text-yellow-300 text-center font-semibold mt-5">
+                    *Students are required to pay entry fee Rs 200. Check the mail for further details. 
+                  </p>
+                )}
                 <div className="flex justify-center mt-6">
                   <button
                     type="submit"

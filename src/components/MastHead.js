@@ -52,7 +52,7 @@ const CountdownTimer = ({ targetDate }) => {
   ) : (
     <div className="text-center text-2xl md:text-3xl lg:text-4xl text-cyan-400 font-extrabold ml-5">
     Hurray! Vision is here.<br></br>
-    Enjoy every events!!
+    Enjoy all events!!
   </div>
   );
 };
@@ -71,9 +71,9 @@ const MastHead = () => {
       </div>
 
       {/* Content Section - Full Vertical Centering */}
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full px-4 mt-16 sm:mt-40 md:px-16 lg:px-24 md:gap-10">
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-[90%] px-4 mt-16 sm:mt-40 md:px-16 lg:px-24 md:gap-10">
         {/* Left: Countdown Timer */}
-        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left gap-10">
+        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left gap-5 sm:gap-10">
           <h1 className="sm:pl-4 text-5xl md:text-6xl lg:text-7xl font-extrabold text-white-400 mt-4 sm:mb-4 sm:mt-0">
             VISION'25
           </h1>
