@@ -1,9 +1,9 @@
-import charan from "../assets/images/jointSecretaries/charan.jpeg";
-import sanjay from "../assets/images/jointSecretaries/sanjay.jpeg";
-import bharathi from "../assets/images/jointSecretaries/bharathi.jpg";
-import vishnu from "../assets/images/jointSecretaries/vishnupriya.jpg";
-import kavya from "../assets/images/jointSecretaries/kavya.jpg";
-import deepak from "../assets/images/jointSecretaries/deepak.jpg";
+import uthaya from "../assets/images/jointSecretaries/IMG-20250918-WA0018 - Uthaya Laxmi.jpeg";
+import jaya from "../assets/images/jointSecretaries/Photo from Jayapradaa - Jayapradaa Ramachandran.jpeg";
+import nagarjuna from "../assets/images/jointSecretaries/hello - Nagarjuna.jpg";
+import shraeya from "../assets/images/jointSecretaries/Screenshot_20251004_130127_Gallery - Shraeya Sharmiladeve Keerthi.jpg";
+import vishnu from "../assets/images/jointSecretaries/1759469851100 - Vishnu Prasannaa.jpg";
+import naveen from "../assets/images/jointSecretaries/IMG_20251002_204459 - Naveen Raja.jpg";
 import ananya from "../assets/images/jointSecretaries/IMG-20241110-WA0070 - Ananya Sudakar.jpg";
 import deepak from "../assets/images/jointSecretaries/TTT - Deepak M.jpg";
 import boobesh from "../assets/images/jointSecretaries/photo - Boobesh A.jpg";
@@ -19,34 +19,34 @@ import thosithaa from "../assets/images/jointSecretaries/IMG-20240920-WA0008(1) 
 
 const JsDetails = [
   {
-    name: "Charan Jagan",
+    name: "Uthaya Laxmi AP",
     designation: "Joint Secretary",
-    photo: charan,
+    photo: uthaya,
   },
   {
-    name: "Sanjay C",
+    name: "Jayapradaa Ramachandran",
     designation: "Joint Secretary",
-    photo: sanjay,
+    photo: jaya,
   },
   {
-    name: "Bharathi Raja S",
+    name: "Nagarjuna N G",
     designation: "Joint Secretary",
-    photo: bharathi,
+    photo: nagarjuna,
   },
   {
-    name: "Vishnupriya K T",
+    name: "Shraeya Sharmiladevi Keerthi",
+    designation: "Joint Secretary",
+    photo: shraeya,
+  },
+  {
+    name: "Vishnu Prasanna V",
     designation: "Joint Secretary",
     photo: vishnu,
   },
   {
-    name: "Kavya G",
+    name: "Naveen Raja S",
     designation: "Joint Secretary",
-    photo: kavya,
-  },
-  {
-    name: "Deepak R",
-    designation: "Joint Secretary",
-    photo: deepak,
+    photo: naveen,
   },
   {
     name: "Ananya Sudakar",
