@@ -43,11 +43,6 @@ const ObDetails = [
     designation: "Genereal Secretary - PG",
     photo: tamil,
   },
-  {
-    name: "Mayuri M",
-    designation: "General Secretary - PG",
-    photo: mayuri,
-  },
 ];
 
 export default ObDetails;
