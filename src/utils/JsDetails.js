@@ -84,29 +84,29 @@ const JsDetails = [
     photo: ramya,
   },
   {
-    name: "Devana",
+    name: "Jaipriya P",
     designation: "Joint Secretary",
-    photo: devana,
+    photo: jaipriya,
   },
   {
-    name: "Tharun R P",
+    name: "Srinithin S",
     designation: "Joint Secretary",
-    photo: tharun,
+    photo: Srinithin,
   },
   {
-    name: "Shreyaa Vinod",
+    name: "Kirish Kanna K B B",
     designation: "Joint Secretary",
-    photo: shreyaa,
+    photo: Kirish,
   },
   {
-    name: "Mathisa M",
+    name: "Dhaarini R",
     designation: "Joint Secretary",
-    photo: mathisa,
+    photo: dhaarini,
   },
   {
-    name: "Bharani P",
+    name: "Thosithaa Lakshmi N",
     designation: "Joint Secretary",
-    photo: bharani,
+    photo: thosithaa,
   },
 ];
 
