@@ -1,40 +1,40 @@
-import lakshanya from "../assets/images/organisingSecretaries/lakshanya.jpg";
-import vishwa from "../assets/images/organisingSecretaries/vishwajeith.jpg";
-import john from "../assets/images/organisingSecretaries/john.jpg";
-import jenifer from "../assets/images/organisingSecretaries/jenifer.jpg";
-import arun from "../assets/images/organisingSecretaries/aruneshwar.jpg";
-import sivakumar from "../assets/images/organisingSecretaries/sivakumar.jpeg";
+import ragul from "../assets/images/organisingSecretaries/IMG_6282 - Rahul Siva.jpg";
+import divya from "../assets/images/organisingSecretaries/IMG-20250407-WA0021 - Divya Darshan VR.jpg";
+import john from "../assets/images/organisingSecretaries/Me - Ebhin Johnson.jpg";
+import thiru from "../assets/images/organisingSecretaries/IMG_20230505_210127_227 - Thiruvikesh B.jpg";
+import ishva from "../assets/images/organisingSecretaries/SAVE_20251005_194858 - Ishva.jpg";
+import anu from "../assets/images/organisingSecretaries/IMG-20250715-WA0016 - Anu.jpeg";
 
 const OsDetails = [
   {
-    name: "Lakshanya R",
+    name: "Ragul S",
     designation: "Organising Secretary",
-    photo: lakshanya,
+    photo: ragul,
   },
   {
-    name: "Vishwajeith S",
+    name: "Divya darshan V R",
     designation: "Organising Secretary",
-    photo: vishwa,
+    photo: divya,
   },
   {
-    name: "John Felix",
+    name: "Ebhin Johnson J",
     designation: "Organising Secretary",
     photo: john,
   },
   {
-    name: "Jenifer B",
+    name: "Thiruvikesh B",
     designation: "Organising Secretary",
-    photo: jenifer,
+    photo: thiru,
   },
   {
-    name: "Aruneshwar R",
+    name: "Ishva S",
     designation: "Organising Secretary",
-    photo: arun,
+    photo: ishva,
   },
   {
-    name: "Siva Kumar R V",
+    name: "Anitha K",
     designation: "Organising Secretary",
-    photo: sivakumar,
+    photo: anu,
   },
 ];
 
