@@ -10,12 +10,12 @@ import nanditha from "../assets/images/jointSecretaries/nandithaa.jpg";
 import esaki from "../assets/images/jointSecretaries/erango.jpeg";
 import shri from "../assets/images/jointSecretaries/shrivathsan.jpeg";
 import nicole from "../assets/images/jointSecretaries/nicole.jpg";
-import vignesh from "../assets/images/jointSecretaries/vignesh.jpeg";
-import ramya from "../assets/images/jointSecretaries/ramya.jpg";
-import tharun from "../assets/images/jointSecretaries/tharun.jpg";
-import shreyaa from "../assets/images/jointSecretaries/shreyaa.jpg";
-import mathisa from "../assets/images/jointSecretaries/mathisa.jpg";
-import bharani from "../assets/images/jointSecretaries/bharani.jpg";
+import akalya from "../assets/images/jointSecretaries/IMG_9177 - Akalya Senthilkumar.jpeg";
+import jaipriya from "../assets/images/jointSecretaries/20250621_215433 - S.G.Srinithin.jpg";
+import Srinithin from "../assets/images/jointSecretaries/IMG_20250509_214203 - Jaipriya Palani.jpg";
+import Kirish from "../assets/images/jointSecretaries/reskir - Kirish Kanna K B B.jpg";
+import dhaarini from "../assets/images/jointSecretaries/IMG_20251004_191748 - Dhaarini Rajasekaran.jpg";
+import thosithaa from "../assets/images/jointSecretaries/IMG-20240920-WA0008(1) - Thosithaa lakshmi.jpg";
 
 const JsDetails = [
   {
@@ -49,39 +49,39 @@ const JsDetails = [
     photo: deepak,
   },
   {
-    name: "Darshana R",
+    name: "Ananya Sudakar",
     designation: "Joint Secretary",
-    photo: darshana,
+    photo: ananya,
   },
   {
-    name: "Nandithaa S",
+    name: "Deepak M",
     designation: "Joint Secretary",
-    photo: nanditha,
+    photo: deepak,
   },
   {
-    name: "Shrivathsan R S",
+    name: "Boobesh A",
     designation: "Joint Secretary",
-    photo: shri,
+    photo: boobesh,
   },
   {
-    name: "Esakki Rangaraj R",
+    name: "Animaria A",
     designation: "Joint Secretary",
-    photo: esaki,
+    photo: animaria,
   },
   {
-    name: "Nicole Vinne Raj",
+    name: "Shafiulla S",
     designation: "Joint Secretary",
-    photo: nicole,
+    photo: shafi,
   },
   {
-    name: "Vigneshwaran",
+    name: "Keerthana M K",
     designation: "Joint Secretary",
-    photo: vignesh,
+    photo: Keerthana,
   },
   {
-    name: "Ramya Nandakumar",
+    name: "Akalya S",
     designation: "Joint Secretary",
-    photo: ramya,
+    photo: akalya,
   },
   {
     name: "Jaipriya P",
