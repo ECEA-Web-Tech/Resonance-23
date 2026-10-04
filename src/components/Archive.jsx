@@ -35,7 +35,18 @@ export default function Archive({ events }) {
         <p>Search by event, venue or coordinator, or filter by world. Select a row to open its dossier.</p>
       </ChapterHead>
 
-      <div className="mt-12 flex flex-col gap-4 border-y border-line py-4 md:flex-row md:items-center md:justify-between">
+      {/* Background panel wrapping search + table */}
+      <div
+        className="mt-12 overflow-hidden rounded-2xl border border-line"
+        style={{
+          background: "linear-gradient(135deg, rgba(13,17,36,0.94) 0%, rgba(8,10,28,0.97) 100%)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          boxShadow: "0 8px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(217,180,90,0.10)",
+        }}
+      >
+      {/* Search + filter bar */}
+      <div className="flex flex-col gap-4 border-b border-line px-6 py-4 md:flex-row md:items-center md:justify-between">
         <label className="flex items-center gap-3 md:w-80">
           <Search className="size-4 shrink-0 text-gold" strokeWidth={1.8} />
           <span className="sr-only">Search events</span>
@@ -66,28 +77,35 @@ export default function Archive({ events }) {
         </ToggleGroup.Root>
       </div>
 
-      <p className="micro mt-4 text-muted" aria-live="polite">
+      <p className="micro px-6 pt-4 pb-2 text-muted" aria-live="polite">
         {results.length} {results.length === 1 ? "result" : "results"}
       </p>
 
       {/* Desktop: comparative ledger */}
-      <table className="mt-4 hidden w-full border-collapse text-left text-sm md:table">
+      <table className="mt-0 hidden w-full border-collapse text-left text-sm md:table">
         <thead>
-          <tr className="micro border-b border-line text-muted">
-            <th className="py-3 pr-4 font-normal">ID</th>
+          <tr
+            className="micro text-muted"
+            style={{ background: "rgba(217,180,90,0.07)", borderBottom: "1px solid rgba(217,180,90,0.18)" }}
+          >
+            <th className="px-6 py-3 font-normal">ID</th>
             <th className="py-3 pr-4 font-normal">Event</th>
             <th className="py-3 pr-4 font-normal">World</th>
             {COLUMNS.map(([k, l]) => (
-              <th key={k} className="py-3 pr-4 font-normal">
+              <th key={k} className="py-3 pr-6 font-normal">
                 {l}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {results.map((e) => (
-            <tr key={e.id} className="group relative border-b border-line/70 transition hover:bg-gold/5">
-              <td className="py-4 pr-4 font-mono text-xs text-gold">{e.code}</td>
+          {results.map((e, i) => (
+            <tr
+              key={e.id}
+              className="group relative border-b border-line/40 transition-colors hover:bg-gold/[0.06]"
+              style={i % 2 === 0 ? { background: "rgba(255,255,255,0.015)" } : {}}
+            >
+              <td className="py-4 pl-6 pr-4 font-mono text-xs text-gold">{e.code}</td>
               <td className="py-4 pr-4">
                 <Link to={`/events/${e.id}`} preventScrollReset className="font-display text-xl after:absolute after:inset-0 group-hover:text-gold">
                   {e.name}
@@ -95,8 +113,8 @@ export default function Archive({ events }) {
               </td>
               <td className="py-4 pr-4 text-muted">{label(e.category)}</td>
               {COLUMNS.map(([k]) => (
-                <td key={k} className="py-4 pr-4 text-ink/85">
-                  {(k === "venue" ? where(e) : e[k]) || <span className="text-muted/60">—</span>}
+                <td key={k} className="py-4 pr-6 text-white/85">
+                  {(k === "venue" ? where(e) : e[k]) || <span className="text-muted/50">—</span>}
                 </td>
               ))}
             </tr>
@@ -104,8 +122,8 @@ export default function Archive({ events }) {
         </tbody>
       </table>
 
-      {/* Mobile: stacked records, no sideways scrolling */}
-      <ul className="mt-4 divide-y divide-line border-y border-line md:hidden">
+      {/* Mobile: stacked records */}
+      <ul className="divide-y divide-line border-t border-line px-4 md:hidden">
         {results.map((e) => (
           <li key={e.id}>
             <Link to={`/events/${e.id}`} preventScrollReset className="block py-4">
@@ -128,13 +146,14 @@ export default function Archive({ events }) {
       </ul>
 
       {!results.length && events && (
-        <p className="mt-8 text-muted">
-          Nothing matches “{query}”.{" "}
+        <p className="px-6 pb-6 pt-4 text-muted">
+          Nothing matches "{query}".{" "}
           <button onClick={() => (setQuery(""), setWorld("all"))} className="text-gold underline underline-offset-4">
             Clear search
           </button>
         </p>
       )}
+      </div>{/* end background panel */}
     </section>
   );
 }
