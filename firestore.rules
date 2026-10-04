@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Only this account can write. Change the email here if you use a different admin account.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'admin@resonance26.ecea'
+        && request.auth.token.firebase.sign_in_provider == 'password';
+    }
+
+    function isPublic(col) {
+      return col in ['events', 'credits', 'sponsors'];
+    }
+
+    // Links end up in href/src on the public site, so only https:// is allowed (no javascript: or data:).
+    function okLink(d, k) {
+      return !(k in d) || (d[k] is string && d[k].matches('https://[^ ]+') && d[k].size() < 600);
+    }
+
+    function valid() {
+      let d = request.resource.data;
+      return d.keys().size() <= 20
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 120
+        && d.order is number
+        && okLink(d, 'poster') && okLink(d, 'register') && okLink(d, 'photo')
+        && okLink(d, 'linkedin') && okLink(d, 'logo') && okLink(d, 'link');
+    }
+
+    match /{col}/{id} {
+      allow read: if isPublic(col);
+      allow create, update: if isPublic(col) && isAdmin() && valid();
+      allow delete: if isPublic(col) && isAdmin();
+    }
+  }
+}

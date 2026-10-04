@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Resonance ’26
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Resonance ’26 website for ECEA, CEG. It is built with React 19, Vite, Tailwind CSS v4, Radix UI, Motion, Lenis and three.js (React Three Fiber), and uses Firebase for hosting, Firestore and Auth.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # production build in dist/
+```
 
-### `npm start`
+The site works without Firebase. It falls back to the bundled data in `src/data/`:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `events.js` comes from `R'26_EVENTS.docx`.
+- `credits.js` comes from the credits Google Sheet.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Connect Firebase (needed for the admin panel)
 
-### `npm test`
+1. In the [Firebase console](https://console.firebase.google.com), open the project and add a **Web app**. Copy its config.
+2. Copy `.env.example` to `.env.local` and fill in the `VITE_FIREBASE_*` values.
+3. **Firestore:** create a database in production mode.
+4. **Authentication:** enable **Email/Password**. Under *Users*, add the admin account. The email must match the one in `firestore.rules`.
+5. Under *Authentication → Settings → User actions*, turn off **Enable create (sign-up)**.
+6. Point `.firebaserc` at your project, then deploy the rules and the site:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npx firebase-tools login
+   npx firebase-tools deploy --only firestore:rules,hosting
+   ```
 
-### `npm run build`
+7. Open `/<VITE_ADMIN_PATH>` and sign in. On the Events and Team tabs, use **Import … from the bundled data** once to seed Firestore.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Admin panel security
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- The admin URL comes from `VITE_ADMIN_PATH`. It isn't linked anywhere and is marked `noindex`.
+- The URL only hides the panel. The real protection is `firestore.rules`: everyone can read `events`, `credits` and `sponsors`, but only the admin account (signed in with a password) can write. Links must be `https://`.
+- Sessions end when the browser tab closes.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Content
 
-### `npm run eject`
+- **Events, team and sponsors** are managed from the admin panel. The Sponsors chapter stays hidden until at least one sponsor exists.
+- **Images** can be Google Drive share links (set to *Anyone with the link*) or any `https://` image URL.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Path | What it is |
+| --- | --- |
+| `src/Home.jsx` | Page shell: loader, chapters and the event dossier route |
+| `src/components/Hero.jsx` | 00 Orbit: the scroll-scrubbed descent toward the planet |
+| `src/components/Brief.jsx` | 01 Brief, with figures counted from the data |
+| `src/components/Worlds.jsx` | 02 Event worlds: one pinned chapter per category, plus its dossier cards |
+| `src/components/Archive.jsx` | 03 Archive: searchable and filterable ledger, stacked cards on mobile |
+| `src/components/Credits.jsx` | 04 Crew |
+| `src/components/EventDialog.jsx` | Event dossier at `/events/:id` |
+| `src/components/Starfield.jsx` | WebGL sky (Milky Way shader), stars and drifting 3D models |
+| `src/components/Aurora.jsx` | Aurora glow that follows the cursor |
+| `src/admin/Admin.jsx` | Admin panel (create, edit and delete for events, team and sponsors) |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Designed and developed by [Mohamed Shameer](https://shameer-room-portfolio.netlify.app/).

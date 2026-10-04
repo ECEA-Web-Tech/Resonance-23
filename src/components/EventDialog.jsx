@@ -1,0 +1,136 @@
+import { useEffect } from "react";
+import { Dialog } from "radix-ui";
+import { Navigate, useNavigate, useParams } from "react-router";
+import { ArrowUpRight, Phone, X } from "lucide-react";
+import { CATEGORIES } from "../data/events";
+import { lenis } from "../lib/scroll";
+import Poster from "./Poster";
+
+// Only fields present in the source are rendered.
+const FACTS = [
+  ["venue", "Venue"],
+  ["mode", "Mode"],
+  ["date", "Date"],
+  ["time", "Time"],
+  ["team", "Team"],
+  ["fee", "Entry fee"],
+];
+
+function Block({ title, children }) {
+  return (
+    <section className="border-t border-line pt-5">
+      <h3 className="micro text-gold">{title}</h3>
+      <div className="mt-3">{children}</div>
+    </section>
+  );
+}
+
+// Event dossier, opened over the page at /events/:id.
+export default function EventDialog({ events }) {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const e = events?.find((x) => x.id === id);
+  const close = () => navigate("/", { preventScrollReset: true });
+
+  useEffect(() => {
+    lenis?.stop();
+    return () => lenis?.start();
+  }, []);
+
+  useEffect(() => {
+    if (e) document.title = `${e.name} · Resonance ’26`;
+    return () => {
+      document.title = "Resonance '26 · ECEA, CEG";
+    };
+  }, [e]);
+
+  if (events && !e) return <Navigate to="/" replace />;
+  if (!e) return null;
+
+  const category = CATEGORIES.find((c) => c.id === e.category)?.label;
+  const facts = [["code", "Event ID"], ["category", "World"], ...FACTS].filter(([k]) => e[k]);
+
+  return (
+    <Dialog.Root open onOpenChange={(o) => !o && close()}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="overlay fixed inset-0 z-50 bg-bg/80 backdrop-blur-md" />
+        <Dialog.Content
+          data-lenis-prevent
+          className="sheet fixed inset-x-3 top-3 z-50 mx-auto max-h-[calc(100dvh-1.5rem)] max-w-5xl overflow-y-auto overscroll-contain border border-line bg-surface-solid text-ink shadow-2xl sm:inset-x-6 sm:top-10 sm:max-h-[calc(100dvh-5rem)]"
+        >
+          <div className="micro sticky top-0 z-10 flex items-center justify-between border-b border-line bg-surface-solid/95 px-4 py-3 backdrop-blur sm:px-8">
+            <span>
+              <span className="text-gold">Dossier</span>
+              <span className="text-muted"> / {e.code}</span>
+            </span>
+            <Dialog.Close className="grid size-9 place-items-center rounded-full border border-line transition hover:border-gold" aria-label="Close dossier">
+              <X className="size-4" strokeWidth={1.6} />
+            </Dialog.Close>
+          </div>
+
+          <div className="grid gap-8 p-4 sm:p-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+            <a href={e.poster} target="_blank" rel="noreferrer" className="group block self-start md:sticky md:top-20" title="Open full poster">
+              <Poster src={e.poster} alt={`${e.name} poster`} width={1000} className="aspect-[4/5]" />
+            </a>
+
+            <div className="space-y-7 pb-4">
+              <header>
+                <p className="micro text-muted">{category}</p>
+                <Dialog.Title className="mt-2 font-display text-5xl leading-[0.95] sm:text-6xl">{e.name}</Dialog.Title>
+                {e.tagline && <p className="mt-2 text-gold">{e.tagline}</p>}
+              </header>
+
+              <dl className="grid grid-cols-2 border-l border-t border-line sm:grid-cols-3">
+                {facts.map(([k, label]) => (
+                  <div key={k} className="border-b border-r border-line p-3.5">
+                    <dt className="micro text-muted">{label}</dt>
+                    <dd className={`mt-1.5 text-sm font-medium ${k === "code" ? "font-mono text-gold" : ""}`}>
+                      {k === "category" ? category : e[k]}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <Block title="Overview">
+                <Dialog.Description className="whitespace-pre-line text-[15px] leading-7 text-ink/85">{e.description}</Dialog.Description>
+              </Block>
+
+              {!!e.pocs?.length && (
+                <Block title="Coordinators">
+                  <ul className="grid gap-2 sm:grid-cols-2">
+                    {e.pocs.map((p) => (
+                      <li key={p.name + p.phone}>
+                        <a
+                          href={`tel:+91${p.phone.replace(/\D/g, "").slice(-10)}`}
+                          className="block border border-line px-4 py-3 transition hover:border-gold"
+                        >
+                          <span className="block text-sm font-medium">{p.name}</span>
+                          <span className="mt-0.5 flex items-center gap-1.5 text-sm text-muted">
+                            <Phone className="size-3.5" strokeWidth={1.8} />
+                            {p.phone}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </Block>
+              )}
+
+              {e.register && (
+                <a
+                  href={e.register}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-8 py-3.5 font-semibold text-on-gold shadow-[0_8px_30px_-8px_var(--gold)] transition hover:bg-gold-hi sm:w-auto"
+                >
+                  Register for {e.name}
+                  <ArrowUpRight className="size-4" />
+                </a>
+              )}
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
