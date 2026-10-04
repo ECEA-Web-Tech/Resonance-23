@@ -48,7 +48,7 @@ function Sky({ quality, still }) {
     look.x += (tx - look.x) * k;
     look.y += (ty - look.y) * k;
     ref.current.rotation.set(look.x, look.y, 0);
-    uniforms.uFade.value = 0.55 + 0.45 * (1 - flightOffset());
+    uniforms.uFade.value = (0.38 + 0.34 * (1 - flightOffset()));
   });
   return (
     <mesh ref={ref} renderOrder={-2}>
@@ -281,7 +281,7 @@ export default function Starfield() {
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
       aria-hidden="true"
     >
-      <color attach="background" args={["#02030a"]} />
+      <color attach="background" args={["#010208"]} />
       <Driver />
       <Sky quality={quality} still={still} />
       <BrightStars count={touch ? 26 : 44} still={still} />

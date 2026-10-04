@@ -13,6 +13,7 @@ import Sponsors from "./components/Sponsors";
 import Finale from "./components/Finale";
 import { withCodes } from "./data/events";
 import Loader from "./components/Loader";
+import CursorRipple from "./components/CursorRipple";
 import { launch } from "./lib/flight";
 import { useCollection } from "./lib/data";
 import { scrollToId, startSmoothScroll } from "./lib/scroll";
@@ -27,6 +28,18 @@ export function Shell({ children }) {
         <Starfield />
       </Suspense>
       <Aurora />
+      {/* Dark scrim between the 3D background and all page content */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          background: "linear-gradient(to bottom, rgba(2,5,16,0.55) 0%, rgba(2,5,16,0.38) 50%, rgba(2,5,16,0.55) 100%)",
+        }}
+      />
+      <CursorRipple />
       {children}
     </>
   );
@@ -69,8 +82,8 @@ export default function Home() {
     <Shell>
         <>
           {!launched && <Loader onDone={() => setLaunched(true)} />}
-          {/* Content stays hidden behind the launch sequence so only the sky shows through. */}
-          <div className={launched ? "transition-opacity duration-1000" : "invisible opacity-0"}>
+          {/* z-10: floats above the fixed dark scrim (z-index 0) */}
+          <div className={`relative z-10 ${launched ? "transition-opacity duration-1000" : "invisible opacity-0"}`}>
           <Nav links={links} />
           <main>
             <Hero launched={launched} />

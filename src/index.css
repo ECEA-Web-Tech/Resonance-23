@@ -4,8 +4,8 @@
   --bg: #05060d;
   --surface: rgb(13 17 36 / 0.62);
   --surface-solid: #0c1024;
-  --ink: #ece6d6;
-  --muted: #a3a6bb;
+  --ink: #ffffff;
+  --muted: #cdd0e0;
   --gold: #d9b45a;
   --gold-hi: #f3dfa2;
   --line: rgb(217 180 90 / 0.18);
@@ -15,8 +15,8 @@
   --a2: rgb(98 120 255 / 0.13);
   --a3: rgb(167 92 255 / 0.12);
   --a4: rgb(255 95 200 / 0.07);
-  --nebula-1: rgb(76 52 160 / 0.28);
-  --nebula-2: rgb(20 120 140 / 0.2);
+  --nebula-1: rgb(76 52 160 / 0.14);
+  --nebula-2: rgb(20 120 140 / 0.10);
   color-scheme: dark;
 }
 
@@ -207,4 +207,53 @@ html.lenis body {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+}
+
+/* ---------- cursor wave-light ripple ---------- */
+.cursor-ripple-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cursor-ripple-ring {
+  position: absolute;
+  /* Centre the ring on the cursor point */
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.cursor-ripple-ring--active {
+  animation: cursor-ripple 900ms cubic-bezier(0.15, 0.5, 0.35, 1) forwards;
+}
+
+@keyframes cursor-ripple {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0.9;
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--gold-hi) 80%, transparent),
+      0 0 12px 4px color-mix(in srgb, var(--gold) 40%, transparent);
+  }
+  40% {
+    opacity: 0.55;
+    box-shadow:
+      0 0 0 1.5px color-mix(in srgb, var(--gold) 55%, transparent),
+      0 0 18px 6px color-mix(in srgb, var(--gold) 22%, transparent);
+  }
+  100% {
+    width: 160px;
+    height: 160px;
+    opacity: 0;
+    box-shadow:
+      0 0 0 0.5px color-mix(in srgb, var(--gold) 15%, transparent),
+      0 0 28px 10px color-mix(in srgb, var(--gold) 5%, transparent);
+  }
 }

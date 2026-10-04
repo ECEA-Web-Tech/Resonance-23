@@ -75,11 +75,13 @@ function World({ world, index, total }) {
         <m.div style={{ clipPath: clip }} className="sticky top-0 h-[100svh] overflow-hidden border-y border-line">
           <m.div
             style={{ y: planetY, scale: planetScale }}
-            className={`absolute top-[14%] w-[min(72vw,600px)] ${flip ? "-left-[10%] sm:left-[4%]" : "-right-[10%] sm:right-[4%]"}`}
+            className={`absolute top-[14%] w-[min(72vw,600px)] aspect-square ${flip ? "-left-[10%] sm:left-[4%]" : "-right-[10%] sm:right-[4%]"}`}
           >
-            <Planet variant={world.id} style={{ opacity: planetOpacity }} />
+            <Planet variant={world.id} className="w-full h-full" style={{ opacity: planetOpacity }} />
           </m.div>
 
+          {/* Dark overlay: sits between the 3D canvas/background and the text */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#020510]/85 via-[#020510]/55 to-transparent pointer-events-none" aria-hidden="true" />
           <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-between px-4 pb-10 pt-28">
             <div className={`micro flex flex-wrap items-center gap-3 ${flip ? "justify-end text-right" : ""}`}>
               <span className="text-gold">World {String(index + 1).padStart(2, "0")}</span>
