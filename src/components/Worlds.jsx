@@ -71,7 +71,7 @@ function World({ world, index, total }) {
 
   return (
     <section id={`world-${world.id}`} data-chapter={`02.${index + 1}`} data-title={world.label} className="scroll-mt-0">
-      <div ref={pin} className="relative h-[180vh]">
+      <div ref={pin} className="relative h-[120vh] md:h-[180vh]">
         <m.div style={{ clipPath: clip }} className="sticky top-0 h-[100svh] overflow-hidden border-y border-line">
           <m.div
             style={{ y: planetY, scale: planetScale }}

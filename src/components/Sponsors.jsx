@@ -30,7 +30,7 @@ export default function Sponsors({ sponsors, no }) {
             {sponsors.map((s) => {
               const Tag = s.link ? "a" : "div";
               return (
-                <li key={s.id} className="flex w-[calc(50%-12px)] sm:w-56 lg:w-64">
+                <li key={s.id} className="flex w-full sm:w-56 lg:w-64">
                   <Tag
                     {...(s.link && { href: s.link, target: "_blank", rel: "noreferrer" })}
                     className="group flex w-full flex-col items-center gap-4 rounded-xl border border-line/60 bg-white/[0.04] p-5 text-center transition-all duration-300 hover:border-gold/50 hover:bg-white/[0.08] hover:shadow-[0_0_24px_rgba(217,180,90,0.12)]"
