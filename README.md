@@ -53,7 +53,9 @@ The site works without Firebase. It falls back to the bundled data in `src/data/
 | `src/components/Archive.jsx` | 03 Archive: searchable and filterable ledger, stacked cards on mobile |
 | `src/components/Credits.jsx` | 04 Crew |
 | `src/components/EventDialog.jsx` | Event dossier at `/events/:id` |
-| `src/components/Starfield.jsx` | WebGL sky (Milky Way shader), stars and drifting 3D models |
+| `src/components/Starfield.jsx` | WebGL scene: baked nebula sky, parallax stars, bright stars, shooting stars; drives Lenis each frame |
+| `src/components/space/Planets.jsx` | Realistic planets (Earth with clouds, city lights and moon; ice giant; ringed gas giant; desert world) that follow `<Planet>` anchors in the page |
+| `src/components/space/shaders.js` | GLSL for the planet surfaces, atmosphere, rings and sky (surfaces are baked once by `bake.js`) |
 | `src/components/Aurora.jsx` | Aurora glow that follows the cursor |
 | `src/admin/Admin.jsx` | Admin panel (create, edit and delete for events, team and sponsors) |
 

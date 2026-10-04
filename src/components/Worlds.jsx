@@ -60,9 +60,10 @@ function World({ world, index, total }) {
     const k = reduce ? 0 : (1 - v) * 14;
     return `inset(${k}% ${k}% 0% ${k}% round ${k * 2}px)`;
   });
-  const planetY = useTransform(p, [0, 1], reduce ? ["0%", "0%"] : ["18%", "-14%"]);
-  const planetRotate = useTransform(p, [0, 1], [0, reduce ? 0 : 28]);
-  const planetScale = useTransform(p, [0, 1], [0.92, reduce ? 0.92 : 1.12]);
+  // The planet drifts up and grows while the panel is pinned (its spin is driven by scroll in the WebGL scene).
+  const planetY = useTransform(p, [0, 1], reduce ? ["0%", "0%"] : ["16%", "-16%"]);
+  const planetScale = useTransform(p, [0, 1], [0.9, reduce ? 0.9 : 1.15]);
+  const planetOpacity = useTransform(arrive, [0.15, 0.75], [0, 1]);
   const nameX = useTransform(p, [0, 1], reduce ? ["0%", "0%"] : ["4%", "-6%"]);
 
   const venues = [...new Set(world.events.map((e) => e.venue).filter(Boolean))];
@@ -71,12 +72,12 @@ function World({ world, index, total }) {
   return (
     <section id={`world-${world.id}`} data-chapter={`02.${index + 1}`} data-title={world.label} className="scroll-mt-0">
       <div ref={pin} className="relative h-[180vh]">
-        <m.div style={{ clipPath: clip }} className="sticky top-0 h-[100svh] overflow-hidden border-y border-line bg-bg/40">
+        <m.div style={{ clipPath: clip }} className="sticky top-0 h-[100svh] overflow-hidden border-y border-line">
           <m.div
-            style={{ y: planetY, rotate: planetRotate, scale: planetScale }}
-            className={`absolute top-[12%] w-[min(78vw,640px)] ${flip ? "-left-[8%] sm:left-[4%]" : "-right-[8%] sm:right-[4%]"}`}
+            style={{ y: planetY, scale: planetScale }}
+            className={`absolute top-[14%] w-[min(72vw,600px)] ${flip ? "-left-[10%] sm:left-[4%]" : "-right-[10%] sm:right-[4%]"}`}
           >
-            <Planet variant={world.id} />
+            <Planet variant={world.id} style={{ opacity: planetOpacity }} />
           </m.div>
 
           <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-between px-4 pb-10 pt-28">

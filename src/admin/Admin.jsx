@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { AlertDialog, Dialog, Tabs } from "radix-ui";
 import { toast, Toaster } from "sonner";
-import { LoaderCircle, LogOut, Moon, Pencil, Plus, Sun, Trash2, X } from "lucide-react";
+import { LoaderCircle, LogOut, Pencil, Plus, Trash2, X } from "lucide-react";
 import { browserSessionPersistence, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { collection, deleteDoc, doc, setDoc, writeBatch } from "firebase/firestore/lite";
 import { app, db } from "../lib/firebase";
 import { FALLBACK, load } from "../lib/data";
 import { driveImg } from "../lib/drive";
-import { useTheme } from "../lib/theme";
 import { CATEGORIES } from "../data/events";
 import { ROLE_ORDER } from "../data/credits";
 
@@ -365,7 +364,6 @@ function Manager({ col }) {
 /* ---------- page ---------- */
 
 export default function Admin() {
-  const [theme, toggleTheme] = useTheme();
   const auth = app && getAuth(app);
   const [user, setUser] = useState(undefined);
 
@@ -379,8 +377,6 @@ export default function Admin() {
   useEffect(() => {
     if (auth) return onAuthStateChanged(auth, setUser);
   }, [auth]);
-
-  const ThemeIcon = theme === "dark" ? Sun : Moon;
 
   let body;
   if (!app) {
@@ -437,15 +433,8 @@ export default function Admin() {
 
   return (
     <div className="min-h-[100svh] bg-bg">
-      <button
-        onClick={toggleTheme}
-        className="fixed bottom-4 right-4 z-40 grid size-11 place-items-center rounded-full border border-line bg-surface-solid text-gold"
-        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      >
-        <ThemeIcon className="size-[18px]" />
-      </button>
       {body}
-      <Toaster theme={theme} position="top-center" richColors />
+      <Toaster theme="dark" position="top-center" richColors />
     </div>
   );
 }

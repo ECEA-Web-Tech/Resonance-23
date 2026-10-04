@@ -1,9 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
-:root,
-[data-theme="dark"] {
+:root {
   --bg: #05060d;
   --surface: rgb(13 17 36 / 0.62);
   --surface-solid: #0c1024;
@@ -14,34 +11,15 @@
   --line: rgb(217 180 90 / 0.18);
   --on-gold: #1a1405;
   --aurora-blend: screen;
-  --a1: rgb(62 230 208 / 0.22);
-  --a2: rgb(98 120 255 / 0.2);
-  --a3: rgb(167 92 255 / 0.2);
-  --a4: rgb(255 95 200 / 0.12);
+  --a1: rgb(62 230 208 / 0.12);
+  --a2: rgb(98 120 255 / 0.13);
+  --a3: rgb(167 92 255 / 0.12);
+  --a4: rgb(255 95 200 / 0.07);
   --nebula-1: rgb(76 52 160 / 0.28);
   --nebula-2: rgb(20 120 140 / 0.2);
   color-scheme: dark;
 }
 
-[data-theme="light"] {
-  --bg: #eef0f7;
-  --surface: rgb(255 255 255 / 0.66);
-  --surface-solid: #ffffff;
-  --ink: #0f1533;
-  --muted: #4d5374;
-  --gold: #94701c;
-  --gold-hi: #b98d2c;
-  --line: rgb(148 112 28 / 0.22);
-  --on-gold: #fffaf0;
-  --aurora-blend: multiply;
-  --a1: rgb(62 210 200 / 0.2);
-  --a2: rgb(120 140 255 / 0.2);
-  --a3: rgb(180 130 255 / 0.2);
-  --a4: rgb(255 140 210 / 0.14);
-  --nebula-1: rgb(160 150 240 / 0.3);
-  --nebula-2: rgb(140 220 230 / 0.28);
-  color-scheme: light;
-}
 
 @theme inline {
   --color-bg: var(--bg);
@@ -63,7 +41,6 @@ html {
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.5s, color 0.5s;
 }
 body {
   /* No background here: the fixed sky layers sit at negative z-index and would be hidden. */
@@ -224,100 +201,6 @@ html.lenis body {
 @keyframes nudge {
   50% { transform: translateY(5px); }
 }
-
-/* ---------- CSS planets ---------- */
-.planet {
-  position: relative;
-  aspect-ratio: 1;
-  --glow: rgb(110 140 255 / 0.55);
-  --ring: rgb(217 180 90 / 0.55);
-}
-.planet-body {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow:
-    0 0 60px 6px var(--glow),
-    0 0 180px 30px color-mix(in srgb, var(--glow) 35%, transparent);
-}
-.planet-surface {
-  position: absolute;
-  inset: 0 -100% 0 0; /* twice as wide, slides left to fake rotation */
-  background-size: 50% 100%;
-  animation: planet-spin 90s linear infinite;
-}
-.planet-shade {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 28%, rgb(255 255 255 / 0.35), transparent 32%),
-    radial-gradient(circle at 72% 74%, rgb(0 0 0 / 0.92) 18%, rgb(0 0 0 / 0.55) 42%, transparent 66%);
-  box-shadow: inset -30px -40px 90px rgb(0 0 0 / 0.7), inset 6px 8px 30px rgb(255 255 255 / 0.12);
-}
-@keyframes planet-spin {
-  to { transform: translateX(-50%); }
-}
-
-/* Hero: deep indigo giant with an aurora rim */
-.planet-hero { --glow: rgb(120 110 255 / 0.6); }
-.planet-hero .planet-surface {
-  background-image:
-    radial-gradient(ellipse 18% 7% at 30% 38%, rgb(220 230 255 / 0.28), transparent 70%),
-    radial-gradient(ellipse 26% 9% at 68% 62%, rgb(190 170 255 / 0.25), transparent 70%),
-    radial-gradient(ellipse 12% 5% at 55% 25%, rgb(120 240 230 / 0.3), transparent 70%),
-    repeating-linear-gradient(180deg, transparent 0 18px, rgb(140 170 255 / 0.1) 18px 26px, transparent 26px 60px),
-    radial-gradient(ellipse 60% 30% at 40% 55%, rgb(80 220 210 / 0.35), transparent 70%),
-    linear-gradient(180deg, #2b2a6e 0%, #1b2a6b 35%, #3a2a78 60%, #12183f 100%);
-}
-
-/* Technical: cyan ice world etched with a circuit grid */
-.planet-tech { --glow: rgb(80 220 230 / 0.55); }
-.planet-tech .planet-surface {
-  background-image:
-    repeating-linear-gradient(0deg, rgb(160 255 250 / 0.14) 0 1px, transparent 1px 22px),
-    repeating-linear-gradient(90deg, rgb(160 255 250 / 0.14) 0 0.25%, transparent 0.25% 5%), /* % so it tiles across the 50% surface tile */
-    radial-gradient(circle at 30% 40%, rgb(150 255 240 / 0.35), transparent 30%),
-    radial-gradient(circle at 70% 65%, rgb(40 120 170 / 0.6), transparent 40%),
-    linear-gradient(160deg, #3fc7cf 0%, #1c7f9e 45%, #0d3a5c 100%);
-}
-
-/* Non-technical: banded magenta/violet gas giant with a ring */
-.planet-nontech { --glow: rgb(220 90 220 / 0.5); --ring: rgb(240 170 230 / 0.55); }
-.planet-nontech .planet-surface {
-  background-image:
-    repeating-linear-gradient(180deg, rgb(255 210 240 / 0.18) 0 7px, transparent 7px 19px, rgb(90 20 90 / 0.3) 19px 30px, transparent 30px 44px),
-    linear-gradient(180deg, #f08bc8 0%, #b04aa8 30%, #6c2a8f 55%, #c66bb5 75%, #3c1a5e 100%);
-}
-
-/* Workshop: amber rocky world with craters */
-.planet-workshop { --glow: rgb(230 170 70 / 0.5); --ring: rgb(240 200 120 / 0.5); }
-.planet-workshop .planet-surface {
-  background-image:
-    radial-gradient(circle at 20% 30%, rgb(80 40 10 / 0.55) 0 5%, transparent 6%),
-    radial-gradient(circle at 60% 55%, rgb(80 40 10 / 0.45) 0 8%, transparent 9%),
-    radial-gradient(circle at 35% 75%, rgb(80 40 10 / 0.5) 0 4%, transparent 5%),
-    radial-gradient(circle at 80% 20%, rgb(255 230 170 / 0.3) 0 6%, transparent 7%),
-    radial-gradient(circle at 75% 85%, rgb(80 40 10 / 0.4) 0 3%, transparent 4%),
-    linear-gradient(150deg, #f2c46a 0%, #c98a2e 40%, #7a4515 75%, #3f220b 100%);
-}
-
-/* Rings: back half behind the body, front half over it */
-.planet-ring {
-  position: absolute;
-  inset: 32% -42%;
-  border-radius: 50%;
-  border: clamp(6px, 1.8vw, 18px) solid transparent;
-  border-color: var(--ring);
-  transform: rotate(-16deg);
-  opacity: 0;
-  mask: repeating-radial-gradient(closest-side, #000 0 3px, rgb(0 0 0 / 0.4) 3px 5px);
-}
-.planet-nontech .planet-ring,
-.planet-workshop .planet-ring { opacity: 1; }
-.planet-ring-back { clip-path: inset(0 0 50% 0); }
-.planet-ring-front { clip-path: inset(50% 0 0 0); }
 
 /* ---------- chapter micro typography ---------- */
 .micro {

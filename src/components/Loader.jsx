@@ -41,10 +41,14 @@ export default function Loader({ onDone }) {
   // Ease the displayed number toward real progress, capped by elapsed time so it never just blinks.
   useEffect(() => {
     let raf;
-    const tick = () => {
+    let last = performance.now();
+    const tick = (now) => {
+      // Time-based easing, so slow first frames (shader compile, texture bakes) don't stall the counter.
+      const k = Math.min(1, ((now - last) / 1000) * 5);
+      last = now;
       const timeCap = Math.min(1, (performance.now() - started.current) / MIN_MS);
       setShown((s) => {
-        const next = s + (Math.min(target, timeCap) - s) * 0.08;
+        const next = s + (Math.min(target, timeCap) - s) * k;
         return Math.abs(next - s) < 0.0005 ? Math.min(target, timeCap) : next;
       });
       raf = requestAnimationFrame(tick);

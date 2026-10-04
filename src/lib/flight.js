@@ -2,7 +2,8 @@
 export const flight = { start: null };
 
 export function launch() {
-  flight.start ??= performance.now();
+  // Reduced motion: arrive at once (the scene only redraws on demand, so a timed fly-in would stall).
+  flight.start ??= performance.now() - (matchMedia("(prefers-reduced-motion: reduce)").matches ? 1e6 : 0);
 }
 
 /** 1 while parked far out, easing to 0 over the fly-in. */

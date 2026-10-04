@@ -49,7 +49,7 @@ export default function Hero({ launched }) {
       <section id="top" ref={ref} data-chapter="00" data-title="Orbit" className="relative h-[220vh]">
         <div className="sticky top-0 h-[100svh] overflow-hidden">
           <m.div style={{ y: planetY, scale: planetScale }} className="absolute left-[6vw] right-[6vw] top-0 mx-auto max-w-[760px]">
-            <Planet variant="hero" />
+            <Planet variant="earth" />
           </m.div>
 
           <m.div

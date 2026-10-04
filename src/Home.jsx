@@ -16,20 +16,18 @@ import Loader from "./components/Loader";
 import { launch } from "./lib/flight";
 import { useCollection } from "./lib/data";
 import { scrollToId, startSmoothScroll } from "./lib/scroll";
-import { useTheme } from "./lib/theme";
 
 const Starfield = lazy(() => import("./components/Starfield"));
 
 export function Shell({ children }) {
-  const [theme, toggleTheme] = useTheme();
   return (
     <>
       <div className="sky" aria-hidden="true" />
       <Suspense fallback={null}>
-        <Starfield dark={theme === "dark"} />
+        <Starfield />
       </Suspense>
       <Aurora />
-      {typeof children === "function" ? children(theme, toggleTheme) : children}
+      {children}
     </>
   );
 }
@@ -69,12 +67,11 @@ export default function Home() {
 
   return (
     <Shell>
-      {(theme, toggleTheme) => (
         <>
           {!launched && <Loader onDone={() => setLaunched(true)} />}
           {/* Content stays hidden behind the launch sequence so only the sky shows through. */}
           <div className={launched ? "transition-opacity duration-1000" : "invisible opacity-0"}>
-          <Nav theme={theme} toggleTheme={toggleTheme} links={links} />
+          <Nav links={links} />
           <main>
             <Hero launched={launched} />
             <Brief events={events} people={people} />
@@ -88,7 +85,6 @@ export default function Home() {
           </div>
           <Outlet context={events} />
         </>
-      )}
     </Shell>
   );
 }

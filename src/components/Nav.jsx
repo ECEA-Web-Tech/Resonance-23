@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Dialog, VisuallyHidden } from "radix-ui";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import eceaLogo from "../assets/ecea-gold.png";
 import { scrollToId } from "../lib/scroll";
 
-export default function Nav({ theme, toggleTheme, links }) {
+export default function Nav({ links }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -21,17 +21,6 @@ export default function Nav({ theme, toggleTheme, links }) {
     // Let the sheet close before scrolling so Lenis isn't fighting the scroll lock.
     setTimeout(() => scrollToId(id), open ? 220 : 0);
   };
-
-  const ThemeIcon = theme === "dark" ? Sun : Moon;
-  const themeButton = (
-    <button
-      onClick={toggleTheme}
-      className="grid size-10 place-items-center rounded-full border border-line text-gold transition hover:bg-gold/10"
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-    >
-      <ThemeIcon className="size-[18px]" strokeWidth={1.6} />
-    </button>
-  );
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-4 pt-3 sm:pt-4">
@@ -57,11 +46,9 @@ export default function Nav({ theme, toggleTheme, links }) {
               {l.label}
             </a>
           ))}
-          <span className="ml-2">{themeButton}</span>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          {themeButton}
           <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger className="grid size-10 place-items-center rounded-full border border-line" aria-label="Open menu">
               <Menu className="size-5" strokeWidth={1.6} />

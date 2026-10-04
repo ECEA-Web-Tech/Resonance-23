@@ -16,8 +16,8 @@ const SOCIALS = [
 export default function Finale({ no }) {
   return (
     <footer data-chapter={no} data-title="Return to orbit" className="relative overflow-hidden border-t border-line">
-      <div className="pointer-events-none absolute -bottom-[62vw] left-1/2 w-[110vw] -translate-x-1/2 opacity-80 sm:-bottom-[48vw] sm:w-[80vw]">
-        <Planet variant="hero" />
+      <div className="pointer-events-none absolute -bottom-[62vw] left-1/2 w-[110vw] -translate-x-1/2 sm:-bottom-[48vw] sm:w-[80vw]">
+        <Planet variant="home" />
       </div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pb-12 pt-28 text-center">
