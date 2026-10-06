@@ -7,9 +7,19 @@ import { scrollToId } from "../lib/scroll";
 export default function Nav({ links }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Phones: the bar slides away while reading down the page and returns on the first scroll up,
+  // so it never sits on top of the content being read.
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const on = () => setScrolled(scrollY > 40);
+    let last = scrollY;
+    const on = () => {
+      const y = scrollY;
+      setScrolled(y > 40);
+      if (y < 120) setHidden(false);
+      else if (Math.abs(y - last) > 8) setHidden(y > last);
+      if (Math.abs(y - last) > 8) last = y;
+    };
     on();
     addEventListener("scroll", on, { passive: true });
     return () => removeEventListener("scroll", on);
@@ -23,16 +33,20 @@ export default function Nav({ links }) {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-4 sm:pt-4">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 px-3 pt-3 transition-transform duration-300 ease-out sm:px-4 sm:pt-4 motion-reduce:transition-none ${
+        hidden && !open ? "max-md:-translate-y-[120%]" : ""
+      }`}
+    >
       <nav
         className={`mx-auto flex max-w-6xl items-center justify-between rounded-full border py-2 pl-3 pr-2 transition-[background-color,border-color,box-shadow] duration-500 ${
-          scrolled ? "border-line bg-[#070a1a]/92 shadow-[0_10px_40px_-20px_rgb(0_0_0/0.7)] md:bg-surface md:backdrop-blur-xl" : "border-transparent"
+          scrolled ? "border-line bg-[#070a1a] shadow-[0_10px_40px_-20px_rgb(0_0_0/0.7)] md:bg-surface md:backdrop-blur-xl" : "border-transparent"
         }`}
         aria-label="Main"
       >
         <a href="#top" onClick={go("top")} className="flex items-center gap-3" aria-label="Resonance ’26, back to top">
           <img src={eceaLogo} alt="ECEA" width="160" height="222" className="h-9 w-auto" />
-          <span className="font-display text-[1.35rem] tracking-wide">Resonance ’26</span>
+          <span className="text-[1.1rem] font-semibold tracking-[-0.01em]">Resonance ’26</span>
         </a>
 
         <div className="hidden items-center gap-1 md:flex">
@@ -68,7 +82,7 @@ export default function Nav({ links }) {
                 <ul className="space-y-1">
                   {links.map((l) => (
                     <li key={l.id}>
-                      <a href={`#${l.id}`} onClick={go(l.id)} className="block rounded-2xl px-3 py-3 font-display text-3xl transition hover:bg-gold/10">
+                      <a href={`#${l.id}`} onClick={go(l.id)} className="block rounded-2xl px-3 py-3 font-display text-2xl transition hover:bg-gold/10">
                         {l.label}
                       </a>
                     </li>

@@ -105,13 +105,13 @@ export default function Archive({ events }) {
                   onClick={() => open(e)}
                   className="group cursor-pointer border-b border-line/50 transition-colors last:border-b-0 odd:bg-white/[0.018] hover:bg-gold/[0.07] active:bg-gold/[0.1]"
                 >
-                  <td className="whitespace-nowrap py-4 pl-4 pr-4 align-middle font-mono text-xs text-gold sm:pl-6">{e.code}</td>
+                  <td className="whitespace-nowrap py-4 pl-4 pr-4 align-middle code text-xs text-gold sm:pl-6">{e.code}</td>
                   <th scope="row" className="py-4 pr-6 align-middle font-normal">
                     <Link
                       to={`/events/${e.id}`}
                       preventScrollReset
                       onClick={(ev) => ev.stopPropagation()}
-                      className="whitespace-nowrap font-display text-[1.35rem] leading-tight transition-colors group-hover:text-gold-hi"
+                      className="whitespace-nowrap font-display text-[1.05rem] leading-tight transition-colors group-hover:text-gold-hi"
                     >
                       {e.name}
                     </Link>

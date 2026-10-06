@@ -3,6 +3,9 @@
   Cache-Control: public, max-age=31536000, immutable
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+# Share cards keep their address, so they are only cached for a day.
+/og/*
+  Cache-Control: public, max-age=86400
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

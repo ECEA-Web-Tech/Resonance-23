@@ -354,7 +354,9 @@ export const planetFragment = /* glsl */ `
     col += albedo * 0.004;               // faint starlight on the night side
     col = 1.0 - exp(-col * 1.4);      // soft tone map
     col = pow(col, vec3(1.0 / 2.2));
-    gl_FragColor = vec4(col, uFade);
+    // A one-pixel soft limb: a clean silhouette at any pixel density, without multisampling.
+    float edge = clamp(vdn / max(fwidth(vdn), 0.0001), 0.0, 1.0);
+    gl_FragColor = vec4(col, uFade * edge);
   }
 `;
 

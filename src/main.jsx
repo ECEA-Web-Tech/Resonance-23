@@ -13,7 +13,7 @@ function NotFound() {
     <Shell>
       <main className="grid min-h-[100svh] place-items-center px-4 text-center">
         <div>
-          <h1 className="gold-text font-display text-7xl">Lost in space</h1>
+          <h1 className="gold-text font-display text-5xl sm:text-6xl">Lost in space</h1>
           <p className="mt-4 text-muted">This page doesn’t exist.</p>
           <Link to="/" className="mt-8 inline-block rounded-full bg-gold px-7 py-3 text-sm font-semibold text-on-gold">
             Back to Resonance ’26

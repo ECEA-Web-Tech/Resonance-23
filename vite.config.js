@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
@@ -11,14 +11,18 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "./src/lib/sit
    - index.html ships real, readable markup inside #root (painted before any script, replaced on mount)
    - every event also gets its own static page (events/<id>.html) with its own title, description,
      canonical URL and share card, so /events/<id> is a real document and not only a client route
-   - JSON-LD (organisation, website, event list, dated events) and sitemap.xml are generated
+   - JSON-LD (organisation, website, event list, dated events) and sitemap.xml (with poster images) are generated
+   - every event's share card is its own poster (public/og/<id>.jpg, written by scripts/media.mjs)
    Nothing here is invented: an event only gets a schema.org Event entry if the data gives it a date.
    ------------------------------------------------------------------------------------------------ */
 
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const label = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? id;
 const driveId = (url) => url?.match(/\/d\/([\w-]{20,})|[?&]id=([\w-]{20,})/)?.slice(1).find(Boolean);
-const posterUrl = (e) => (driveId(e.poster) ? `https://drive.google.com/thumbnail?id=${driveId(e.poster)}&sz=w1200` : e.poster);
+// The share card made from the poster, served from this site; the original link only if there is none yet.
+const hasCard = (e) => existsSync(new URL(`./public/og/${e.id}.jpg`, import.meta.url));
+const posterUrl = (e) =>
+  hasCard(e) ? `${SITE_URL}/og/${e.id}.jpg` : driveId(e.poster) ? `https://drive.google.com/thumbnail?id=${driveId(e.poster)}&sz=w1200` : e.poster;
 const facts = (e) =>
   [
     ["Venue", e.venue],
@@ -94,7 +98,7 @@ const homeSchema = () =>
     {
       "@type": "ItemList",
       name: `${SITE_NAME} events`,
-      itemListElement: events.map((e, i) => ({ "@type": "ListItem", position: i + 1, name: e.name, url: `${SITE_URL}/events/${e.id}` })),
+      itemListElement: events.map((e, i) => ({ "@type": "ListItem", position: i + 1, name: e.name, url: `${SITE_URL}/events/${e.id}`, ...(posterUrl(e) && { image: posterUrl(e) }) })),
     },
     ...events.map(eventSchema).filter(Boolean),
   ]);
@@ -127,6 +131,7 @@ const eventSeed = (e) => `<main class="seed">
           ${e.tagline ? `<p>${esc(e.tagline)}</p>` : ""}
         </header>
         <div class="seed-body">
+          __POSTER__
           <h2>About ${esc(e.name)}</h2>
           <p>${esc(e.description)}</p>
           ${factList(e) ? `<p>${factList(e)}</p>` : ""}
@@ -147,7 +152,10 @@ function eventHead(e) {
     <meta property="og:url" content="${url}" />
     <meta property="og:title" content="${esc(title)}" />
     <meta property="og:description" content="${esc(description)}" />
-    <meta property="og:image" content="${esc(posterUrl(e) || `${SITE_URL}/og.jpg`)}" />
+    <meta property="og:image" content="${esc(posterUrl(e) || `${SITE_URL}/og.jpg`)}" />${hasCard(e) ? `
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />` : ""}
+    <meta property="og:image:alt" content="${esc(`${e.name} poster, Resonance ’26`)}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${esc(title)}" />
     <meta name="twitter:description" content="${esc(description)}" />
@@ -192,11 +200,26 @@ function seo() {
         return; // not a client build
       }
       const logo = home.match(/<img src="([^"]+)" alt="Resonance ’26"/)?.[1] ?? "";
+      const built = readdirSync(join(outDir, "assets"));
+      // The 3D scene's code starts downloading alongside the app instead of after it (not on data saver).
+      const scene = built.find((f) => /^Starfield-.*\.js$/.test(f));
+      if (scene) {
+        home = home.replace(
+          "</head>",
+          `  <script>if(!(navigator.connection&&navigator.connection.saveData)){var l=document.createElement("link");l.rel="modulepreload";l.href="/assets/${scene}";document.head.appendChild(l)}</script>\n  </head>`
+        );
+        writeFileSync(join(outDir, "index.html"), home);
+      }
+      // The poster as built (hashed file name), for the static event pages.
+      const poster = (e) => {
+        const file = built.find((f) => f.startsWith(`${e.id}-800-`) && f.endsWith(".webp"));
+        return file ? `<p><img src="/assets/${file}" alt="${esc(e.name)} poster, Resonance ’26" style="width:100%;max-width:26rem;height:auto;border-radius:12px" /></p>` : "";
+      };
       const swap = (html, name, value) => html.replace(new RegExp(`<!--${name}:start-->[\\s\\S]*?<!--${name}:end-->`), () => value);
       mkdirSync(join(outDir, "events"), { recursive: true });
       for (const e of events) {
         let page = swap(home, "head", eventHead(e));
-        page = swap(page, "seed", eventSeed(e).replace("__LOGO__", logo));
+        page = swap(page, "seed", eventSeed(e).replace("__LOGO__", logo).replace("__POSTER__", poster(e)));
         page = swap(page, "jsonld", eventSchemaTag(e));
         writeFileSync(join(outDir, "events", `${e.id}.html`), page);
       }
@@ -204,8 +227,11 @@ function seo() {
       const urls = [`${SITE_URL}/`, ...events.map((e) => `${SITE_URL}/events/${e.id}`)];
       writeFileSync(
         join(outDir, "sitemap.xml"),
-        `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
-          .map((u, i) => `  <url><loc>${u}</loc><lastmod>${today}</lastmod><priority>${i ? "0.7" : "1.0"}</priority></url>`)
+        `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls
+          .map((u, i) => {
+            const images = (i ? [events[i - 1]] : events).filter(hasCard).map((e) => `<image:image><image:loc>${SITE_URL}/og/${e.id}.jpg</image:loc></image:image>`);
+            return `  <url><loc>${u}</loc><lastmod>${today}</lastmod><priority>${i ? "0.7" : "1.0"}</priority>${images.join("")}</url>`;
+          })
           .join("\n")}\n</urlset>\n`
       );
     },

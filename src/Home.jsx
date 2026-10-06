@@ -16,6 +16,7 @@ import Loader from "./components/Loader";
 import CursorRipple from "./components/CursorRipple";
 import { launch } from "./lib/flight";
 import { useCollection } from "./lib/data";
+import { CARD_SIZES, prefetch } from "./lib/media";
 import { scrollToId, startSmoothScroll } from "./lib/scroll";
 import { disableWebGL, isTouch, renderTier } from "./lib/theme";
 
@@ -32,19 +33,20 @@ class Guard extends Component {
   }
 }
 
-// The WebGL scene. three.js is neither downloaded nor started until the page has painted and the browser is idle;
-// until then, and on devices where 3D is switched off, the static sky image behind it is what shows.
+// The WebGL scene. It starts loading as soon as the first screen has painted, in the background, behind the
+// launch loader. Until it is ready, and on devices where 3D is switched off, the static sky image is what shows.
 function Scene() {
   const [on, setOn] = useState(false);
   useEffect(() => {
     if (renderTier() === "off") return disableWebGL();
     const stop = () => setOn(false);
     addEventListener("webgl-off", stop);
-    const start = () => setOn(true);
-    const id = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 400);
+    let timer;
+    const frame = requestAnimationFrame(() => (timer = setTimeout(() => setOn(true), 0)));
     return () => {
       removeEventListener("webgl-off", stop);
-      window.cancelIdleCallback ? cancelIdleCallback(id) : clearTimeout(id);
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
     };
   }, []);
   if (!on) return null;
@@ -91,6 +93,8 @@ export default function Home() {
   useEffect(() => {
     if (launched) launch();
   }, [launched]);
+  // Posters are fetched in the background from the moment the event list is known (while the loader is still up).
+  useEffect(() => (events ? prefetch(events.map((e) => e.poster), CARD_SIZES) : undefined), [events]);
   useEffect(() => (launched ? startSmoothScroll() : undefined), [launched]);
   // Deep links like /#events (and the old /techevents routes) land on their section once content exists.
   useEffect(() => {

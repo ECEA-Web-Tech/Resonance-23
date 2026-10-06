@@ -91,7 +91,7 @@ export default function Hero({ launched }) {
               </span>
               <m.span {...enter(0.7, { y: 12 })} className="flex items-center gap-4">
                 <span className="hidden h-px w-10 bg-gradient-to-r from-transparent to-gold/70 sm:block" aria-hidden="true" />
-                <span className="gold-text font-display text-[clamp(1.75rem,4.6vw,2.9rem)] leading-none tracking-[0.01em]">Intercollege Symposium</span>
+                <span className="gold-text text-[clamp(1.45rem,4.2vw,2.4rem)] font-medium leading-tight tracking-[-0.015em]">Intercollege Symposium</span>
                 <span className="hidden h-px w-10 bg-gradient-to-l from-transparent to-gold/70 sm:block" aria-hidden="true" />
               </m.span>
             </h1>
