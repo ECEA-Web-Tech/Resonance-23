@@ -1,0 +1,3 @@
+# Netlify: client-side routes (/events/<id> and the old /techevents links) fall through to the app.
+# Real files, including the prerendered events/<id>.html pages, are always served first.
+/*    /index.html   200

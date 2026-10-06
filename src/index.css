@@ -1,5 +1,32 @@
 @import "tailwindcss";
 
+/* Self-hosted, latin subsets only: one display serif and one variable sans (preloaded in index.html). */
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+}
+/* Metric-matched fallbacks, so the swap doesn't move the layout. */
+@font-face {
+  font-family: "Display Fallback";
+  src: local("Times New Roman"), local("Liberation Serif"), local("Tinos");
+  size-adjust: 82%;
+}
+@font-face {
+  font-family: "Sans Fallback";
+  src: local("Arial"), local("Liberation Sans"), local("Roboto");
+  size-adjust: 108%;
+}
+
 :root {
   --bg: #05060d;
   --surface: rgb(13 17 36 / 0.62);
@@ -10,7 +37,8 @@
   --gold-hi: #f3dfa2;
   --line: rgb(217 180 90 / 0.18);
   --on-gold: #1a1405;
-  --aurora-blend: screen;
+  --cyan: #5ee6d6;
+  --aurora-blend: normal;
   --a1: rgb(62 230 208 / 0.12);
   --a2: rgb(98 120 255 / 0.13);
   --a3: rgb(167 92 255 / 0.12);
@@ -31,8 +59,9 @@
   --color-gold-hi: var(--gold-hi);
   --color-line: var(--line);
   --color-on-gold: var(--on-gold);
-  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --color-cyan: var(--cyan);
+  --font-display: "Instrument Serif", "Display Fallback", ui-serif, Georgia, serif;
+  --font-sans: "Space Grotesk", "Sans Fallback", ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -41,6 +70,17 @@ html {
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+/* The display face has one weight; never let the browser fake a bold. */
+.font-display {
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.012em;
+}
+img {
+  max-width: 100%;
 }
 body {
   /* No background here: the fixed sky layers sit at negative z-index and would be hidden. */
@@ -65,15 +105,104 @@ html.lenis body {
   overflow: clip;
 }
 
-/* Fixed sky behind everything: nebula wash; stars come from the WebGL canvas. */
+/* Fixed sky behind everything: a small still of the nebula. It is the first thing painted, what shows while
+   the WebGL scene starts, and the whole sky on devices where WebGL is off. */
 .sky {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background:
-    radial-gradient(60vmax 40vmax at 85% 10%, var(--nebula-1), transparent 70%),
-    radial-gradient(50vmax 40vmax at 5% 70%, var(--nebula-2), transparent 70%),
-    var(--bg);
+  background: #03040b url("./assets/sky.webp") center / cover no-repeat;
+}
+/* The live scene fades in over it. Sized to the large viewport so mobile URL bars never resize the canvas. */
+.scene-canvas {
+  top: 0;
+  left: 0;
+  z-index: -1;
+  height: 100vh;
+  height: 100lvh;
+  transition: opacity 1.4s ease;
+}
+/* Dark scrim between the sky and all page content. */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgb(2 5 16 / 0.5) 0%, rgb(2 5 16 / 0.42) 50%, rgb(2 5 16 / 0.58) 100%);
+}
+/* One container for every chapter: same measure, same gutters, clear of notches. */
+@utility wrap {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: max(clamp(1.25rem, 4.5vw, 2rem), env(safe-area-inset-left), env(safe-area-inset-right));
+}
+/* Solid dark surface for anything that holds text or data over the sky. */
+@utility panel {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: linear-gradient(160deg, rgb(13 17 36 / 0.94), rgb(7 9 24 / 0.97));
+  box-shadow: 0 22px 60px -34px rgb(0 0 0 / 0.9), inset 0 1px 0 rgb(217 180 90 / 0.09);
+}
+
+/* Chapters with running text get their own veil: full-bleed, soft at both ends, so copy never sits on raw nebula. */
+.veil {
+  position: relative;
+  isolation: isolate;
+}
+.veil::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 100vw;
+  translate: -50% 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(3 5 14 / 0.64) var(--veil-t, 9rem),
+    rgb(3 5 14 / 0.64) calc(100% - var(--veil-b, 9rem)),
+    transparent
+  );
+}
+/* Display type over imagery */
+.text-veil {
+  text-shadow: 0 2px 28px rgb(2 5 16 / 0.7), 0 1px 3px rgb(2 5 16 / 0.5);
+}
+
+/* Static planets: only when WebGL is off. */
+.planet-fallback {
+  display: none;
+}
+[data-webgl="off"] .planet-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--planet);
+  box-shadow: inset -0.12em -0.1em 0.5em 0.1em rgb(1 2 8 / 0.92), 0 0 60px -6px var(--glow);
+  font-size: 5rem;
+}
+.planet-earth,
+.planet-home {
+  --glow: rgb(82 148 255 / 0.5);
+  --planet: radial-gradient(circle at 34% 30%, #7db8ff 0%, #2c6cc4 28%, #133a7a 52%, #071634 74%, #020611 92%);
+}
+.planet-tech {
+  --glow: rgb(115 184 255 / 0.4);
+  --planet: radial-gradient(circle at 34% 30%, #c6ecff 0%, #5fa8d8 30%, #24588c 56%, #0a1f3d 78%, #020611 94%);
+}
+.planet-nontech {
+  --glow: rgb(242 209 153 / 0.3);
+  --planet: repeating-linear-gradient(8deg, rgb(120 78 40 / 0.28) 0 6%, transparent 6% 13%),
+    radial-gradient(circle at 34% 30%, #f4dfb4 0%, #c79a5e 32%, #7a5530 58%, #2a1a0d 80%, #060304 95%);
+}
+.planet-workshop {
+  --glow: rgb(255 158 107 / 0.3);
+  --planet: radial-gradient(circle at 34% 30%, #f0a070 0%, #b85a32 32%, #6e2d18 58%, #26100a 80%, #050203 95%);
 }
 
 /* Cursor aurora: three soft blobs, each trailing the pointer at its own speed. */
@@ -93,7 +222,6 @@ html.lenis body {
   height: 46vmax;
   margin: -23vmax 0 0 -23vmax;
   border-radius: 50%;
-  will-change: transform;
 }
 .aurora > i:nth-child(1) { background: radial-gradient(closest-side, var(--a1), transparent); }
 .aurora > i:nth-child(2) { background: radial-gradient(closest-side, var(--a2), transparent); width: 58vmax; height: 40vmax; margin: -20vmax 0 0 -29vmax; }
@@ -115,6 +243,16 @@ html.lenis body {
   0% { transform: translate(15vw, 20vh) scale(1); }
   50% { transform: translate(80vw, 45vh) scale(1.2); }
   100% { transform: translate(30vw, 85vh) scale(0.9); }
+}
+
+/* Hero: a soft dark pool behind the brand, so the wordmark and copy hold against the nebula and the planet. */
+.hero-brand::before {
+  content: "";
+  position: absolute;
+  inset: 8% -10% 4%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgb(2 5 16 / 0.62), rgb(2 5 16 / 0.34) 55%, transparent);
 }
 
 /* Hero orbit rings around the logo */
@@ -171,6 +309,14 @@ html.lenis body {
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translateY(24px) scale(0.98); } }
 
+/* Nothing animates where nobody is looking (see lib/inview.js). */
+[data-offscreen],
+[data-offscreen] *,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -181,7 +327,13 @@ html.lenis body {
   }
 }
 
-/* Launch loader */
+/* Launch loader: an opaque still, so nothing behind it has to be drawn while it shows. */
+.loader {
+  background:
+    radial-gradient(90vmax 70vmax at 50% 38%, rgb(18 24 54 / 0.55), transparent 62%),
+    linear-gradient(rgb(3 4 11 / 0.82), rgb(3 4 11 / 0.9)),
+    #03040b url("./assets/sky.webp") center / cover no-repeat;
+}
 .hud-corner {
   position: absolute;
   margin: 20px;
@@ -205,55 +357,162 @@ html.lenis body {
 /* ---------- chapter micro typography ---------- */
 .micro {
   font-size: 11px;
-  letter-spacing: 0.22em;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-/* ---------- cursor wave-light ripple ---------- */
+/* ---------- cursor wave-light ripple (desktop) ---------- */
+/* Each ring is a fixed-size circle animated with transform and opacity only (see CursorRipple.jsx). */
 .cursor-ripple-layer {
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
   overflow: hidden;
+  contain: strict;
 }
-
 .cursor-ripple-ring {
   position: absolute;
-  /* Centre the ring on the cursor point */
-  width: 0;
-  height: 0;
+  left: -80px;
+  top: -80px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+  border: 1.5px solid color-mix(in srgb, var(--gold-hi) 70%, transparent);
+  box-shadow: 0 0 16px 2px color-mix(in srgb, var(--gold) 26%, transparent);
   opacity: 0;
 }
 
-.cursor-ripple-ring--active {
-  animation: cursor-ripple 900ms cubic-bezier(0.15, 0.5, 0.35, 1) forwards;
+/* ---------- launch CTA: gold-to-cyan rim with a slow sheen ---------- */
+.cta-orbit {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-shadow: 0 0 30px -10px rgb(217 180 90 / 0.6), 0 0 54px -18px rgb(94 230 214 / 0.4);
+}
+.cta-orbit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(110deg, var(--gold), var(--gold-hi) 34%, var(--cyan) 66%, var(--gold));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.cta-orbit::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  z-index: -1;
+  width: 42%;
+  background: linear-gradient(100deg, transparent, rgb(243 223 162 / 0.3) 42%, rgb(94 230 214 / 0.24) 62%, transparent);
+  transform: translateX(-140%) skewX(-18deg);
+  animation: sheen 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.cta-orbit:disabled {
+  box-shadow: none;
+}
+.cta-orbit:disabled::after {
+  animation: none;
+}
+@keyframes sheen {
+  0%, 30% { transform: translateX(-140%) skewX(-18deg); }
+  72%, 100% { transform: translateX(360%) skewX(-18deg); }
 }
 
-@keyframes cursor-ripple {
-  0% {
-    width: 0px;
-    height: 0px;
-    opacity: 0.9;
-    box-shadow:
-      0 0 0 2px color-mix(in srgb, var(--gold-hi) 80%, transparent),
-      0 0 12px 4px color-mix(in srgb, var(--gold) 40%, transparent);
-  }
-  40% {
-    opacity: 0.55;
-    box-shadow:
-      0 0 0 1.5px color-mix(in srgb, var(--gold) 55%, transparent),
-      0 0 18px 6px color-mix(in srgb, var(--gold) 22%, transparent);
-  }
-  100% {
-    width: 160px;
-    height: 160px;
-    opacity: 0;
-    box-shadow:
-      0 0 0 0.5px color-mix(in srgb, var(--gold) 15%, transparent),
-      0 0 28px 10px color-mix(in srgb, var(--gold) 5%, transparent);
-  }
+/* ---------- archive table: scrolls sideways inside its panel on small screens ---------- */
+.table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(217 180 90 / 0.3) transparent;
+}
+.table-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+.table-scroll::-webkit-scrollbar-thumb {
+  border-radius: 99px;
+  background: rgb(217 180 90 / 0.3);
+}
+.table-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- first paint ---------- */
+/* Static markup that ships in index.html (see vite.config.js): painted before any script runs, readable
+   without JavaScript, and replaced by the app when it mounts. */
+.seed {
+  position: relative;
+  background: #03040b url("./assets/sky.webp") center top / cover no-repeat;
+}
+.seed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(2 5 16 / 0.5);
+}
+.seed > * {
+  position: relative;
+}
+.seed-hero {
+  display: grid;
+  min-height: 100svh;
+  place-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+.seed-hero img {
+  width: min(58vw, 250px);
+  height: auto;
+}
+.seed-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4.6vw, 2.25rem);
+  line-height: 1.1;
+  color: var(--gold-hi);
+}
+.seed-hero p {
+  max-width: 34rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.seed-body {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.seed-body h2 {
+  margin: 2.5rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--ink);
+}
+.seed-body h3 {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.seed-body li {
+  margin-bottom: 0.75rem;
+}
+.seed-body a {
+  color: var(--ink);
+  font-weight: 600;
+}
+.seed-hero h1 span {
+  display: block;
 }

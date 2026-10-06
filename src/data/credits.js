@@ -230,7 +230,7 @@ export default [
     "id": "c29",
     "name": "Shreehan S Nayak",
     "role": "Joint Secretary",
-    "photo": "https://drive.google.com/open?id=1TF29eg2nlORQqvgMmTXnLiybIzX8W7r6",
+    "photo": "https://drive.google.com/file/d/1N4a6WwuPglaCuKJDBRJqPXmqkEjvOH_H/view",
     "linkedin": "https://www.linkedin.com/in/shreehan-nayak-49362b255",
     "order": 28
   },

@@ -23,7 +23,10 @@ const HALO = 1.12;
 const tmp = new Vector3();
 const up = new Vector3();
 
-function Planet({ anchor, quality }) {
+// Texture width per tier: [earth, other worlds]. Earth fills the hero, so it gets the most detail.
+const SIZES = { min: [1024, 512], low: [2048, 1024], high: [4096, 2048] };
+
+function Planet({ anchor, tier }) {
   const look = LOOKS[anchor.variant] || LOOKS.earth;
   const gl = useThree((s) => s.gl);
   const group = useRef();
@@ -32,7 +35,8 @@ function Planet({ anchor, quality }) {
   const moonPivot = useRef();
   const moon = useRef();
   const seed = useMemo(() => Math.random() * 100, []);
-  const size = (quality === "low" ? 1 : 2) * (look.kind === "earth" ? 2048 : 1024);
+  const size = (SIZES[tier] || SIZES.low)[look.kind === "earth" ? 0 : 1];
+  const fine = tier === "high";
 
   const { planetU, haloU, ringU, moonU } = useMemo(() => {
     const mapA = baked(gl, look.kind, 0, size);
@@ -73,14 +77,18 @@ function Planet({ anchor, quality }) {
   }, [gl, look, size]);
 
   useFrame(({ camera, clock, size: view }) => {
+    const g = group.current;
+    // Far from the viewport: skip the layout read entirely.
+    if (!anchor.inRange) {
+      g.visible = anchor.onScreen = false;
+      return;
+    }
     const r = anchor.el.getBoundingClientRect();
     const h = view.height;
     const reach = look.ring ? r.width * 0.7 : look.moon ? r.width * 0.5 : r.width * 0.15;
-    const g = group.current;
     const onScreen = r.width > 0 && r.bottom + reach > 0 && r.top - reach < h;
-    // Computed, not inline: Motion runs scroll-linked opacity as a native animation.
-    const fade = onScreen ? (1 - flightOffset()) * +getComputedStyle(anchor.el).opacity : 0;
-    g.visible = fade > 0.002;
+    const fade = onScreen ? (1 - flightOffset()) * (anchor.opacity?.get() ?? 1) : 0;
+    g.visible = anchor.onScreen = fade > 0.002;
     if (!g.visible) return;
 
     // Pixel box → world position at DEPTH, keeping the sphere's silhouette the size of the box.
@@ -120,16 +128,16 @@ function Planet({ anchor, quality }) {
     <group ref={group}>
       <group ref={tilt}>
         <mesh ref={body} renderOrder={1}>
-          <sphereGeometry args={[1, quality === "low" ? 96 : 160, quality === "low" ? 64 : 96]} />
+          <sphereGeometry args={[1, fine ? 128 : 64, fine ? 80 : 48]} />
           <shaderMaterial vertexShader={planetVertex} fragmentShader={planetFragment} uniforms={planetU} transparent />
         </mesh>
         <mesh scale={HALO} renderOrder={2}>
-          <sphereGeometry args={[1, 96, 64]} />
+          <sphereGeometry args={[1, fine ? 96 : 48, fine ? 64 : 32]} />
           <shaderMaterial vertexShader={haloVertex} fragmentShader={haloFragment} uniforms={haloU} side={BackSide} transparent blending={AdditiveBlending} depthWrite={false} />
         </mesh>
         {look.ring && (
           <mesh rotation={[-Math.PI / 2, 0, 0]} renderOrder={3}>
-            <ringGeometry args={[look.ring[0], look.ring[1], 256, 1]} />
+            <ringGeometry args={[look.ring[0], look.ring[1], fine ? 192 : 96, 1]} />
             <shaderMaterial vertexShader={ringVertex} fragmentShader={ringFragment} uniforms={ringU} side={DoubleSide} transparent depthWrite={false} />
           </mesh>
         )}
@@ -139,7 +147,7 @@ function Planet({ anchor, quality }) {
         <group rotation={[0.32, 0, -0.18]}>
           <group ref={moonPivot}>
             <mesh ref={moon} position={[1.62, 0, 0]} scale={0.13} renderOrder={1}>
-              <sphereGeometry args={[1, 64, 48]} />
+              <sphereGeometry args={[1, 48, 32]} />
               <shaderMaterial vertexShader={planetVertex} fragmentShader={planetFragment} uniforms={moonU} transparent />
             </mesh>
           </group>
@@ -149,7 +157,8 @@ function Planet({ anchor, quality }) {
   );
 }
 
-export default function Planets({ quality }) {
+// A world is only built (and its textures generated) once its anchor has come near the viewport.
+export default function Planets({ tier }) {
   const anchors = useAnchors();
-  return anchors.map((a) => <Planet key={a.id} anchor={a} quality={quality} />);
+  return anchors.filter((a) => a.near).map((a) => <Planet key={a.id} anchor={a} tier={tier} />);
 }

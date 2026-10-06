@@ -1,12 +1,21 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdditiveBlending, BackSide, Vector3 } from "three";
-import { isTouch, prefersReducedMotion } from "../lib/theme";
+import { disableWebGL, isTouch, prefersReducedMotion, renderTier } from "../lib/theme";
 import { flightOffset } from "../lib/flight";
 import { easePointer, pointer } from "../lib/pointer";
+import { anyPlanetOnScreen } from "../lib/planets";
+import { keepBusy, scene, wake } from "../lib/scene";
 import { tickScroll } from "../lib/scroll";
 import { baked } from "./space/bake";
 import Planets from "./space/Planets";
+
+// Texture sizes and counts per tier (see renderTier). Planet textures are generated lazily, one world at a time.
+const TIERS = {
+  min: { dpr: 1, sky: 1024, stars: 260, bright: 16, idle: 100 },
+  low: { dpr: 1.25, sky: 2048, stars: 420, bright: 24, idle: 66 },
+  high: { dpr: 1.5, sky: 4096, stars: 900, bright: 44, idle: 33 },
+};
 
 const scrollProgress = () => scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
 
@@ -34,10 +43,10 @@ const skyFragment = /* glsl */ `
 
 const look = { x: 0, y: 0 };
 
-function Sky({ quality, still }) {
+function Sky({ size, still }) {
   const ref = useRef();
   const gl = useThree((s) => s.gl);
-  const uniforms = useMemo(() => ({ uMap: { value: baked(gl, "sky", 0, quality === "low" ? 2048 : 4096) }, uFade: { value: 1 } }), [gl, quality]);
+  const uniforms = useMemo(() => ({ uMap: { value: baked(gl, "sky", 0, size) }, uFade: { value: 1 } }), [gl, size]);
   useFrame(({ camera, clock }, delta) => {
     ref.current.position.copy(camera.position); // a skybox: never gets closer
     const p = scrollProgress();
@@ -48,11 +57,13 @@ function Sky({ quality, still }) {
     look.x += (tx - look.x) * k;
     look.y += (ty - look.y) * k;
     ref.current.rotation.set(look.x, look.y, 0);
-    uniforms.uFade.value = (0.38 + 0.34 * (1 - flightOffset()));
+    // Full brightness in the hero; dimmed behind the chapters so text stays readable.
+    const past = Math.min(1, Math.max(0, (scrollY / innerHeight - 0.35) / 0.9));
+    uniforms.uFade.value = (0.38 + 0.34 * (1 - flightOffset())) * (1 - 0.42 * past * past * (3 - 2 * past));
   });
   return (
     <mesh ref={ref} renderOrder={-2}>
-      <sphereGeometry args={[250, 96, 48]} />
+      <sphereGeometry args={[250, 64, 32]} />
       <shaderMaterial vertexShader={skyVertex} fragmentShader={skyFragment} uniforms={uniforms} side={BackSide} depthWrite={false} />
     </mesh>
   );
@@ -106,10 +117,11 @@ function Stars({ count, still }) {
     }
     return [p, s, r];
   }, [count]);
-  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uPixel: { value: Math.min(devicePixelRatio, 1.5) } }), []);
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uPixel: { value: 1 } }), []);
 
-  useFrame(({ clock, camera }, delta) => {
+  useFrame(({ clock, camera, viewport }, delta) => {
     uniforms.uTime.value = still ? 0 : clock.elapsedTime;
+    uniforms.uPixel.value = viewport.dpr;
     ref.current.rotation.y = (still ? 0 : clock.elapsedTime * 0.005) + pointer.sx * 0.05;
     ref.current.rotation.x = pointer.sy * 0.03;
     // Depth travel with the page; the camera is parked far out until the visitor enters orbit.
@@ -181,9 +193,10 @@ function BrightStars({ count, still }) {
     }
     return [p, s, c, r];
   }, [count]);
-  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uPixel: { value: Math.min(devicePixelRatio, 1.5) } }), []);
-  useFrame(({ clock, camera }) => {
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uPixel: { value: 1 } }), []);
+  useFrame(({ clock, camera, viewport }) => {
     uniforms.uTime.value = still ? 0 : clock.elapsedTime;
+    uniforms.uPixel.value = viewport.dpr;
     ref.current.position.copy(camera.position);
     ref.current.rotation.set(look.x, look.y, 0); // turns with the sky
   });
@@ -219,11 +232,12 @@ const meteorVertex = /* glsl */ `
 
 function ShootingStar() {
   const ref = useRef();
-  const s = useMemo(() => ({ start: 3, dur: 1.1, from: new Vector3(), dir: new Vector3() }), []);
+  const s = useMemo(() => ({ start: null, dur: 1.1, from: new Vector3(), dir: new Vector3() }), []);
   const uniforms = useMemo(() => ({ uLife: { value: 0 } }), []);
   useFrame(({ clock, camera }) => {
     const t = clock.elapsedTime;
     const m = ref.current;
+    if (s.start === null) s.start = t + 3;
     if (t > s.start + s.dur) {
       s.start = t + 6 + Math.random() * 10;
       s.dur = 0.8 + Math.random() * 0.7;
@@ -233,6 +247,7 @@ function ShootingStar() {
     const life = (t - s.start) / s.dur;
     m.visible = life > 0 && life < 1;
     if (!m.visible) return;
+    keepBusy(120); // a streak needs every frame; the rest of the idle sky doesn't
     uniforms.uLife.value = life;
     m.position.copy(camera.position).add(s.from).addScaledVector(s.dir, life * 40);
     m.rotation.z = Math.atan2(s.dir.y, s.dir.x) + Math.PI;
@@ -247,48 +262,87 @@ function ShootingStar() {
 
 /* ---------- Frame driver ---------- */
 
-// Runs first each frame: advances smooth scrolling so DOM and planets move together, then eases the pointer.
-function Driver() {
-  useFrame((_, delta) => {
-    tickScroll(performance.now());
-    easePointer(delta);
-  }, -1);
-  return null;
-}
+// The scene never runs its own loop. This one decides, frame by frame, whether there is anything worth drawing:
+//   moving (scroll, pointer, fly-in, shooting star)  -> every frame
+//   a planet on screen, nothing moving               -> ~30 fps (slow spin)
+//   only the sky                                     -> the tier's idle rate (slow drift and twinkle)
+//   reduced motion                                   -> only when something changed
+//   tab hidden, or a dialog covering the page        -> nothing
+// Smooth scrolling is advanced first on every frame, so the page and the planets move together.
+function Ticker({ still, idle, onFirstFrame }) {
+  const advance = useThree((s) => s.advance);
+  const setDpr = useThree((s) => s.setDpr);
+  const gl = useThree((s) => s.gl);
+  const first = useRef(onFirstFrame);
 
-// With reduced motion the scene renders on demand; redraw on scroll and resize so planets follow the page.
-function InvalidateOnScroll() {
-  const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
-    const on = () => invalidate();
-    addEventListener("scroll", on, { passive: true });
-    addEventListener("resize", on);
-    return () => (removeEventListener("scroll", on), removeEventListener("resize", on));
-  }, [invalidate]);
+    let raf;
+    let last = 0;
+    let slow = 0;
+    let dpr = gl.getPixelRatio();
+    const passive = { passive: true };
+    addEventListener("scroll", wake, passive);
+    addEventListener("resize", wake);
+    if (!isTouch()) addEventListener("pointermove", wake, passive);
+    wake();
+
+    const loop = (now) => {
+      raf = requestAnimationFrame(loop);
+      tickScroll(now);
+      if (scene.paused) return;
+      const hot = now - scene.active < 450 || now < scene.busyUntil;
+      const gap = hot ? 0 : still ? Infinity : anyPlanetOnScreen() ? 32 : idle;
+      const since = now - last;
+      if (since < gap - 3) return;
+
+      // If full-rate frames keep arriving late, the GPU is struggling: drop to 1x pixels, once.
+      if (hot && dpr > 1 && since < 250) {
+        slow = since > 30 ? slow + 1 : Math.max(0, slow - 1);
+        if (slow > 45) setDpr((dpr = 1));
+      }
+      last = now;
+      advance(now / 1000);
+      first.current?.();
+      first.current = null;
+    };
+    raf = requestAnimationFrame(loop);
+    return () => {
+      cancelAnimationFrame(raf);
+      removeEventListener("scroll", wake);
+      removeEventListener("resize", wake);
+      removeEventListener("pointermove", wake);
+    };
+  }, [advance, setDpr, gl, still, idle]);
+
+  useFrame((_, delta) => easePointer(Math.min(delta, 0.1)), -1);
   return null;
 }
 
 export default function Starfield() {
   const still = prefersReducedMotion();
-  const touch = isTouch();
-  const quality = touch || innerWidth < 768 ? "low" : "high";
+  const tier = renderTier();
+  const t = TIERS[tier] || TIERS.low;
+  const [ready, setReady] = useState(false);
   return (
     <Canvas
-      style={{ position: "fixed", inset: 0, zIndex: -1, pointerEvents: "none" }}
-      dpr={[1, touch ? 1.5 : 1.75]}
-      frameloop={still ? "demand" : "always"}
+      className="scene-canvas"
+      style={{ position: "fixed", width: "100%", height: undefined, pointerEvents: "none", opacity: ready ? 1 : 0 }}
+      dpr={Math.min(devicePixelRatio, t.dpr)}
+      frameloop="never"
+      // Measured on resize only: the canvas is fixed, so scroll never changes its box.
+      resize={{ scroll: false, debounce: { scroll: 0, resize: 120 } }}
       camera={{ position: [0, 0, 0], fov: 50, near: 0.1, far: 400 }}
-      gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+      gl={{ antialias: tier === "high", alpha: false, stencil: false, powerPreference: tier === "high" ? "high-performance" : "default" }}
+      onCreated={({ gl }) => gl.domElement.addEventListener("webglcontextlost", disableWebGL)}
       aria-hidden="true"
     >
       <color attach="background" args={["#010208"]} />
-      <Driver />
-      <Sky quality={quality} still={still} />
-      <BrightStars count={touch ? 26 : 44} still={still} />
-      <Stars count={touch ? 450 : 900} still={still} />
-      {!still && <ShootingStar />}
-      <Planets quality={quality} />
-      {still && <InvalidateOnScroll />}
+      <Ticker still={still} idle={t.idle} onFirstFrame={() => setReady(true)} />
+      <Sky size={t.sky} still={still} />
+      <BrightStars count={t.bright} still={still} />
+      <Stars count={t.stars} still={still} />
+      {!still && tier !== "min" && <ShootingStar />}
+      <Planets tier={tier} />
     </Canvas>
   );
 }
