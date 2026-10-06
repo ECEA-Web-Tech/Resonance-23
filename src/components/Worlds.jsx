@@ -39,24 +39,26 @@ function DossierCard({ e, world }) {
         <span className="micro whitespace-nowrap rounded-full border border-gold/40 px-2.5 py-1 text-[10px] tracking-[0.16em] text-gold-hi">{world.label}</span>
         <span className="code whitespace-nowrap text-xs text-gold">{e.code}</span>
       </p>
-      {/* Closed overlay */}
-      {e.closed && (
-        <div className="absolute inset-0 z-10 flex items-start justify-center pt-6 pointer-events-none">
-          <span className="rounded-full border border-red-500/50 bg-[#0a0b18]/90 px-4 py-1.5 text-[11px] font-semibold tracking-wider text-red-400 uppercase backdrop-blur-sm">
-            Registrations Closed
-          </span>
-        </div>
-      )}
-      <Picture
-        src={e.poster}
-        alt={`${e.name} poster`}
-        fit="contain"
-        remote={[400, 800]}
-        sizes={CARD_SIZES}
-        className="aspect-square w-full"
-        imgClassName={`transition-transform duration-700 ${e.closed ? "" : "group-hover:scale-[1.03]"}`}
-        fallback={<div className="micro grid aspect-square w-full place-items-center bg-surface-solid p-4 text-center text-muted">{e.name}</div>}
-      />
+      {/* Closed overlay — centered over the poster */}
+      <div className="relative">
+        <Picture
+          src={e.poster}
+          alt={`${e.name} poster`}
+          fit="contain"
+          remote={[400, 800]}
+          sizes={CARD_SIZES}
+          className="aspect-square w-full"
+          imgClassName={`transition-transform duration-700 ${e.closed ? "brightness-50" : "group-hover:scale-[1.03]"}`}
+          fallback={<div className="micro grid aspect-square w-full place-items-center bg-surface-solid p-4 text-center text-muted">{e.name}</div>}
+        />
+        {e.closed && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <span className="rounded-xl border-2 border-red-500 bg-black/80 px-5 py-3 text-center text-[15px] font-black uppercase tracking-[0.18em] text-white backdrop-blur-sm drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              Registrations<br />Closed
+            </span>
+          </div>
+        )}
+      </div>
 
       <div className="flex min-w-0 flex-1 flex-col px-4 pb-5 pt-4 sm:px-5">
         <h4 className={`font-display text-[1.5rem] leading-[1.12] transition-colors duration-300 sm:text-[1.6rem] ${e.closed ? "text-ink/50 line-through decoration-red-400/60" : "group-hover:text-gold-hi"}`}>{e.name}</h4>
