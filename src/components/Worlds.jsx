@@ -24,15 +24,29 @@ function DossierCard({ e, world }) {
 
   return (
     <Link
-      to={`/events/${e.id}`}
+      to={e.closed ? "#" : `/events/${e.id}`}
       preventScrollReset
-      aria-label={`${e.name}: read more`}
-      className="event-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#090c1e] transition duration-300 active:scale-[0.99] sm:hover:-translate-y-1 sm:hover:border-gold/55 sm:hover:shadow-[0_26px_60px_-34px_rgb(217_180_90/0.55)] motion-reduce:transform-none"
+      aria-label={e.closed ? `${e.name}: registrations closed` : `${e.name}: read more`}
+      aria-disabled={e.closed || undefined}
+      onClick={e.closed ? (ev) => ev.preventDefault() : undefined}
+      className={`event-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#090c1e] transition duration-300 motion-reduce:transform-none ${
+        e.closed
+          ? "cursor-not-allowed opacity-60 grayscale-[30%]"
+          : "active:scale-[0.99] sm:hover:-translate-y-1 sm:hover:border-gold/55 sm:hover:shadow-[0_26px_60px_-34px_rgb(217_180_90/0.55)]"
+      }`}
     >
       <p className="flex items-center justify-between gap-3 px-4 py-3">
         <span className="micro whitespace-nowrap rounded-full border border-gold/40 px-2.5 py-1 text-[10px] tracking-[0.16em] text-gold-hi">{world.label}</span>
         <span className="code whitespace-nowrap text-xs text-gold">{e.code}</span>
       </p>
+      {/* Closed overlay */}
+      {e.closed && (
+        <div className="absolute inset-0 z-10 flex items-start justify-center pt-6 pointer-events-none">
+          <span className="rounded-full border border-red-500/50 bg-[#0a0b18]/90 px-4 py-1.5 text-[11px] font-semibold tracking-wider text-red-400 uppercase backdrop-blur-sm">
+            Registrations Closed
+          </span>
+        </div>
+      )}
       <Picture
         src={e.poster}
         alt={`${e.name} poster`}
@@ -40,12 +54,12 @@ function DossierCard({ e, world }) {
         remote={[400, 800]}
         sizes={CARD_SIZES}
         className="aspect-square w-full"
-        imgClassName="transition-transform duration-700 group-hover:scale-[1.03]"
+        imgClassName={`transition-transform duration-700 ${e.closed ? "" : "group-hover:scale-[1.03]"}`}
         fallback={<div className="micro grid aspect-square w-full place-items-center bg-surface-solid p-4 text-center text-muted">{e.name}</div>}
       />
 
       <div className="flex min-w-0 flex-1 flex-col px-4 pb-5 pt-4 sm:px-5">
-        <h4 className="font-display text-[1.5rem] leading-[1.12] transition-colors duration-300 group-hover:text-gold-hi sm:text-[1.6rem]">{e.name}</h4>
+        <h4 className={`font-display text-[1.5rem] leading-[1.12] transition-colors duration-300 sm:text-[1.6rem] ${e.closed ? "text-ink/50 line-through decoration-red-400/60" : "group-hover:text-gold-hi"}`}>{e.name}</h4>
         {e.tagline && <p className="mt-1.5 text-sm leading-snug text-gold">{e.tagline}</p>}
 
         {!!facts.length && (
