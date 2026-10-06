@@ -1,28 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight, Cpu, ShieldCheck, Activity } from "lucide-react";
-import logo from "../assets/resonance-logo.png";
+import logo from "../assets/resonance-logo.webp";
 import DevCredit from "./DevCredit";
 import { launch } from "../lib/flight";
 import { load } from "../lib/data";
 import { prefersReducedMotion } from "../lib/theme";
 
-const MIN_MS = 1800; // long enough to read, short enough not to annoy
+const MIN_MS = 900; // long enough to register, short enough not to hold anyone up
+const FONT_WAIT = 1200; // fonts swap in on their own; never let a slow one block the door
 
-// Real work the page needs before it looks right: fonts, the WebGL chunk, the logo and the content.
+// Only what the first screen needs: type, the logo and the content. The 3D scene loads by itself, off this path.
 const tasks = () => [
-  document.fonts?.ready,
-  import("./Starfield"),
+  Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, FONT_WAIT))]),
   load("events"),
   load("credits"),
   new Promise((r) => Object.assign(new Image(), { src: logo, onload: r, onerror: r })),
 ];
 
 export default function Loader({ onDone }) {
-  const [target, setTarget] = useState(0);
-  const [shown, setShown] = useState(0);
+  const [ready, setReady] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const enterRef = useRef();
-  const started = useRef(performance.now());
+  const barRef = useRef();
+  const altRef = useRef();
 
   useEffect(() => {
     const html = document.documentElement;
@@ -32,34 +32,35 @@ export default function Loader({ onDone }) {
     return () => (html.style.overflow = "");
   }, []);
 
+  // Real progress, eased and capped by elapsed time so it never just blinks.
+  // The bar and the readout are written straight to the DOM: no React render per frame.
   useEffect(() => {
     const list = tasks();
+    const started = performance.now();
+    let target = 0;
+    let shown = 0;
     let done = 0;
-    list.forEach((p) => Promise.resolve(p).finally(() => setTarget(++done / list.length)));
-  }, []);
-
-  // Ease the displayed number toward real progress, capped by elapsed time so it never just blinks.
-  useEffect(() => {
+    let last = started;
     let raf;
-    let last = performance.now();
+    list.forEach((p) => Promise.resolve(p).finally(() => (target = ++done / list.length)));
+
     const tick = (now) => {
-      // Time-based easing, so slow first frames (shader compile, texture bakes) don't stall the counter.
-      const k = Math.min(1, ((now - last) / 1000) * 5);
+      const goal = Math.min(target, (now - started) / MIN_MS);
+      shown += (goal - shown) * Math.min(1, ((now - last) / 1000) * 7);
       last = now;
-      const timeCap = Math.min(1, (performance.now() - started.current) / MIN_MS);
-      setShown((s) => {
-        const next = s + (Math.min(target, timeCap) - s) * k;
-        return Math.abs(next - s) < 0.0005 ? Math.min(target, timeCap) : next;
-      });
+      if (goal >= 1 && shown > 0.995) shown = 1;
+      barRef.current.style.transform = `scaleX(${shown})`;
+      barRef.current.setAttribute("aria-valuenow", Math.round(shown * 100));
+      altRef.current.textContent = Math.round(shown * 35786).toLocaleString("en-IN"); // geostationary orbit, in km
+      if (shown === 1) return setReady(true);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [target]);
+  }, []);
 
-  const ready = shown >= 0.999;
   useEffect(() => {
-    if (ready) enterRef.current?.focus();
+    if (ready) enterRef.current?.focus({ preventScroll: true });
   }, [ready]);
 
   const enter = () => {
@@ -68,17 +69,15 @@ export default function Loader({ onDone }) {
     try {
       sessionStorage.setItem("launched", "1");
     } catch {}
-    setTimeout(onDone, prefersReducedMotion() ? 0 : 900);
+    setTimeout(onDone, prefersReducedMotion() ? 0 : 700);
   };
-
-  const altitude = Math.round(shown * 35786).toLocaleString("en-IN"); // geostationary orbit, in km
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label="Loading Resonance ’26"
-      className={`loader fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-bg/55 px-4 text-ink backdrop-blur-[2px] transition-opacity duration-700 ${
+      className={`loader fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden px-5 text-ink transition-opacity duration-700 ${
         leaving ? "pointer-events-none opacity-0" : ""
       }`}
     >
@@ -95,33 +94,32 @@ export default function Loader({ onDone }) {
         <p className="text-muted">Orbital approach module</p>
       </div>
 
-      <div className={`relative grid aspect-square w-[min(80vw,52svh,440px)] place-items-center transition-transform duration-[900ms] ease-in ${leaving ? "scale-[2.4]" : ""}`}>
+      <div className={`relative grid aspect-square w-[min(78vw,46svh,420px)] place-items-center transition-transform duration-700 ease-in ${leaving ? "scale-[2.2]" : ""}`}>
         <div className="absolute inset-0 rounded-full border border-dashed border-gold/40 motion-safe:animate-[spin_40s_linear_infinite]" />
         <div className="absolute inset-[6%] rounded-full border border-line" />
         <div className="absolute inset-[18%] rounded-full border border-line/60" />
         <div className="absolute inset-x-[6%] top-1/2 h-px bg-line" />
         <div className="absolute inset-y-[6%] left-1/2 w-px bg-line" />
         <div className="radar absolute inset-[6%] rounded-full motion-safe:animate-[spin_3.2s_linear_infinite]" />
-        <div className="absolute inset-[6%] rounded-full shadow-[inset_0_0_80px_rgb(0_0_0/0.5)]" />
 
         <div className="relative flex flex-col items-center text-center">
-          <span className="mb-4 rounded-full border border-line bg-surface px-3 py-1 text-[11px] tracking-[0.18em] text-gold">
-            ECEA · CEG, Anna University
-          </span>
-          <img src={logo} alt="Resonance ’26" className="w-[min(58vw,250px)] drop-shadow-[0_0_30px_rgb(217_180_90/0.35)]" />
-          <span className="mt-5 rounded-full border border-line bg-surface px-4 py-1.5 font-mono text-sm tabular-nums">
+          <span className="micro mb-4 rounded-full border border-line bg-surface-solid/80 px-3 py-1 text-gold">ECEA · CEG, Anna University</span>
+          <img src={logo} alt="Resonance ’26" width="488" height="265" className="h-auto w-[min(54vw,240px)]" />
+          <span className="mt-5 rounded-full border border-line bg-surface-solid/80 px-4 py-1.5 font-mono text-[13px] tabular-nums">
             <span className="text-muted">Altitude </span>
-            {altitude} km
+            <span ref={altRef}>0</span> km
           </span>
         </div>
       </div>
 
-      <div className="mt-8 h-1.5 w-[min(84vw,440px)] overflow-hidden rounded-full border border-line bg-surface">
+      <div className="mt-8 h-1 w-[min(78vw,420px)] overflow-hidden rounded-full bg-white/10">
         <div
-          className="h-full rounded-full bg-[linear-gradient(90deg,var(--gold),var(--gold-hi),#5ee6d6)]"
-          style={{ width: `${shown * 100}%` }}
+          ref={barRef}
+          className="h-full origin-left rounded-full bg-[linear-gradient(90deg,var(--gold),var(--gold-hi),var(--cyan))]"
+          style={{ transform: "scaleX(0)" }}
           role="progressbar"
-          aria-valuenow={Math.round(shown * 100)}
+          aria-label="Loading"
+          aria-valuenow={0}
           aria-valuemin={0}
           aria-valuemax={100}
         />
@@ -131,17 +129,19 @@ export default function Loader({ onDone }) {
         ref={enterRef}
         onClick={enter}
         disabled={!ready}
-        className="group mt-7 inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-8 py-3.5 text-sm font-semibold tracking-[0.2em] text-gold shadow-[0_0_40px_-10px_var(--gold)] transition enabled:hover:bg-gold enabled:hover:text-on-gold disabled:opacity-40"
+        className="cta-orbit group mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-gold/10 px-9 py-3.5 text-[13px] font-semibold tracking-[0.24em] text-gold-hi transition-colors duration-300 enabled:hover:bg-gold/20 enabled:hover:text-white disabled:text-gold/50"
       >
         {ready ? "ENTER ORBIT" : "CALIBRATING"}
         <ChevronRight className="size-4 transition group-enabled:group-hover:translate-x-0.5" />
       </button>
 
-      <DevCredit className="mt-10" />
-      <p className="mt-6 flex items-center gap-2 px-4 text-center text-[11px] tracking-[0.16em] text-muted">
-        <Activity className="size-3.5 shrink-0 text-gold" />
-        Electronics and Communication Engineers’ Association · CEG
-      </p>
+      <div className="mt-12 flex flex-col items-center gap-3 sm:mt-16">
+        <p className="micro flex max-w-[19rem] items-center gap-2 text-balance text-center text-muted sm:max-w-none">
+          <Activity className="hidden size-3.5 shrink-0 text-gold sm:block" />
+          Electronics and Communication Engineers’ Association · CEG
+        </p>
+        <DevCredit compact />
+      </div>
     </div>
   );
 }

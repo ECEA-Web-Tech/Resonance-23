@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Component, lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation, useOutletContext } from "react-router";
 import Aurora from "./components/Aurora";
 import Nav from "./components/Nav";
@@ -17,29 +17,57 @@ import CursorRipple from "./components/CursorRipple";
 import { launch } from "./lib/flight";
 import { useCollection } from "./lib/data";
 import { scrollToId, startSmoothScroll } from "./lib/scroll";
+import { disableWebGL, isTouch, renderTier } from "./lib/theme";
 
 const Starfield = lazy(() => import("./components/Starfield"));
 
-export function Shell({ children }) {
+class Guard extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError = () => ({ failed: true });
+  componentDidCatch() {
+    disableWebGL();
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
+
+// The WebGL scene. three.js is neither downloaded nor started until the page has painted and the browser is idle;
+// until then, and on devices where 3D is switched off, the static sky image behind it is what shows.
+function Scene() {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    if (renderTier() === "off") return disableWebGL();
+    const stop = () => setOn(false);
+    addEventListener("webgl-off", stop);
+    const start = () => setOn(true);
+    const id = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 400);
+    return () => {
+      removeEventListener("webgl-off", stop);
+      window.cancelIdleCallback ? cancelIdleCallback(id) : clearTimeout(id);
+    };
+  }, []);
+  if (!on) return null;
   return (
-    <>
-      <div className="sky" aria-hidden="true" />
+    <Guard>
       <Suspense fallback={null}>
         <Starfield />
       </Suspense>
-      <Aurora />
-      {/* Dark scrim between the 3D background and all page content */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-          background: "linear-gradient(to bottom, rgba(2,5,16,0.55) 0%, rgba(2,5,16,0.38) 50%, rgba(2,5,16,0.55) 100%)",
-        }}
-      />
-      <CursorRipple />
+    </Guard>
+  );
+}
+
+export function Shell({ children }) {
+  // Pointer effects are desktop-only: there is no cursor to follow on touch screens.
+  const [pointerFx] = useState(() => !isTouch());
+  return (
+    <>
+      <div className="sky" aria-hidden="true" />
+      <Scene />
+      {pointerFx && <Aurora />}
+      {/* Dark scrim between the sky and all page content */}
+      <div className="scrim" aria-hidden="true" />
+      {pointerFx && <CursorRipple />}
       {children}
     </>
   );
@@ -96,7 +124,8 @@ export default function Home() {
           <Finale no={hasSponsors ? "06" : "05"} />
           <Rail />
           </div>
-          <Outlet context={events} />
+          {/* Event dossiers open once the visitor is in: a modal under the loader would lock the loader out. */}
+          {launched && <Outlet context={events} />}
         </>
     </Shell>
   );

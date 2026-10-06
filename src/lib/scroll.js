@@ -1,5 +1,5 @@
 import Lenis from "lenis";
-import { prefersReducedMotion } from "./theme";
+import { isTouch, prefersReducedMotion } from "./theme";
 
 export let lenis = null;
 let driven = 0;
@@ -12,7 +12,8 @@ export function tickScroll(time) {
 }
 
 export function startSmoothScroll() {
-  if (prefersReducedMotion()) return () => {};
+  // Touch devices keep native scrolling: it is already smooth, and it runs off the main thread.
+  if (prefersReducedMotion() || isTouch()) return () => {};
   lenis = new Lenis({ autoRaf: false, anchors: false, lerp: 0.085, wheelMultiplier: 0.9, touchMultiplier: 1.4 });
   if (import.meta.env.DEV) window.__lenis = lenis; // lets browser tests drive scrolling
   let raf;
@@ -28,10 +29,10 @@ export function startSmoothScroll() {
   };
 }
 
-export function scrollToId(id) {
+export function scrollToId(id, offset = -80) {
   const el = document.getElementById(id);
   if (!el) return;
-  lenis
-    ? lenis.scrollTo(el, { offset: -80, duration: 2.2, easing: (t) => 1 - Math.pow(1 - t, 4) })
-    : el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  if (lenis) return lenis.scrollTo(el, { offset, duration: 2.2, easing: (t) => 1 - Math.pow(1 - t, 4) });
+  // Native scrolling (touch, reduced motion). Measured by hand: sticky panels confuse scrollIntoView.
+  scrollTo({ top: el.getBoundingClientRect().top + scrollY + offset, behavior: prefersReducedMotion() ? "auto" : "smooth" });
 }

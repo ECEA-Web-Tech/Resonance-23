@@ -4,6 +4,8 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import { ArrowUpRight, Phone, X } from "lucide-react";
 import { CATEGORIES } from "../data/events";
 import { lenis } from "../lib/scroll";
+import { scene, wake } from "../lib/scene";
+import { SITE_TITLE } from "../lib/site";
 import Poster from "./Poster";
 
 // Only fields present in the source are rendered.
@@ -34,13 +36,18 @@ export default function EventDialog({ events }) {
 
   useEffect(() => {
     lenis?.stop();
-    return () => lenis?.start();
+    scene.paused = true; // the page behind is covered: stop drawing the 3D scene
+    return () => {
+      lenis?.start();
+      scene.paused = false;
+      wake();
+    };
   }, []);
 
   useEffect(() => {
     if (e) document.title = `${e.name} · Resonance ’26`;
     return () => {
-      document.title = "Resonance '26 · ECEA, CEG";
+      document.title = SITE_TITLE;
     };
   }, [e]);
 
@@ -53,12 +60,12 @@ export default function EventDialog({ events }) {
   return (
     <Dialog.Root open onOpenChange={(o) => !o && close()}>
       <Dialog.Portal>
-        <Dialog.Overlay className="overlay fixed inset-0 z-50 bg-bg/80 backdrop-blur-md" />
+        <Dialog.Overlay className="overlay fixed inset-0 z-50 bg-bg/90" />
         <Dialog.Content
           data-lenis-prevent
-          className="sheet fixed inset-x-3 top-3 z-50 mx-auto max-h-[calc(100dvh-1.5rem)] max-w-5xl overflow-y-auto overscroll-contain border border-line bg-surface-solid text-ink shadow-2xl sm:inset-x-6 sm:top-10 sm:max-h-[calc(100dvh-5rem)]"
+          className="sheet fixed inset-x-3 top-3 z-50 mx-auto max-h-[calc(100dvh-1.5rem)] max-w-5xl overflow-y-auto overscroll-contain rounded-2xl border border-line bg-surface-solid text-ink shadow-2xl sm:inset-x-6 sm:top-10 sm:max-h-[calc(100dvh-5rem)]"
         >
-          <div className="micro sticky top-0 z-10 flex items-center justify-between border-b border-line bg-surface-solid/95 px-4 py-3 backdrop-blur sm:px-8">
+          <div className="micro sticky top-0 z-10 flex items-center justify-between border-b border-line bg-surface-solid px-4 py-3 sm:px-8">
             <span>
               <span className="text-gold">Dossier</span>
               <span className="text-muted"> / {e.code}</span>
@@ -70,13 +77,13 @@ export default function EventDialog({ events }) {
 
           <div className="grid gap-8 p-4 sm:p-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
             <a href={e.poster} target="_blank" rel="noreferrer" className="group block self-start md:sticky md:top-20" title="Open full poster">
-              <Poster src={e.poster} alt={`${e.name} poster`} width={1000} className="aspect-[4/5]" />
+              <Poster src={e.poster} alt={`${e.name} poster`} sizes="(min-width: 768px) 400px, 92vw" className="aspect-[4/5] rounded-xl" />
             </a>
 
             <div className="space-y-7 pb-4">
               <header>
                 <p className="micro text-muted">{category}</p>
-                <Dialog.Title className="mt-2 font-display text-5xl leading-[0.95] sm:text-6xl">{e.name}</Dialog.Title>
+                <Dialog.Title className="mt-2 font-display text-[clamp(2.5rem,8vw,3.75rem)] leading-[1]">{e.name}</Dialog.Title>
                 {e.tagline && <p className="mt-2 text-gold">{e.tagline}</p>}
               </header>
 

@@ -1,11 +1,16 @@
 import { useEffect, useRef } from "react";
-import { m } from "motion/react";
 import { registerAnchor } from "../lib/planets";
 
 // A placeholder box: the WebGL scene draws a real planet inside it (see space/Planets.jsx).
-// The scene reads this element's box and opacity every frame. Variants: earth (hero and finale), tech, nontech, workshop.
-export default function Planet({ variant = "earth", className = "", style }) {
+// The scene follows this element's box; `opacity` is an optional MotionValue it reads directly.
+// Variants: earth (hero), home (finale), tech, nontech, workshop.
+export default function Planet({ variant = "earth", className = "", opacity }) {
   const ref = useRef();
-  useEffect(() => registerAnchor(ref.current, variant), [variant]);
-  return <m.div ref={ref} className={`aspect-square ${className}`} style={style} aria-hidden="true" />;
+  useEffect(() => registerAnchor(ref.current, variant, opacity), [variant, opacity]);
+  return (
+    <div ref={ref} className={`aspect-square ${className}`} aria-hidden="true">
+      {/* Static stand-in, shown only when WebGL is off (see index.css). */}
+      <i className={`planet-fallback planet-${variant}`} />
+    </div>
+  );
 }
