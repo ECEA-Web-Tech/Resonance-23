@@ -102,20 +102,35 @@ export default function Archive({ events }) {
               {results.map((e) => (
                 <tr
                   key={e.id}
-                  onClick={() => open(e)}
-                  className="group cursor-pointer border-b border-line/50 transition-colors last:border-b-0 odd:bg-white/[0.018] hover:bg-gold/[0.07] active:bg-gold/[0.1]"
+                  onClick={() => !e.closed && open(e)}
+                  className={`group border-b border-line/50 transition-colors last:border-b-0 odd:bg-white/[0.018] ${
+                    e.closed
+                      ? "cursor-not-allowed opacity-50"
+                      : "cursor-pointer hover:bg-gold/[0.07] active:bg-gold/[0.1]"
+                  }`}
                 >
                   <td className="whitespace-nowrap py-4 pl-4 pr-4 align-middle code text-xs text-gold sm:pl-6">{e.code}</td>
                   <th scope="row" className="py-4 pr-6 align-middle font-normal">
-                    <Link
-                      to={`/events/${e.id}`}
-                      preventScrollReset
-                      onClick={(ev) => ev.stopPropagation()}
-                      className="whitespace-nowrap font-display text-[1.05rem] leading-tight transition-colors group-hover:text-gold-hi"
-                    >
-                      {e.name}
-                    </Link>
+                    {e.closed ? (
+                      <span className="whitespace-nowrap font-display text-[1.05rem] leading-tight text-ink/50 line-through">
+                        {e.name}
+                      </span>
+                    ) : (
+                      <Link
+                        to={`/events/${e.id}`}
+                        preventScrollReset
+                        onClick={(ev) => ev.stopPropagation()}
+                        className="whitespace-nowrap font-display text-[1.05rem] leading-tight transition-colors group-hover:text-gold-hi"
+                      >
+                        {e.name}
+                      </Link>
+                    )}
                     {e.tagline && <span className="mt-0.5 block max-w-64 text-xs leading-snug text-muted">{e.tagline}</span>}
+                    {e.closed && (
+                      <span className="mt-1 block text-[11px] font-medium text-red-400">
+                        Registrations closed
+                      </span>
+                    )}
                   </th>
                   <td className="whitespace-nowrap py-4 pr-6 align-middle">
                     <span className="micro rounded-full border border-line px-2.5 py-1 text-[10px] text-ink/80">{label(e.category)}</span>
@@ -126,7 +141,13 @@ export default function Archive({ events }) {
                     </td>
                   ))}
                   <td className="py-4 pr-4 align-middle sm:pr-6">
-                    <ChevronRight className="ml-auto size-4 text-gold/60 transition group-hover:translate-x-0.5 group-hover:text-gold" aria-hidden="true" />
+                    {e.closed ? (
+                      <span className="micro whitespace-nowrap rounded-full border border-red-500/40 bg-red-500/10 px-2.5 py-1 text-[10px] font-medium text-red-400">
+                        Closed
+                      </span>
+                    ) : (
+                      <ChevronRight className="ml-auto size-4 text-gold/60 transition group-hover:translate-x-0.5 group-hover:text-gold" aria-hidden="true" />
+                    )}
                   </td>
                 </tr>
               ))}

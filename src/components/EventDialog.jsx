@@ -137,7 +137,11 @@ export default function EventDialog({ events }) {
                 </Block>
               )}
 
-              {e.register && (
+              {e.closed ? (
+                <div className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-8 py-3.5 font-semibold text-red-400 opacity-80 cursor-not-allowed sm:w-auto select-none">
+                  <span>Registrations Closed</span>
+                </div>
+              ) : e.register && (
                 <a
                   href={e.register}
                   target="_blank"

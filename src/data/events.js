@@ -32,6 +32,7 @@ export default [
     ],
     venue: "DSP lab",
     team: "2 members",
+    date: "09.10.2026",
   },
   {
     id: "circuit-heist",
@@ -47,6 +48,7 @@ export default [
     ],
     venue: "Computer lab",
     team: "2 members",
+    date: "09.10.2026",
   },
   {
     id: "pitch-or-perish",
@@ -62,6 +64,7 @@ export default [
     ],
     venue: "Lecture hall, 2nd floor",
     team: "2–3 members",
+    date: "09.10.2026",
   },
   {
     id: "escape-the-grid",
@@ -77,6 +80,7 @@ export default [
     ],
     venue: "First floor, lecture hall 2",
     team: "2 members",
+    date: "09.10.2026",
   },
   {
     id: "kadhaipoma",
@@ -91,6 +95,7 @@ export default [
       { name: "Deeksha A", phone: "9962211395" },
     ],
     venue: "Ground floor lecture hall",
+    date: "09.10.2026",
   },
   {
     id: "thiraiyum-naanum",
@@ -106,6 +111,7 @@ export default [
     ],
     venue: "First floor lecture hall 1",
     team: "2–3 members",
+    date: "09.10.2026",
   },
   {
     id: "meme-exe",
@@ -121,6 +127,7 @@ export default [
     ],
     venue: "Mini Auditorium",
     team: "2–3 members",
+    date: "09.10.2026",
   },
   {
     id: "checkmate",
@@ -138,6 +145,7 @@ export default [
     mode: "Online",
     fee: "Rs. 30",
     date: "03.10.2026",
+    closed: true,
   },
   {
     id: "flight-mode",
@@ -155,6 +163,7 @@ export default [
     venue: "Badminton Court, AU CEG Sports Ground",
     team: "Doubles (boys), singles (girls)",
     fee: "Rs. 50 doubles, Rs. 30 singles",
+    closed: true,
   },
   {
     id: "powerplay",
@@ -172,6 +181,7 @@ export default [
     venue: "AU CEG Sports Ground",
     team: "Boys, team of 11",
     fee: "Rs. 200 per team",
+    closed: true,
   },
   {
     id: "embiotx",
@@ -190,5 +200,6 @@ export default [
     fee: "Rs. 50 per person",
     date: "10.10.2026",
     time: "9 AM to 12 PM",
+    closed: true,
   },
 ].map((e, i) => ({ order: i, ...e }));
