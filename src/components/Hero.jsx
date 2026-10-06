@@ -91,12 +91,12 @@ export default function Hero({ launched }) {
               </span>
               <m.span {...enter(0.7, { y: 12 })} className="flex items-center gap-4">
                 <span className="hidden h-px w-10 bg-gradient-to-r from-transparent to-gold/70 sm:block" aria-hidden="true" />
-                <span className="gold-text text-[clamp(1.45rem,4.2vw,2.4rem)] font-medium leading-tight tracking-[-0.015em]">Intra-college Symposium</span>
+                <span className="gold-text text-[clamp(1.45rem,4.2vw,2.4rem)] font-medium leading-tight tracking-[-0.015em]">Intra-College Symposium</span>
                 <span className="hidden h-px w-10 bg-gradient-to-l from-transparent to-gold/70 sm:block" aria-hidden="true" />
               </m.span>
             </h1>
             <m.p {...enter(0.9, { y: 12 })} className="text-veil mt-4 max-w-[34rem] text-balance text-[15px] leading-relaxed text-ink/85 sm:mt-5 sm:text-[17px]">
-              Technical and non-technical events and a workshop, from the Electronics and Communication Engineers’
+              Technical, Non-Technical Events and a Workshop, from the Electronics and Communication Engineers’
               Association, CEG.
             </m.p>
           </m.div>
