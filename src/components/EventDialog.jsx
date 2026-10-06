@@ -6,7 +6,8 @@ import { CATEGORIES } from "../data/events";
 import { lenis } from "../lib/scroll";
 import { scene, wake } from "../lib/scene";
 import { SITE_TITLE } from "../lib/site";
-import Poster from "./Poster";
+import Picture from "./Picture";
+import { media } from "../lib/media";
 
 // Only fields present in the source are rendered.
 const FACTS = [
@@ -54,6 +55,7 @@ export default function EventDialog({ events }) {
   if (events && !e) return <Navigate to="/" replace />;
   if (!e) return null;
 
+  const poster = media(e.poster);
   const category = CATEGORIES.find((c) => c.id === e.category)?.label;
   const facts = [["code", "Event ID"], ["category", "World"], ...FACTS].filter(([k]) => e[k]);
 
@@ -76,14 +78,24 @@ export default function EventDialog({ events }) {
           </div>
 
           <div className="grid gap-8 p-4 sm:p-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-            <a href={e.poster} target="_blank" rel="noreferrer" className="group block self-start md:sticky md:top-20" title="Open full poster">
-              <Poster src={e.poster} alt={`${e.name} poster`} sizes="(min-width: 768px) 400px, 92vw" className="aspect-[4/5] rounded-xl" />
+            <a href={poster?.full || e.poster} target="_blank" rel="noreferrer" className="group block self-start md:sticky md:top-20" title="Open full poster">
+              <Picture
+                src={e.poster}
+                alt={`${e.name} poster`}
+                fit="contain"
+                natural
+                eager
+                remote={[640, 1000]}
+                sizes="(min-width: 1024px) 400px, (min-width: 768px) 38vw, 92vw"
+                className="w-full rounded-xl"
+                fallback={<div className="micro grid aspect-square place-items-center rounded-xl bg-bg/60 p-4 text-center text-muted">{e.name}</div>}
+              />
             </a>
 
             <div className="space-y-7 pb-4">
               <header>
                 <p className="micro text-muted">{category}</p>
-                <Dialog.Title className="mt-2 font-display text-[clamp(2.5rem,8vw,3.75rem)] leading-[1]">{e.name}</Dialog.Title>
+                <Dialog.Title className="mt-2 font-display text-[clamp(2rem,7vw,3rem)] leading-[1.05]">{e.name}</Dialog.Title>
                 {e.tagline && <p className="mt-2 text-gold">{e.tagline}</p>}
               </header>
 
@@ -91,7 +103,7 @@ export default function EventDialog({ events }) {
                 {facts.map(([k, label]) => (
                   <div key={k} className="border-b border-r border-line p-3.5">
                     <dt className="micro text-muted">{label}</dt>
-                    <dd className={`mt-1.5 text-sm font-medium ${k === "code" ? "font-mono text-gold" : ""}`}>
+                    <dd className={`mt-1.5 text-sm font-medium ${k === "code" ? "code text-gold" : ""}`}>
                       {k === "category" ? category : e[k]}
                     </dd>
                   </div>
@@ -99,7 +111,9 @@ export default function EventDialog({ events }) {
               </dl>
 
               <Block title="Overview">
-                <Dialog.Description className="whitespace-pre-line text-[15px] leading-7 text-ink/85">{e.description}</Dialog.Description>
+                <Dialog.Description lang="en" className="hyphens-auto whitespace-pre-line text-justify text-[15px] leading-7 text-ink/85">
+                  {e.description}
+                </Dialog.Description>
               </Block>
 
               {!!e.pocs?.length && (
@@ -130,7 +144,8 @@ export default function EventDialog({ events }) {
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-8 py-3.5 font-semibold text-on-gold shadow-[0_8px_30px_-8px_var(--gold)] transition hover:bg-gold-hi sm:w-auto"
                 >
-                  Register for {e.name}
+                  <span className="sm:hidden">Register now</span>
+                  <span className="max-sm:hidden">Register for {e.name}</span>
                   <ArrowUpRight className="size-4" />
                 </a>
               )}

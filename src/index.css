@@ -1,30 +1,18 @@
 @import "tailwindcss";
 
-/* Self-hosted, latin subsets only: one display serif and one variable sans (preloaded in index.html). */
+/* One typeface for everything: Roboto, self-hosted as a single variable file (latin subset, preloaded in
+   index.html). Weight does the work a second family used to do. */
 @font-face {
-  font-family: "Instrument Serif";
+  font-family: "Roboto";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url("/fonts/instrument-serif-latin.woff2") format("woff2");
+  src: url("/fonts/roboto-latin.woff2") format("woff2");
 }
+/* Until it arrives: the device's own Roboto (every Android phone has it) or Arial, so the swap moves nothing. */
 @font-face {
-  font-family: "Space Grotesk";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
-}
-/* Metric-matched fallbacks, so the swap doesn't move the layout. */
-@font-face {
-  font-family: "Display Fallback";
-  src: local("Times New Roman"), local("Liberation Serif"), local("Tinos");
-  size-adjust: 82%;
-}
-@font-face {
-  font-family: "Sans Fallback";
-  src: local("Arial"), local("Liberation Sans"), local("Roboto");
-  size-adjust: 108%;
+  font-family: "Roboto Fallback";
+  src: local("Roboto"), local("Arial"), local("Liberation Sans");
 }
 
 :root {
@@ -60,8 +48,8 @@
   --color-line: var(--line);
   --color-on-gold: var(--on-gold);
   --color-cyan: var(--cyan);
-  --font-display: "Instrument Serif", "Display Fallback", ui-serif, Georgia, serif;
-  --font-sans: "Space Grotesk", "Sans Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Roboto", "Roboto Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-sans);
 }
 
 html {
@@ -73,11 +61,25 @@ html {
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 }
-/* The display face has one weight; never let the browser fake a bold. */
-.font-display {
-  font-weight: 400;
-  font-synthesis: none;
-  letter-spacing: -0.012em;
+/* Type roles. Declared as utilities so a size, weight or tracking class next to them still wins. */
+/* Titles and names: the same face, heavier and set a little tighter. */
+@utility font-display {
+  font-weight: 600;
+  letter-spacing: -0.022em;
+}
+/* Event codes and other figures: even-width digits so columns line up. */
+@utility code {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+/* Small capitals labels. */
+@utility micro {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 img {
   max-width: 100%;
@@ -109,7 +111,9 @@ html.lenis body {
    the WebGL scene starts, and the whole sky on devices where WebGL is off. */
 .sky {
   position: fixed;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 100vh;
+  height: 100lvh;
   z-index: -2;
   background: #03040b url("./assets/sky.webp") center / cover no-repeat;
 }
@@ -122,10 +126,14 @@ html.lenis body {
   height: 100lvh;
   transition: opacity 1.4s ease;
 }
-/* Dark scrim between the sky and all page content. */
+/* Dark scrim between the sky and all page content.
+   Like the sky and the canvas it is as tall as the viewport gets with the phone's address bar hidden: a layer
+   sized to the visible area lags behind while the bar slides away and leaves a lighter band at the bottom. */
 .scrim {
   position: fixed;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 100vh;
+  height: 100lvh;
   z-index: 0;
   pointer-events: none;
   background: linear-gradient(to bottom, rgb(2 5 16 / 0.5) 0%, rgb(2 5 16 / 0.42) 50%, rgb(2 5 16 / 0.58) 100%);
@@ -136,6 +144,15 @@ html.lenis body {
   max-width: 72rem;
   margin-inline: auto;
   padding-inline: max(clamp(1.25rem, 4.5vw, 2rem), env(safe-area-inset-left), env(safe-area-inset-right));
+}
+/* Pinned panels: as tall as the viewport gets (address bar hidden) / as short as it gets (bar showing). */
+@utility h-tall {
+  height: 100vh;
+  height: 100lvh;
+}
+@utility h-short {
+  height: 100vh;
+  height: 100svh;
 }
 /* Solid dark surface for anything that holds text or data over the sky. */
 @utility panel {
@@ -354,15 +371,6 @@ html.lenis body {
   50% { transform: translateY(5px); }
 }
 
-/* ---------- chapter micro typography ---------- */
-.micro {
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.5;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
 /* ---------- cursor wave-light ripple (desktop) ---------- */
 /* Each ring is a fixed-size circle animated with transform and opacity only (see CursorRipple.jsx). */
 .cursor-ripple-layer {
@@ -475,9 +483,10 @@ html.lenis body {
   height: auto;
 }
 .seed-hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4.6vw, 2.25rem);
-  line-height: 1.1;
+  font-size: clamp(1.4rem, 4.4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--gold-hi);
 }
 .seed-hero p {
@@ -495,8 +504,9 @@ html.lenis body {
 }
 .seed-body h2 {
   margin: 2.5rem 0 0.75rem;
-  font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--ink);
 }
 .seed-body h3 {

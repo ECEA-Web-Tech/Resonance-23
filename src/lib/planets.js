@@ -4,8 +4,8 @@ import { wake } from "./scene";
 // DOM elements that mark where a WebGL planet should sit. The scene follows each anchor's box,
 // so layout, scroll and Motion transforms all move the planet exactly as they would an image.
 //
-// A planet's textures are only generated once its anchor comes within a viewport of the screen
-// (`near`, sticky), and its box is only measured while it is in that range (`inRange`).
+// A planet is built (`near`, sticky) either ahead of time by the warm-up, or at the latest when its anchor comes
+// within a viewport of the screen. Its box is only measured while it is in that range (`inRange`).
 let anchors = [];
 const listeners = new Set();
 const emit = () => listeners.forEach((l) => l());
@@ -41,6 +41,16 @@ export function registerAnchor(el, variant, opacity) {
     anchors = anchors.filter((x) => x !== a);
     emit();
   };
+}
+
+/** Builds the next world that hasn't been built yet (see Planets.jsx). False when there is nothing left to build. */
+export function warmNext() {
+  const a = anchors.find((x) => !x.near);
+  if (!a) return false;
+  a.near = true;
+  anchors = [...anchors];
+  emit();
+  return true;
 }
 
 const subscribe = (l) => (listeners.add(l), () => listeners.delete(l));

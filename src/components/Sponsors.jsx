@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { driveImg } from "../lib/drive";
+import Picture from "./Picture";
 import { ChapterHead } from "./Chapter";
 
 function Sponsor({ s }) {
-  const [failed, setFailed] = useState(false);
   const Tag = s.link ? "a" : "div";
   return (
     <Tag
@@ -13,23 +11,20 @@ function Sponsor({ s }) {
       {/* Tier leads: it is what distinguishes one sponsor from the next. */}
       {s.tier && <span className="micro text-gold">{s.tier}</span>}
       {/* Same logo slot on every card. If a logo can't be loaded, the slot carries the name instead. */}
-      {s.logo && !failed ? (
-        <div className="flex h-24 w-full items-center justify-center rounded-xl bg-white p-4">
-          <img
-            src={driveImg(s.logo, 400)}
-            alt={`${s.name} logo`}
-            loading="lazy"
-            decoding="async"
-            className="max-h-full max-w-full object-contain"
-            onError={() => setFailed(true)}
-          />
-        </div>
-      ) : (
-        <div className="flex h-24 w-full items-center justify-center rounded-xl border border-line bg-white/[0.04] p-4 font-display text-3xl text-gold-hi" aria-hidden="true">
-          {s.name}
-        </div>
-      )}
-      <span className="font-display text-2xl leading-tight">{s.name}</span>
+      <Picture
+        src={s.logo}
+        alt={`${s.name} logo`}
+        fit="contain"
+        remote={[400]}
+        className="h-24 w-full rounded-xl bg-white!"
+        imgClassName="p-4"
+        fallback={
+          <div className="flex h-24 w-full items-center justify-center rounded-xl border border-line bg-white/[0.04] p-4 font-display text-2xl text-gold-hi" aria-hidden="true">
+            {s.name}
+          </div>
+        }
+      />
+      <span className="font-display text-xl leading-tight">{s.name}</span>
     </Tag>
   );
 }

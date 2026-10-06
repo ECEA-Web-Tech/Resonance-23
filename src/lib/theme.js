@@ -1,3 +1,5 @@
+import { markSceneReady } from "./scene";
+
 // The site is dark-only: the universe has no daylight.
 export const prefersReducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 export const isTouch = () => matchMedia("(pointer: coarse)").matches;
@@ -25,5 +27,6 @@ export function renderTier() {
 export function disableWebGL() {
   tier = "off";
   document.documentElement.dataset.webgl = "off";
+  markSceneReady(); // nothing to wait for
   dispatchEvent(new Event("webgl-off"));
 }

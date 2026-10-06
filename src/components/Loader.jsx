@@ -4,14 +4,19 @@ import logo from "../assets/resonance-logo.webp";
 import DevCredit from "./DevCredit";
 import { launch } from "../lib/flight";
 import { load } from "../lib/data";
+import { sceneReady } from "../lib/scene";
 import { prefersReducedMotion } from "../lib/theme";
 
 const MIN_MS = 900; // long enough to register, short enough not to hold anyone up
 const FONT_WAIT = 1200; // fonts swap in on their own; never let a slow one block the door
+const SCENE_WAIT = 5000; // on a slow connection the visitor gets in anyway and the 3D scene fades in when it arrives
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Only what the first screen needs: type, the logo and the content. The 3D scene loads by itself, off this path.
+// What the loading screen covers: type, the logo, the content, and the 3D scene with every world prebuilt,
+// so nothing is generated or compiled once the visitor is in and scrolling.
 const tasks = () => [
-  Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, FONT_WAIT))]),
+  Promise.race([document.fonts?.ready, wait(FONT_WAIT)]),
+  Promise.race([sceneReady, wait(SCENE_WAIT)]),
   load("events"),
   load("credits"),
   new Promise((r) => Object.assign(new Image(), { src: logo, onload: r, onerror: r })),
@@ -105,7 +110,7 @@ export default function Loader({ onDone }) {
         <div className="relative flex flex-col items-center text-center">
           <span className="micro mb-4 rounded-full border border-line bg-surface-solid/80 px-3 py-1 text-gold">ECEA · CEG, Anna University</span>
           <img src={logo} alt="Resonance ’26" width="488" height="265" className="h-auto w-[min(54vw,240px)]" />
-          <span className="mt-5 rounded-full border border-line bg-surface-solid/80 px-4 py-1.5 font-mono text-[13px] tabular-nums">
+          <span className="mt-5 rounded-full border border-line bg-surface-solid/80 px-4 py-1.5 code text-[13px]">
             <span className="text-muted">Altitude </span>
             <span ref={altRef}>0</span> km
           </span>

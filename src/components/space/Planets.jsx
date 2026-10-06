@@ -1,8 +1,9 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { AdditiveBlending, BackSide, DoubleSide, Vector3 } from "three";
-import { useAnchors } from "../../lib/planets";
-import { flightOffset } from "../../lib/flight";
+import { useAnchors, warmNext } from "../../lib/planets";
+import { markSceneReady, scene as sceneState } from "../../lib/scene";
+import { flight, flightOffset } from "../../lib/flight";
 import { pointer } from "../../lib/pointer";
 import { baked } from "./bake";
 import { haloFragment, haloVertex, planetFragment, planetVertex, ringFragment, ringVertex } from "./shaders";
@@ -24,11 +25,13 @@ const tmp = new Vector3();
 const up = new Vector3();
 
 // Texture width per tier: [earth, other worlds]. Earth fills the hero, so it gets the most detail.
-const SIZES = { min: [1024, 512], low: [2048, 1024], high: [4096, 2048] };
+const SIZES = { min: [1024, 1024], low: [2048, 1024], high: [4096, 2048] };
 
 function Planet({ anchor, tier }) {
   const look = LOOKS[anchor.variant] || LOOKS.earth;
   const gl = useThree((s) => s.gl);
+  const scene = useThree((s) => s.scene);
+  const camera = useThree((s) => s.camera);
   const group = useRef();
   const tilt = useRef();
   const body = useRef();
@@ -75,6 +78,11 @@ function Planet({ anchor, tier }) {
     };
     return { planetU, haloU, ringU, moonU };
   }, [gl, look, size]);
+
+  // Compile this world's shaders now, while it is still off screen, so its first frame costs nothing extra.
+  useEffect(() => {
+    gl.compile(group.current, camera, scene);
+  }, [gl, camera, scene]);
 
   useFrame(({ camera, clock, size: view }) => {
     const g = group.current;
@@ -157,8 +165,20 @@ function Planet({ anchor, tier }) {
   );
 }
 
-// A world is only built (and its textures generated) once its anchor has come near the viewport.
+// The way a game fills its loading screen: every world on the page is built ahead of time, one per pause, behind
+// the launch loader. Textures are generated and shaders compiled then, so none of that work lands mid-scroll.
+// A world the visitor reaches before its turn is still built on the spot (see lib/planets.js).
 export default function Planets({ tier }) {
   const anchors = useAnchors();
+  useEffect(() => {
+    if (!anchors.length) return;
+    if (anchors.every((a) => a.near)) return markSceneReady();
+    // Never during a scroll: wait for a quiet moment.
+    let id;
+    const step = () => (performance.now() - sceneState.active < 250 ? (id = setTimeout(step, 250)) : warmNext());
+    // Back to back behind the loader; spaced out if the visitor is already on the page.
+    id = setTimeout(step, flight.start === null ? 40 : 400);
+    return () => clearTimeout(id);
+  }, [anchors]);
   return anchors.filter((a) => a.near).map((a) => <Planet key={a.id} anchor={a} tier={tier} />);
 }

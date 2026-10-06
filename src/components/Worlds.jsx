@@ -4,14 +4,16 @@ import { domAnimation, LazyMotion, m, useReducedMotion, useScroll, useTransform 
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { CATEGORIES } from "../data/events";
 import Planet from "./Planet";
-import Poster from "./Poster";
+import Picture from "./Picture";
+import { CARD_SIZES } from "../lib/media";
 import { ChapterHead } from "./Chapter";
 import { scrollToId } from "../lib/scroll";
 
 const joinNames = (names) => (names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names[0]);
 const count = (n, one) => `${n} ${n === 1 ? one : `${one}s`}`;
 
-// Event card. Phones: a compact row (poster thumb beside the details). From sm up: poster on top.
+// Event card, the same at every screen size: category and code, the poster, then the details.
+// One column of cards on phones, two from sm, three from lg.
 function DossierCard({ e, world }) {
   const facts = [
     ["Venue", e.venue || e.mode],
@@ -25,33 +27,39 @@ function DossierCard({ e, world }) {
       to={`/events/${e.id}`}
       preventScrollReset
       aria-label={`${e.name}: read more`}
-      className="event-card group relative grid grid-cols-[7rem_minmax(0,1fr)] grid-rows-[auto_1fr] overflow-hidden rounded-2xl border border-line bg-[#090c1e] transition duration-300 active:scale-[0.985] sm:flex sm:flex-col sm:hover:-translate-y-1 sm:hover:border-gold/55 sm:hover:shadow-[0_26px_60px_-34px_rgb(217_180_90/0.55)] motion-reduce:transform-none"
+      className="event-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-[#090c1e] transition duration-300 active:scale-[0.99] sm:hover:-translate-y-1 sm:hover:border-gold/55 sm:hover:shadow-[0_26px_60px_-34px_rgb(217_180_90/0.55)] motion-reduce:transform-none"
     >
-      {/* Category and code: beside the details on phones, a header strip above the poster from sm up */}
-      <p className="col-start-2 flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 px-4 pt-4 sm:order-first sm:px-4 sm:py-3">
-        <span className="micro whitespace-nowrap rounded-full border border-gold/40 px-2 py-1 text-[10px] tracking-[0.14em] text-gold-hi sm:px-2.5 sm:tracking-[0.2em]">{world.label}</span>
-        <span className="whitespace-nowrap font-mono text-[11px] tracking-wide text-gold">{e.code}</span>
+      <p className="flex items-center justify-between gap-3 px-4 py-3">
+        <span className="micro whitespace-nowrap rounded-full border border-gold/40 px-2.5 py-1 text-[10px] tracking-[0.16em] text-gold-hi">{world.label}</span>
+        <span className="code whitespace-nowrap text-xs text-gold">{e.code}</span>
       </p>
-      <div className="relative row-span-2 row-start-1 sm:order-none">
-        <Poster src={e.poster} alt={`${e.name} poster`} className="h-full min-h-44 sm:aspect-[4/5] sm:h-auto sm:min-h-0" />
-      </div>
+      <Picture
+        src={e.poster}
+        alt={`${e.name} poster`}
+        fit="contain"
+        remote={[400, 800]}
+        sizes={CARD_SIZES}
+        className="aspect-square w-full"
+        imgClassName="transition-transform duration-700 group-hover:scale-[1.03]"
+        fallback={<div className="micro grid aspect-square w-full place-items-center bg-surface-solid p-4 text-center text-muted">{e.name}</div>}
+      />
 
-      <div className="col-start-2 flex min-w-0 flex-1 flex-col px-4 pb-4 sm:px-5 sm:pb-5 sm:pt-4">
-        <h4 className="mt-3 font-display text-[1.65rem] leading-[1.05] transition-colors duration-300 group-hover:text-gold-hi sm:mt-0 sm:text-[2rem]">{e.name}</h4>
-        {e.tagline && <p className="mt-1.5 text-[13px] leading-snug text-gold sm:text-sm">{e.tagline}</p>}
+      <div className="flex min-w-0 flex-1 flex-col px-4 pb-5 pt-4 sm:px-5">
+        <h4 className="font-display text-[1.5rem] leading-[1.12] transition-colors duration-300 group-hover:text-gold-hi sm:text-[1.6rem]">{e.name}</h4>
+        {e.tagline && <p className="mt-1.5 text-sm leading-snug text-gold">{e.tagline}</p>}
 
         {!!facts.length && (
-          <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-line pt-3 text-[13px] leading-snug sm:mt-4 sm:pt-4">
+          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-line pt-4 text-sm leading-snug">
             {facts.map(([label, value]) => (
-              <div key={label} className={label === "Venue" ? "col-span-2" : "max-sm:col-span-2"}>
+              <div key={label} className={label === "Venue" && facts.length % 2 ? "col-span-2" : ""}>
                 <dt className="micro text-[10px] text-muted">{label}</dt>
-                <dd className="mt-0.5 text-ink/90">{value}</dd>
+                <dd className="mt-1 text-ink/90">{value}</dd>
               </div>
             ))}
           </dl>
         )}
 
-        <span className="mt-auto inline-flex items-center gap-2 pt-4 text-[13px] font-semibold tracking-wide text-gold transition-colors group-hover:text-gold-hi sm:pt-5">
+        <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold tracking-wide text-gold transition-colors group-hover:text-gold-hi">
           Read More
           <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
         </span>
@@ -77,7 +85,8 @@ function World({ world, index, total, small }) {
   const planetY = useTransform(p, [0, 1], reduce ? ["0%", "0%"] : small ? ["6%", "-6%"] : ["16%", "-16%"]);
   const planetScale = useTransform(p, [0, 1], [0.9, reduce ? 0.9 : small ? 1 : 1.15]);
   const planetOpacity = useTransform(arrive, [0.15, 0.75], [0, 1]);
-  const nameX = useTransform(p, [0, 1], calm ? ["0%", "0%"] : ["4%", "-6%"]);
+  // Right-aligned names (every second world) drift the other way, so neither ever leans on the screen edge.
+  const nameX = useTransform(p, [0, 1], calm ? ["0%", "0%"] : index % 2 ? ["-5%", "1%"] : ["4%", "-6%"]);
 
   const venues = [...new Set(world.events.map((e) => e.venue).filter(Boolean))];
   const flip = index % 2 === 1;
@@ -85,12 +94,14 @@ function World({ world, index, total, small }) {
 
   return (
     <section id={`world-${world.id}`} data-chapter={`02.${index + 1}`} data-title={world.label} className="scroll-mt-0">
-      <div ref={pin} className="relative h-[120vh] md:h-[180vh]">
-        <m.div style={calm ? undefined : { clipPath: clip }} className="sticky top-0 h-[100svh] overflow-hidden border-y border-line">
+      <div ref={pin} className="relative h-[125vh] md:h-[180vh]">
+        {/* The panel covers the tallest viewport the browser can show (address bar hidden), so its edge and its
+            overlay never show as a band while the bar slides away; the copy stays inside the smallest one. */}
+        <m.div style={calm ? undefined : { clipPath: clip }} className="h-tall sticky top-0 overflow-hidden md:border-y md:border-line">
           {/* Phones: planet centred above the copy. Desktop: to one side, alternating. */}
           <m.div
             style={{ y: planetY, scale: planetScale }}
-            className={`absolute left-1/2 top-[11%] aspect-square w-[min(82vw,46svh)] -translate-x-1/2 md:top-[14%] md:w-[min(72vw,600px)] md:translate-x-0 ${
+            className={`absolute left-1/2 top-[11svh] aspect-square w-[min(82vw,46svh)] -translate-x-1/2 md:top-[14svh] md:w-[min(72vw,600px)] md:translate-x-0 ${
               flip ? "md:left-[4%]" : "md:left-auto md:right-[4%]"
             }`}
           >
@@ -105,7 +116,7 @@ function World({ world, index, total, small }) {
             aria-hidden="true"
           />
 
-          <div className="wrap relative flex h-full flex-col justify-end gap-5 pb-9 pt-24 md:justify-between md:gap-0 md:pb-10 md:pt-28">
+          <div className="wrap h-short relative flex flex-col justify-end gap-5 pb-9 pt-24 md:justify-between md:gap-0 md:pb-10 md:pt-28">
             <div className={`micro flex flex-wrap items-center gap-3 max-md:mb-auto ${flip ? "md:justify-end md:text-right" : ""}`}>
               <span className="text-gold">World {no}</span>
               <span className="h-px w-8 bg-line" />
@@ -116,7 +127,7 @@ function World({ world, index, total, small }) {
 
             <m.h3
               style={{ x: nameX }}
-              className={`text-veil font-display text-[clamp(2.9rem,13.5vw,13rem)] leading-[0.9] tracking-[-0.02em] ${flip ? "md:text-right" : ""}`}
+              className={`text-veil text-[clamp(2.5rem,11.4vw,9.75rem)] font-bold leading-[0.95] tracking-[-0.045em] ${flip ? "md:text-right" : ""}`}
             >
               {world.label}
             </m.h3>
@@ -144,13 +155,15 @@ function World({ world, index, total, small }) {
         </m.div>
       </div>
 
-      <div className="veil wrap pb-20 pt-12 md:pb-24 md:pt-14">
+      {/* The cards pick up exactly where the panel's dark foot ends: no bright seam between the two. */}
+      <div className="veil wrap pb-20 pt-12 [--veil-t:0px] md:pb-24 md:pt-14">
+        <span className="pointer-events-none absolute left-1/2 top-0 -z-10 h-40 w-screen -translate-x-1/2 bg-gradient-to-b from-[#020510] to-transparent md:hidden" aria-hidden="true" />
         <p className="micro mb-6 flex items-center gap-3 text-ink/75">
           <span className="text-gold">{world.label}</span>
           <span className="h-px w-8 bg-line" aria-hidden="true" />
           {count(world.events.length, "event")}
         </p>
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {world.events.map((e) => (
             <DossierCard key={e.id} e={e} world={world} />
           ))}
@@ -188,7 +201,7 @@ export default function Worlds({ events }) {
                     >
                       <span className="micro tabular-nums text-gold">{String(i + 1).padStart(2, "0")}</span>
                       <span className="min-w-0 flex-1">
-                        <span className="block font-display text-[1.7rem] leading-none">{w.label}</span>
+                        <span className="block font-display text-[1.45rem] leading-none">{w.label}</span>
                         <span className="micro mt-2 block text-[10px] text-muted">{count(w.events.length, "event")}</span>
                       </span>
                       <ArrowDown className="size-4 shrink-0 text-gold" aria-hidden="true" />

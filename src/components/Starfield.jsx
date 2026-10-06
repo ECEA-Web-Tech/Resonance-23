@@ -10,12 +10,18 @@ import { tickScroll } from "../lib/scroll";
 import { baked } from "./space/bake";
 import Planets from "./space/Planets";
 
-// Texture sizes and counts per tier (see renderTier). Planet textures are generated lazily, one world at a time.
+// Pixel density, texture sizes and counts per tier (see renderTier). Phones draw at up to 2x so stars and
+// planet edges are sharp; if frames start arriving late the density steps down by itself (see Ticker).
 const TIERS = {
-  min: { dpr: 1, sky: 1024, stars: 260, bright: 16, idle: 100 },
-  low: { dpr: 1.25, sky: 2048, stars: 420, bright: 24, idle: 66 },
+  min: { dpr: 1.5, sky: 2048, stars: 260, bright: 16, idle: 100 },
+  low: { dpr: 2, sky: 2048, stars: 420, bright: 24, idle: 66 },
   high: { dpr: 1.5, sky: 4096, stars: 900, bright: 44, idle: 33 },
 };
+
+// A browser without a working GPU draws WebGL on the CPU: seconds to build the textures, then a few frames a
+// second. Refusing that context drops the page to the static sky instead (see Guard in Home.jsx).
+// "?softgl" in the address keeps it, for testing in headless browsers.
+const SOFTWARE_OK = /[?&]softgl\b/.test(location.search);
 
 const scrollProgress = () => scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
 
@@ -295,10 +301,13 @@ function Ticker({ still, idle, onFirstFrame }) {
       const since = now - last;
       if (since < gap - 3) return;
 
-      // If full-rate frames keep arriving late, the GPU is struggling: drop to 1x pixels, once.
+      // If full-rate frames keep arriving late, the GPU is struggling: step the pixel density down a notch.
       if (hot && dpr > 1 && since < 250) {
         slow = since > 30 ? slow + 1 : Math.max(0, slow - 1);
-        if (slow > 45) setDpr((dpr = 1));
+        if (slow > 40) {
+          setDpr((dpr = Math.max(1, dpr - 0.5)));
+          slow = 0;
+        }
       }
       last = now;
       advance(now / 1000);
@@ -332,7 +341,7 @@ export default function Starfield() {
       // Measured on resize only: the canvas is fixed, so scroll never changes its box.
       resize={{ scroll: false, debounce: { scroll: 0, resize: 120 } }}
       camera={{ position: [0, 0, 0], fov: 50, near: 0.1, far: 400 }}
-      gl={{ antialias: tier === "high", alpha: false, stencil: false, powerPreference: tier === "high" ? "high-performance" : "default" }}
+      gl={{ antialias: tier === "high", alpha: false, stencil: false, powerPreference: tier === "high" ? "high-performance" : "default", failIfMajorPerformanceCaveat: !SOFTWARE_OK }}
       onCreated={({ gl }) => gl.domElement.addEventListener("webglcontextlost", disableWebGL)}
       aria-hidden="true"
     >
